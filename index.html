@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silly funness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body, .content, #game-view, #game-iframe {
+            height: 100% !important; margin: 0 !important; padding: 0 !important;
+        }
+
+        :root {
+            --color-accent-purple: #8b5cf6;
+            --color-accent-hover: #7c3aed;
+            --color-text: #f3f4f6;
+            --color-border: #4b5563;
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+            display: flex; flex-direction: column; overflow: hidden; color: var(--color-text);
+            transition: background 1s ease;
+        }
+
+        .content { flex-grow: 1; display: flex; flex-direction: column; }
+
+        #game-box-wrapper {
+            padding: 1.5rem; margin: 1rem;
+            box-sizing: border-box;
+        }
+
+        .five-box-row {
+            display: flex; width: 100%; gap: 16px; align-items: center;
+            justify-content: center;
+        }
+
+        .game-box {
+            flex: 1; max-width: 220px; height: 192px; background-color: rgba(17, 24, 39, 0.85);
+            border: 2px solid var(--color-accent-purple); border-radius: 12px; display: flex;
+            flex-direction: column; justify-content: center; align-items: center; cursor: pointer; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s; position: relative; backdrop-filter: blur(6px);
+        }
+
+        .game-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 30px 6px var(--color-accent-purple), 0 0 50px 10px rgba(139, 92, 246, 0.4);
+            border-color: #c4b5fd;
+        }
+
+        .game-box img {
+            max-width: 90%; max-height: 68%; object-fit: contain; border-radius: 8px;
+        }
+
+        .game-title {
+            font-size: 0.95rem; font-weight: bold; text-align: center; margin-top: 8px; color: var(--color-text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            #game-box-wrapper { margin: 0.5rem; padding: 1rem; }
+            .five-box-row { flex-direction: column; gap: 12px; }
+            .game-box { height: 120px; flex-direction: row; padding: 10px; max-width: 100%; }
+            .game-box img { max-height: 60%; max-width: 50%; }
+            .game-title { font-size: 0.85rem; margin-top: 0; margin-left: 10px; width: auto; }
+        }
+
+        .hidden-view { display: none !important; }
+
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .theme-option {
+            padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s;
+            font-size: 14px; text-align: center; border: 1px solid var(--color-border);
+        }
+        .theme-option:hover { background: var(--color-accent-purple); color: white; transform: scale(1.05); }
+        .theme-option.active { background: var(--color-accent-purple); color: white; font-weight: bold; }
+
+        #game-view { flex-grow: 1; display: flex; flex-direction: column; background: rgba(55, 65, 81, 0.8); position: relative; }
+        #game-iframe { flex-grow: 1; width: 100%; border: none; background: #111827; }
+        #fullscreen-btn-game {
+            position: absolute; top: 1rem; right: 1rem; background: rgba(139, 92, 246, 0.8);
+            color: white; width: 40px; height: 40px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; z-index: 1000;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.6); transition: all 0.2s; font-size: 1.2rem;
+        }
+        #fullscreen-btn-game:hover { background: var(--color-accent-purple); transform: scale(1.1); }
+
+        .setting-item { background: rgba(17, 24, 39, 0.7); padding: 1rem; border-radius: 8px; border: 1px solid var(--color-border); backdrop-filter: blur(6px); }
+        .toggle { position: relative; display: inline-block; width: 48px; height: 24px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px;
+            bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--color-accent-purple); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .panic-input { width: 100%; padding: 0.5rem; border: 1px solid var(--color-border); border-radius: 8px; background: rgba(17, 24, 39, 0.7); color: var(--color-text); }
+        .save-btn { background: var(--color-accent-purple); color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+        .save-btn:hover { background: var(--color-accent-hover); }
+
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.6;
+        }
+
+        #home-page-view {
+            display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+            flex-grow: 1; padding: 2rem; gap: 3rem;
+        }
+        @media (max-width: 768px) {
+            #home-page-view { flex-direction: column; text-align: center; gap: 2rem; }
+        }
+
+        .home-left { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; }
+        .home-right { flex: 1; display: flex; justify-content: center; }
+
+        .typewriter-container {
+            font-size: 2.8rem; font-weight: 700; line-height: 1.2; text-align: center;
+            max-width: 90%;
+        }
+        @media (max-width: 768px) {
+            .typewriter-container { font-size: 1.9rem; }
+        }
+
+        .static-text { color: white; }
+        .gradient-word {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            display: inline-block;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            color: white; font-weight: bold; padding: 1.25rem 3rem; border-radius: 9999px;
+            font-size: 1.8rem; cursor: pointer; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: transform 0.2s; position: relative; overflow: hidden;
+            animation: pulseGlow 2s infinite, gradientShift 6s infinite;
+        }
+        .play-btn:hover { transform: scale(1.1); }
+        .play-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.7s; animation: shine 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 10px 50px rgba(139, 92, 246, 0.7), 0 0 30px rgba(236, 72, 153, 0.5); }
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .play-btn { background-size: 200% 200%; }
+
+        .showcase-game {
+            width: 100%; max-width: 420px; background: rgba(55, 65, 81, 0.9); border: 3px solid var(--color-accent-purple);
+            border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.4s, box-shadow 0.4s;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); text-align: center; display: flex; flex-direction: column;
+        }
+        .showcase-game:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+        }
+        .showcase-game img {
+            width: 100%; height: 100%; max-height: 400px; object-fit: cover; display: block;
+        }
+        .showcase-game::after {
+            content: ''; display: block; height: 2px; background: var(--color-accent-purple);
+            margin: 0 1rem;
+        }
+        .showcase-title {
+            padding: 1.2rem; font-weight: 800; font-size: 1.6rem; color: var(--color-text);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-top: auto;
+        }
+
+        .search-container {
+            margin: 1rem auto; max-width: 500px; position: relative;
+        }
+        #game-search {
+            width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border-radius: 9999px;
+            border: 2px solid var(--color-accent-purple); background: rgba(17, 24, 39, 0.8);
+            color: var(--color-text); font-size: 1rem; outline: none; transition: all 0.3s;
+        }
+        #game-search:focus {
+            border-color: #c4b5fd; box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        .search-icon {
+            position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+            color: var(--color-accent-purple); font-size: 1.1rem;
+        }
+
+        [data-theme="dark"] { 
+            background: linear-gradient(135deg, #1a1a2e, #16213e); 
+        }
+        [data-theme="cotton-candy"] { 
+            background: linear-gradient(135deg, #a0e7ff, #ff9ec9); --color-text: #1a1a2e; 
+        }
+        [data-theme="hacker"] { 
+            background: linear-gradient(135deg, #000000, #001a00); --color-text: #00ff00; 
+        }
+        [data-theme="neon"] { 
+            background: linear-gradient(135deg, #6b46c1, #ec4899); animation: neonPulse 5s infinite alternate; 
+        }
+        [data-theme="galaxy"] { 
+            background: linear-gradient(135deg, #2d1b69, #4b5563); --color-text: #e2e8f0; 
+        }
+        [data-theme="sunset"] { 
+            background: linear-gradient(135deg, #f97316, #ec4899); --color-text: #fff7ed; 
+        }
+        [data-theme="forest"] { 
+            background: linear-gradient(135deg, #166534, #7c3a0d); --color-text: #f0fdf4; 
+        }
+
+        @keyframes neonPulse {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            100% { filter: hue-rotate(60deg) brightness(1.2); }
+        }
+
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100px;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white);
+            transform: rotate(-45deg);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+
+        <nav class="bg-gray-800 bg-opacity-90 backdrop-blur-md shadow-xl border-b-2 border-purple-500/50 flex-shrink-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-end h-16 items-center">
+                    <div class="flex items-center space-x-2">
+                        <button class="nav-button font-medium px-6 py-2 rounded-lg transition-all duration-200" data-view="home-page">
+                            Home
+                        </button>
+                        <button class="nav-button font-medium px-6 py-2 rounded-lg transition-all duration-200" data-view="games">
+                            Games
+                        </button>
+                        <button class="nav-button font-medium px-6 py-2 rounded-lg transition-all duration-200" data-view="settings">
+                            Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="home-page-view" class="view">
+            <div class="home-left">
+                <div class="typewriter-container">
+                    <span class="static-text">Welcome to</span>
+                    <span id="gradient-word" class="gradient-word"></span>
+                </div>
+                <button onclick="showView('games')" class="play-btn">
+                    Play Games
+                </button>
+            </div>
+            <div class="home-right">
+                <div id="game-showcase" class="showcase-game">
+                    <img id="showcase-img" src="" alt="">
+                    <div id="showcase-title" class="showcase-title"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="games-view" class="view hidden-view pt-6 h-full overflow-y-auto">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="game-search" placeholder="Search games..." autocomplete="off">
+            </div>
+            <div id="game-box-wrapper" class="mx-auto space-y-6">
+                <div class="five-box-row">
+                    <div class="game-box" data-url="https://iisilly1059.github.io/slope/index.html" data-title="Slope" data-img="https://i.imgur.com/1oNbzew.png">
+                        <img src="https://i.imgur.com/1oNbzew.png" alt="Slope">
+                        <div class="game-title">Slope</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/slope-2/index.html" data-title="Slope 2" data-img="https://i.imgur.com/9QZQMsl.jpeg">
+                        <img src="https://i.imgur.com/9QZQMsl.jpeg" alt="Slope 2">
+                        <div class="game-title">Slope 2</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/stickman-hook/index.html" data-title="Stickman Hook" data-img="https://i.imgur.com/qB79Rsl.jpeg">
+                        <img src="https://i.imgur.com/qB79Rsl.jpeg" alt="Stickman Hook">
+                        <div class="game-title">Stickman Hook</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/vex-3/index.html" data-title="Vex 3" data-img="https://i.imgur.com/sLAF7pw.png">
+                        <img src="https://i.imgur.com/sLAF7pw.png" alt="Vex 3">
+                        <div class="game-title">Vex 3</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/space-company/index.html" data-title="Space Company" data-img="https://i.imgur.com/36Z4TBx.png">
+                        <img src="https://i.imgur.com/36Z4TBx.png" alt="Space Company">
+                        <div class="game-title">Space Company</div>
+                    </div>
+                </div>
+                <div class="five-box-row">
+                    <div class="game-box" data-url="https://iisilly1059.github.io/tiny-fishing/index.html" data-title="Tiny Fishing" data-img="https://i.imgur.com/gMFUKf9.png">
+                        <img src="https://i.imgur.com/gMFUKf9.png" alt="Tiny Fishing">
+                        <div class="game-title">Tiny Fishing</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/paper.io-2/index.html" data-title="Paper.io 2" data-img="https://i.imgur.com/yOt00SS.png">
+                        <img src="https://i.imgur.com/yOt00SS.png" alt="Paper.io 2">
+                        <div class="game-title">Paper.io 2</div>
+                    </div>
+                    <div class="game-box" data-url="https://shellshock.io" data-title="Shell Shockers" data-img="https://i.imgur.com/z1bVwjW.png">
+                        <img src="https://i.imgur.com/z1bVwjW.png" alt="Shell Shockers">
+                        <div class="game-title">Shell Shockers</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/n-gon/index.html" data-title="N-gon" data-img="https://i.imgur.com/Y7jH6PT.png">
+                        <img src="https://i.imgur.com/Y7jH6PT.png" alt="N-gon">
+                        <div class="game-title">N-gon</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/knife-master/index.html" data-title="Knife Master" data-img="https://i.imgur.com/tmYfHFh.jpeg">
+                        <img src="https://i.imgur.com/tmYfHFh.jpeg" alt="Knife Master">
+                        <div class="game-title">Knife Master</div>
+                    </div>
+                </div>
+                <div class="five-box-row">
+                    <div class="game-box" data-url="https://iisilly1059.github.io/idle-breakout/index.html" data-title="Idle Breakout" data-img="https://i.imgur.com/w0fAOOa.png">
+                        <img src="https://i.imgur.com/w0fAOOa.png" alt="Idle Breakout">
+                        <div class="game-title">Idle Breakout</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/ducklife/index.html" data-title="Duck Life" data-img="https://i.imgur.com/B1PzauW.png">
+                        <img src="https://i.imgur.com/B1PzauW.png" alt="Duck Life">
+                        <div class="game-title">Duck Life</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/exo/" data-title="Exo" data-img="https://i.imgur.com/wP3RU7p.jpeg">
+                        <img src="https://i.imgur.com/wP3RU7p.jpeg" alt="Exo">
+                        <div class="game-title">Exo</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/doodle-jump/" data-title="Doodle Jump" data-img="https://i.imgur.com/CB6eh4k.png">
+                        <img src="https://i.imgur.com/CB6eh4k.png" alt="Doodle Jump">
+                        <div class="game-title">Doodle Jump</div>
+                    </div>
+                    <div class="game-box" data-url="https://iisilly1059.github.io/1v1.lol/" data-title="1v1.lol" data-img="https://i.imgur.com/KPPFuwh.jpeg">
+                        <img src="https://i.imgur.com/KPPFuwh.jpeg" alt="1v1.lol">
+                        <div class="game-title">1v1.lol</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-view" class="view hidden-view">
+            <button id="fullscreen-btn-game" title="Fullscreen">
+                Fullscreen
+            </button>
+            <iframe id="game-iframe" src="" allow="fullscreen"></iframe>
+        </div>
+
+        <div id="settings-view" class="view hidden-view p-8 h-full overflow-y-auto">
+            <h1 class="text-3xl font-bold text-center mb-6" style="color: var(--color-accent-purple)">Settings</h1>
+            <div class="max-w-lg mx-auto bg-gray-700 bg-opacity-80 p-6 rounded-xl shadow-lg border border-purple-500/50 space-y-6 backdrop-blur-md">
+                <div class="setting-item">
+                    <label class="flex items-center justify-between">
+                        <span class="font-semibold">Enable Particles</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="particles-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label class="block mb-3 font-semibold">Choose Theme</label>
+                    <div class="theme-grid">
+                        <div class="theme-option" data-theme="dark">Dark</div>
+                        <div class="theme-option" data-theme="cotton-candy">Cotton Candy</div>
+                        <div class="theme-option" data-theme="hacker">Hacker</div>
+                        <div class="theme-option" data-theme="neon">Neon</div>
+                        <div class="theme-option" data-theme="galaxy">Galaxy</div>
+                        <div class="theme-option" data-theme="sunset">Sunset</div>
+                        <div class="theme-option" data-theme="forest">Forest</div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <label class="flex items-center justify-between mb-3">
+                        <span class="font-semibold">Enable Panic Key</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="panic-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </label>
+                    <div id="panic-options" class="space-y-3 hidden">
+                        <div>
+                            <label class="block text-sm mb-1">Panic Key</label>
+                            <input type="text" id="panic-key-input" class="panic-input" placeholder="Press key..." />
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-1">Redirect URL</label>
+                            <input type="text" id="panic-url" class="panic-input" placeholder="https://docs.google.com">
+                        </div>
+                        <button id="save-panic-btn" class="save-btn w-full">Save</button>
+                        <p id="panic-status" class="text-sm text-green-400 mt-2 hidden">Saved!</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <label class="block mb-1">Cloak Title</label>
+                    <input type="text" id="site-title-input" class="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600" placeholder="Google Docs">
+                </div>
+                <div class="setting-item">
+                    <label class="block mb-1">Cloak Favicon</label>
+                    <input type="file" id="site-logo-input" accept="image/*" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white">
+                    <p class="text-xs mt-1">Current: <span id="current-logo">none</span></p>
+                </div>
+
+                <button id="open-about-blank-btn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-lg transition transform hover:scale-105">
+                    Open in about:blank
+                </button>
+                <button id="reset-settings" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition">
+                    Reset All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const views = {
+                'home-page': document.getElementById('home-page-view'),
+                'games': document.getElementById('games-view'),
+                'game': document.getElementById('game-view'),
+                'settings': document.getElementById('settings-view')
+            };
+
+            const navButtons = document.querySelectorAll('.nav-button');
+            const gameIframe = document.getElementById('game-iframe');
+            const particlesToggle = document.getElementById('particles-toggle');
+            const showcase = document.getElementById('game-showcase');
+            const showcaseImg = document.getElementById('showcase-img');
+            const showcaseTitle = document.getElementById('showcase-title');
+            const searchInput = document.getElementById('game-search');
+            const gradientWord = document.getElementById('gradient-word');
+
+            const words = ['silly.', 'freedom.', 'beauty.', 'peace.', 'amazement.', 'fun.'];
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingTimeout;
+
+            const type = () => {
+                const currentWord = words[wordIndex];
+                const displayText = isDeleting 
+                    ? currentWord.substring(0, charIndex - 1)
+                    : currentWord.substring(0, charIndex + 1);
+                
+                gradientWord.textContent = displayText;
+
+                let typeSpeed = 120;
+                if (isDeleting) typeSpeed /= 2;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                    typeSpeed = 2500;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 500;
+                }
+
+                charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+                typingTimeout = setTimeout(type, typeSpeed);
+            };
+
+            type();
+
+            const gameBoxes = document.querySelectorAll('.game-box[data-url]');
+            let currentShowcaseIndex = 0;
+            let showcaseInterval = null;
+
+            const updateShowcase = () => {
+                const box = gameBoxes[currentShowcaseIndex];
+                const url = box.dataset.url;
+                const title = box.dataset.title;
+                const img = box.dataset.img;
+
+                showcaseImg.src = img;
+                showcaseTitle.textContent = title;
+                showcase.onclick = () => {
+                    gameIframe.src = url;
+                    showView('game');
+                };
+
+                currentShowcaseIndex = (currentShowcaseIndex + 1) % gameBoxes.length;
+            };
+
+            const startShowcase = () => {
+                updateShowcase();
+                showcaseInterval = setInterval(updateShowcase, 3000);
+            };
+
+            let shootingStarInterval = null;
+
+            const createShootingStar = () => {
+                if (document.getElementById('home-page-view').classList.contains('hidden-view')) return;
+
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+
+                const startX = Math.random() * window.innerWidth * 0.6;
+                const startY = Math.random() * window.innerHeight * 0.4;
+                const endX = startX + 300 + Math.random() * 200;
+                const endY = startY + 200 + Math.random() * 150;
+                const duration = 800 + Math.random() * 400;
+
+                star.style.left = `${startX}px`;
+                star.style.top = `${startY}px`;
+                document.body.appendChild(star);
+
+                star.animate([
+                    { opacity: 0, transform: 'translate(0, 0)' },
+                    { opacity: 1, transform: `translate(${endX - startX}px, ${endY - startY}px)` },
+                    { opacity: 0, transform: `translate(${endX - startX + 50}px, ${endY - startY + 50}px)` }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.2, 0, 0.8, 1)'
+                }).onfinish = () => star.remove();
+            };
+
+            const startShootingStars = () => {
+                if (shootingStarInterval) clearInterval(shootingStarInterval);
+                createShootingStar();
+                shootingStarInterval = setInterval(createShootingStar, 5000);
+            };
+
+            const stopShootingStars = () => {
+                if (shootingStarInterval) clearInterval(shootingStarInterval);
+                document.querySelectorAll('.shooting-star').forEach(s => s.remove());
+            };
+
+            window.showView = function(name) {
+                Object.values(views).forEach(v => v.classList.add('hidden-view'));
+                views[name].classList.remove('hidden-view');
+                navButtons.forEach(b => {
+                    const isActive = b.dataset.view === name;
+                    b.classList.toggle('bg-purple-600/30', isActive);
+                    b.classList.toggle('text-white', isActive);
+                    b.classList.toggle('text-gray-300', !isActive);
+                });
+
+                if (name === 'home-page') {
+                    startShowcase();
+                    startShootingStars();
+                } else {
+                    clearInterval(showcaseInterval);
+                    clearTimeout(typingTimeout);
+                    if (name === 'home-page') type();
+                    stopShootingStars();
+                }
+
+                if (name === 'games') {
+                    searchInput.focus();
+                }
+            };
+
+            navButtons.forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
+
+            document.querySelectorAll('.game-box').forEach(box => {
+                if (box.dataset.url) {
+                    box.addEventListener('click', () => {
+                        gameIframe.src = box.dataset.url;
+                        showView('game');
+                    });
+                }
+            });
+
+            document.getElementById('fullscreen-btn-game').addEventListener('click', () => gameIframe.requestFullscreen());
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                document.querySelectorAll('.five-box-row').forEach(row => {
+                    const games = row.querySelectorAll('.game-box');
+                    let visible = 0;
+                    games.forEach(game => {
+                        const title = game.dataset.title.toLowerCase();
+                        const matches = title.includes(query);
+                        game.style.display = matches ? '' : 'none';
+                        if (matches) visible++;
+                    });
+                    row.style.display = visible > 0 ? '' : 'none';
+                });
+            });
+
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [], animationId = null, particleInterval = null;
+
+            const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+            resize(); window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 20;
+                    this.size = Math.random() * 4 + 2;
+                    this.speedY = -(Math.random() * 2 + 1);
+                    this.opacity = 1;
+
+                    const root = getComputedStyle(document.documentElement);
+                    const accent = root.getPropertyValue('--color-accent-purple').trim();
+                    const rgb = accent.match(/\w\w/g)?.map(x => parseInt(x, 16)) || [139, 92, 246];
+                    const hue = this.rgbToHsl(rgb[0], rgb[1], rgb[2])[0];
+                    this.color = `hsl(${hue + Math.random() * 60 - 30}, 100%, 70%)`;
+                }
+                rgbToHsl(r, g, b) {
+                    r /= 255; g /= 255; b /= 255;
+                    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+                    let h, s, l = (max + min) / 2;
+                    if (max === min) h = s = 0;
+                    else {
+                        const d = max - min;
+                        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                        switch (max) {
+                            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                            case g: h = (b - r) / d + 2; break;
+                            case b: h = (r - g) / d + 4; break;
+                        }
+                        h /= 6;
+                    }
+                    return [h * 360, s, l];
+                }
+                update() { this.y += this.speedY; this.opacity -= 0.01; if (this.opacity < 0) this.opacity = 0; }
+                draw() { ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
+            }
+
+            const spawn = () => particles.push(new Particle());
+            const animate = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles = particles.filter(p => p.opacity > 0);
+                particles.forEach(p => { p.update(); p.draw(); });
+                animationId = requestAnimationFrame(animate);
+            };
+
+            const startParticles = () => {
+                if (!particleInterval) { particleInterval = setInterval(spawn, 150); animate(); }
+            };
+            const stopParticles = () => {
+                clearInterval(particleInterval); cancelAnimationFrame(animationId);
+                particleInterval = null; animationId = null; ctx.clearRect(0, 0, canvas.width, canvas.height); particles = [];
+            };
+
+            particlesToggle.checked = localStorage.getItem('particlesEnabled') !== 'false';
+            particlesToggle.addEventListener('change', () => {
+                localStorage.setItem('particlesEnabled', particlesToggle.checked);
+                particlesToggle.checked ? startParticles() : stopParticles();
+            });
+            if (particlesToggle.checked) startParticles();
+
+            const observer = new MutationObserver(() => {
+                if (particlesToggle.checked) {
+                    stopParticles();
+                    startParticles();
+                }
+            });
+            observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+
+            const themeOptions = document.querySelectorAll('.theme-option');
+            const setTheme = (theme) => {
+                document.body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                themeOptions.forEach(o => o.classList.toggle('active', o.dataset.theme === theme));
+            };
+            themeOptions.forEach(o => o.addEventListener('click', () => setTheme(o.dataset.theme)));
+            setTheme(localStorage.getItem('theme') || 'dark');
+
+            const panicToggle = document.getElementById('panic-toggle');
+            const panicOptions = document.getElementById('panic-options');
+            const panicKeyInput = document.getElementById('panic-key-input');
+            const panicUrlInput = document.getElementById('panic-url');
+            const savePanicBtn = document.getElementById('save-panic-btn');
+            const panicStatus = document.getElementById('panic-status');
+
+            panicToggle.checked = localStorage.getItem('panicEnabled') === 'true';
+            panicKeyInput.value = localStorage.getItem('panicKey') || '`';
+            panicUrlInput.value = localStorage.getItem('panicUrl') || 'https://docs.google.com';
+
+            panicToggle.addEventListener('change', () => {
+                localStorage.setItem('panicEnabled', panicToggle.checked);
+                panicOptions.classList.toggle('hidden', !panicToggle.checked);
+            });
+            panicOptions.classList.toggle('hidden', !panicToggle.checked);
+
+            panicKeyInput.addEventListener('keydown', e => {
+                e.preventDefault();
+                let key = e.key;
+                if (e.ctrlKey) key = 'Ctrl+' + key;
+                if (e.altKey) key = 'Alt+' + key;
+                if (e.shiftKey) key = 'Shift+' + key;
+                if (e.metaKey) key = 'Meta+' + key;
+                panicKeyInput.value = key;
+            });
+
+            savePanicBtn.addEventListener('click', () => {
+                localStorage.setItem('panicKey', panicKeyInput.value.trim());
+                localStorage.setItem('panicUrl', panicUrlInput.value.trim());
+                panicStatus.classList.remove('hidden');
+                setTimeout(() => panicStatus.classList.add('hidden'), 2000);
+            });
+
+            document.addEventListener('keydown', e => {
+                if (!panicToggle.checked) return;
+                const saved = localStorage.getItem('panicKey') || '`';
+                const parts = saved.split('+');
+                let match = true;
+                parts.forEach(p => {
+                    if (p === 'Ctrl' && !e.ctrlKey) match = false;
+                    else if (p === 'Alt' && !e.altKey) match = false;
+                    else if (p === 'Shift' && !e.shiftKey) match = false;
+                    else if (p === 'Meta' && !e.metaKey) match = false;
+                    else if (p.toLowerCase() !== e.key.toLowerCase()) match = false;
+                });
+                if (match) {
+                    e.preventDefault();
+                    window.location.href = localStorage.getItem('panicUrl') || 'https://docs.google.com';
+                }
+            });
+
+            const siteTitleInput = document.getElementById('site-title-input');
+            const siteLogoInput = document.getElementById('site-logo-input');
+            const currentLogo = document.getElementById('current-logo');
+            if (localStorage.getItem('siteTitle')) siteTitleInput.value = localStorage.getItem('siteTitle');
+            if (localStorage.getItem('siteLogo')) currentLogo.textContent = 'custom';
+
+            siteTitleInput.addEventListener('input', () => {
+                const val = siteTitleInput.value.trim();
+                val ? localStorage.setItem('siteTitle', val) : localStorage.removeItem('siteTitle');
+            });
+
+            siteLogoInput.addEventListener('change', () => {
+                const file = siteLogoInput.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    localStorage.setItem('siteLogo', e.target.result);
+                    currentLogo.textContent = 'custom';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            document.getElementById('open-about-blank-btn').addEventListener('click', () => {
+                const title = localStorage.getItem('siteTitle') || 'Google Docs';
+                const favicon = localStorage.getItem('siteLogo') || 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico';
+                const url = window.location.href;
+                const html = `<!DOCTYPE html><html><head><title>${title}</title><link rel="icon" href="${favicon}"><style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#1a1a2e;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="${url}" allow="fullscreen"></iframe></body></html>`;
+                const win = window.open('about:blank', '_blank');
+                if (win) { win.document.write(html); win.document.close(); }
+            });
+
+            document.getElementById('reset-settings').addEventListener('click', () => {
+                if (confirm('Reset all settings?')) { localStorage.clear(); location.reload(); }
+            });
+
+            showView('home-page');
+            startShootingStars();
+        });
+    </script>
+</body>
+</html>S
