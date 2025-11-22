@@ -299,33 +299,29 @@ window.addEventListener('load', () => {
                 window.open(url, '_blank');
             }
         };
-    
-    gameBoxes.forEach(box => {
-        box.addEventListener('click', () => {
-            handleGameClick(box.dataset.url);
+
+        // --- THIS IS THE CLICK EVENT LISTENER ---
+        gameBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                handleGameClick(box.dataset.url);
+            });
         });
-    });
-    // ... (around line 245)
-        });
-        // --- END OF CLICK HANDLER LOGIC ---
+        // --- END OF CLICK LOGIC ---
 
 
+        // --- FULLSCREEN BUTTON ---
         document.getElementById('fullscreen-btn-game').addEventListener('click', () => {
             if (gameIframe.requestFullscreen) {
-        // ...
-    // --- END OF CLICK HANDLER LOGIC ---
-
-    document.getElementById('fullscreen-btn-game').addEventListener('click', () => {
-        if (gameIframe.requestFullscreen) {
-            gameIframe.requestFullscreen();
-        } else if (gameIframe.mozRequestFullScreen) {
-            gameIframe.mozRequestFullScreen();
-        } else if (gameIframe.webkitRequestFullscreen) {
-            gameIframe.webkitRequestFullscreen();
-        } else if (gameIframe.msRequestFullscreen) {
-            gameIframe.msRequestFullscreen();
-        }
-    });
+                gameIframe.requestFullscreen();
+            } else if (gameIframe.mozRequestFullScreen) { // Firefox
+                gameIframe.mozRequestFullScreen();
+            } else if (gameIframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                gameIframe.webkitRequestFullscreen();
+            } else if (gameIframe.msRequestFullscreen) { // IE/Edge
+                gameIframe.msRequestFullscreen();
+            }
+        });
+        // --- END OF FULLSCREEN BUTTON ---
     const themeOptions = document.querySelectorAll('.theme-option');
     const body = document.body;
     const applyTheme = (theme) => {
