@@ -54,8 +54,7 @@ Inside one of the .five-box-row divs, add a new game box using this template:
 
 HTML
 
-<div class="game-box" data-url="YOUR-GAME-URL" data-title="Your Game Title" data-img="YOUR-IMAGE-URL.png">
-    <img src="YOUR-IMAGE-URL.png" alt="Your Game Title">
-    <div class="game-title">
+<div class="game-box" data-url="https://iisilly1059.github.io/site/" data-title="Imp proxy" data-img="https://i.imgur.com/e75y1k5.png">
+    <img src="https://i.imgur.com/e75y1k5.png" alt="Imp proxy">
+    <div class="Imp proxy">
 </div>
-The JavaScript will automatically find it and add it to the search, showcase, and click-to-play functions.
