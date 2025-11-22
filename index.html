@@ -560,8 +560,9 @@
                 showcaseImg.src = img;
                 showcaseTitle.textContent = title;
                 showcase.onclick = () => {
-                    gameIframe.src = url;
-                    showView('game');
+                    // This logic is now handled by the game box click handler
+                    // We just need to find the original box and click it
+                    box.click();
                 };
                 currentShowcaseIndex = (currentShowcaseIndex + 1) % gameBoxes.length;
             };
@@ -771,13 +772,28 @@
                     showView(targetView);
                 });
             });
-            gameBoxes.forEach(box => {
-                box.addEventListener('click', () => {
-                    const url = box.dataset.url;
+
+            // --- THIS IS THE CLICK HANDLER LOGIC ---
+            const handleGameClick = (url) => {
+                if (!url) return;
+                
+                // If it's a link to your own github.io page, load it in the iframe
+                if (url.startsWith('https://iisilly1059.github.io') || !url.startsWith('http')) {
                     gameIframe.src = url;
                     showView('game');
+                } else {
+                    // For external links (like krunker.io), open in a new tab
+                    window.open(url, '_blank');
+                }
+            };
+            
+            gameBoxes.forEach(box => {
+                box.addEventListener('click', () => {
+                    handleGameClick(box.dataset.url);
                 });
             });
+            // --- END OF CLICK HANDLER LOGIC ---
+
             document.getElementById('fullscreen-btn-game').addEventListener('click', () => {
                 if (gameIframe.requestFullscreen) {
                     gameIframe.requestFullscreen();
@@ -823,11 +839,13 @@
                             gameBoxWrapper.appendChild(currentRow);
                         }
                         const clonedBox = box.cloneNode(true);
+                        
+                        // --- THIS IS THE CLICK HANDLER FOR SEARCH RESULTS ---
                         clonedBox.addEventListener('click', () => {
-                            const url = clonedBox.dataset.url;
-                            gameIframe.src = url;
-                            showView('game');
+                            handleGameClick(clonedBox.dataset.url);
                         });
+                        // --- END OF CLICK HANDLER ---
+
                         currentRow.appendChild(clonedBox);
                         boxCount++;
                     }
@@ -910,13 +928,24 @@
                     localStorage.removeItem('siteTitle');
                 }
             };
+            
+            // --- FIXED 'about:blank' logic ---
             const openAboutBlank = () => {
                 const newWindow = window.open('about:blank', '_blank');
                 if (newWindow) {
-                    newWindow.document.write(`<html><head><title>${document.title}</title><link rel="shortcut icon" href="${document.querySelector("link[rel*='icon']") ? document.querySelector("link[rel*='icon']").href : 'none'}" type="image/x-icon"></head><body><iframe style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="${window.location.href}"></iframe></body></html>`);
-                    window.close();
+                    try {
+                        newWindow.document.write(`<html><head><title>${document.title}</title><link rel="shortcut icon" href="${document.querySelector("link[rel*='icon']") ? document.querySelector("link[rel*='icon']").href : 'none'}" type="image/x-icon"></head><body><iframe style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="${window.location.href}"></iframe></body></html>`);
+                        // window.close(); // This line might be too aggressive and close your main window
+                    } catch (e) {
+                        newWindow.close(); 
+                        alert("Could not open in about:blank. This might be blocked by your browser's security settings.");
+                    }
+                } else {
+                    alert("Pop-up blocked! Please allow pop-ups for this site to use the about:blank feature.");
                 }
             };
+            // --- END OF 'about:blank' FIX ---
+
             const handlePanicKeydown = (event) => {
                 event.preventDefault();
                 const key = event.key.toUpperCase();
