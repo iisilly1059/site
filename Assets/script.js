@@ -277,22 +277,28 @@ window.addEventListener('load', () => {
             showView(targetView);
         });
     });
-
-  // --- THIS IS THE CLICK HANDLER LOGIC ---
+// --- THIS IS THE CLICK HANDLER LOGIC ---
         const handleGameClick = (url) => {
             if (!url) return;
             
             // If it's a link to your own github.io page, load it in the iframe
             if (url.startsWith('https://iisilly1059.github.io') || !url.startsWith('http')) {
-                gameLoader.classList.add('active'); // <-- THIS IS THE NEW LINE
+                
+                // Show the loader
+                gameLoader.classList.add('active'); 
                 gameIframe.src = url;
                 showView('game');
+                
+                // --- NEW CODE: Hide the loader after 3 seconds (3000ms) ---
+                setTimeout(() => {
+                    gameLoader.classList.remove('active');
+                }, 3000); // 3 seconds
+
             } else {
                 // For external links (like krunker.io), open in a new tab
                 window.open(url, '_blank');
             }
         };
-        
     
     gameBoxes.forEach(box => {
         box.addEventListener('click', () => {
@@ -303,12 +309,6 @@ window.addEventListener('load', () => {
         });
         // --- END OF CLICK HANDLER LOGIC ---
 
-        // --- ADD THIS NEW BLOCK ---
-        // Hide loader when iframe finishes loading
-        gameIframe.addEventListener('load', () => {
-            gameLoader.classList.remove('active');
-        });
-        // --- END OF NEW BLOCK ---
 
         document.getElementById('fullscreen-btn-game').addEventListener('click', () => {
             if (gameIframe.requestFullscreen) {
