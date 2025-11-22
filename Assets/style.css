@@ -308,3 +308,34 @@ input:checked + .slider:before { transform: translateX(24px); }
         transform: rotate(360deg);
     }
 }
+/* --- NEW THEMES --- */
+
+[data-theme="light"] {
+    --color-accent-purple: #6200ee;
+    --color-accent-hover: #5200c7;
+    --color-text: #1a1a1a;
+    --color-border: #e0e0e0;
+    --color-bg: #f5f5f5;
+    --color-bg-nav: rgba(255, 255, 255, 0.85);
+    --color-bg-content: #ffffff;
+}
+
+[data-theme="ocean"] {
+    --color-accent-purple: #00bcd4; /* Cyan accent */
+    --color-accent-hover: #0097a7;
+    --color-text: #e0f7fa;
+    --color-border: #004d40;
+    --color-bg: #001f3f; /* Deep navy */
+    --color-bg-nav: rgba(0, 31, 63, 0.85);
+    --color-bg-content: #00152b;
+}
+
+[data-theme="fire"] {
+    --color-accent-purple: #ff4500; /* Orange-red accent */
+    --color-accent-hover: #e63e00;
+    --color-text: #fffaf0;
+    --color-border: #8b0000; /* Dark red */
+    --color-bg: #121212; /* Very dark gray */
+    --color-bg-nav: rgba(18, 18, 18, 0.85);
+    --color-bg-content: #221a1a;
+}
