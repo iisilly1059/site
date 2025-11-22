@@ -7,12 +7,12 @@ window.addEventListener('load', () => {
     };
     const navButtons = document.querySelectorAll('.nav-button');
     const gameIframe = document.getElementById('game-iframe');
-    // ... (around line 9)
-        const navButtons = document.querySelectorAll('.nav-button');
-        const gameIframe = document.getElementById('game-iframe');
-        const gameLoader = document.getElementById('game-loader'); // <-- ADD THIS LINE
-        const particlesToggle = document.getElementById('particles-toggle');
-        // ...
+// ... (line 8)
+const navButtons = document.querySelectorAll('.nav-button');
+const gameIframe = document.getElementById('game-iframe');
+const gameLoader = document.getElementById('game-loader'); //
+const particlesToggle = document.getElementById('particles-toggle');
+// ...
     const particlesToggle = document.getElementById('particles-toggle');
     const particleDensity = document.getElementById('particle-density');
     const particleDensityValue = document.getElementById('particle-density-value');
