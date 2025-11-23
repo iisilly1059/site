@@ -6,13 +6,10 @@ window.addEventListener('load', () => {
         'settings': document.getElementById('settings-view')
     };
     
-    // --- THIS BLOCK IS NOW FIXED ---
     const navButtons = document.querySelectorAll('.nav-button');
     const gameIframe = document.getElementById('game-iframe');
-    const gameLoader = document.getElementById('game-loader'); // This was the line we were trying to add
+    const gameLoader = document.getElementById('game-loader');
     const particlesToggle = document.getElementById('particles-toggle');
-    // --- END OF FIX ---
-    
     const particleDensity = document.getElementById('particle-density');
     const particleDensityValue = document.getElementById('particle-density-value');
     const gameVolumeToggle = document.getElementById('game-volume-toggle');
@@ -26,7 +23,7 @@ window.addEventListener('load', () => {
     const gameBoxWrapper = document.getElementById('game-box-wrapper');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
-    const fpsDisplay = document.getElementById('fps'); // Moved this here
+    const fpsDisplay = document.getElementById('fps');
     
     const words = ['silly.', 'freedom.', 'beauty.', 'peace.', 'amazement.', 'fun.'];
     let wordIndex = 0;
@@ -483,7 +480,7 @@ window.addEventListener('load', () => {
             document.title = newTitle;
             localStorage.setItem('siteTitle', newTitle);
         } else {
-            document.title = "Silly funness";
+            document.title = "IMP GAMES"; // <-- Fixed title here
             localStorage.removeItem('siteTitle');
         }
     };
@@ -585,7 +582,7 @@ window.addEventListener('load', () => {
     loadSettings();
     showView('home-page');
     
-    // --- FPS COUNTER LOGIC (MOVED TO A SAFER PLACE) ---
+    // --- FPS COUNTER LOGIC ---
     let lastCalledTime = Date.now();
     let fps = 0;
     
