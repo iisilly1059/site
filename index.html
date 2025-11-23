@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMP GAMES</title>
     
+    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     
+    <!-- Your CSS File (Path with capital "A") -->
     <link rel="stylesheet" href="Assets/style.css">
     
 </head>
@@ -28,6 +30,7 @@
             </div>
         </nav>
 
+        <!-- Home View -->
         <div id="home-page-view" class="view">
             <div class="home-left">
                 <div class="typewriter-container">
@@ -45,6 +48,7 @@
             <button id="home-about-blank-btn" class="about-blank-btn">Open in about:blank</button>
         </div>
 
+        <!-- Games View -->
         <div id="games-view" class="view hidden-view pt-6 h-full overflow-y-auto overflow-x-hidden">
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
@@ -166,6 +170,7 @@
             </div>
         </div>
 
+        <!-- Game View -->
         <div id="game-view" class="view hidden-view">
         
             <div id="game-loader" class="active">
@@ -177,6 +182,7 @@
             <iframe id="game-iframe" src="" allow="fullscreen"></iframe>
         </div>
 
+        <!-- Settings View -->
         <div id="settings-view" class="view hidden-view p-8 h-full overflow-y-auto flex">
             <div id="settings-sidebar" class="w-32">
                 <button class="tab-button active" data-tab="appearance">Appearance</button>
@@ -227,7 +233,6 @@
                             <div class="theme-option" data-theme="hacker">Hacker</div>
                             <div class="theme-option" data-theme="neon">Neon</div>
                             <div class="theme-option" data-theme="galaxy">Galaxy</div>
-                            <div class="theme-option" data-theme="sunset">Sunset</div>
                             <div class="theme-option" data-theme="forest">Forest</div>
                             <div class="theme-option" data-theme="light">Light</div>
                             <div class="theme-option" data-theme="ocean">Ocean</div>
@@ -288,6 +293,7 @@
         </div>
     </div>
 
+    <!-- Your JavaScript File (Path with capital "A") -->
     <script src="Assets/script.js"></script>
 </body>
 </html>
