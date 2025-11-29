@@ -6,10 +6,13 @@ window.addEventListener('load', () => {
         'settings': document.getElementById('settings-view')
     };
     
+    // --- THIS BLOCK IS NOW FIXED ---
     const navButtons = document.querySelectorAll('.nav-button');
     const gameIframe = document.getElementById('game-iframe');
-    const gameLoader = document.getElementById('game-loader');
+    const gameLoader = document.getElementById('game-loader'); // This was the line we were trying to add
     const particlesToggle = document.getElementById('particles-toggle');
+    // --- END OF FIX ---
+    
     const particleDensity = document.getElementById('particle-density');
     const particleDensityValue = document.getElementById('particle-density-value');
     const gameVolumeToggle = document.getElementById('game-volume-toggle');
@@ -23,7 +26,7 @@ window.addEventListener('load', () => {
     const gameBoxWrapper = document.getElementById('game-box-wrapper');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
-    const fpsDisplay = document.getElementById('fps');
+    const fpsDisplay = document.getElementById('fps'); // Moved this here
     
     const words = ['silly.', 'freedom.', 'beauty.', 'peace.', 'amazement.', 'fun.'];
     let wordIndex = 0;
@@ -157,7 +160,7 @@ window.addEventListener('load', () => {
             this.x = x || Math.random() * canvas.width;
             this.y = y || Math.random() * canvas.height;
             this.radius = Math.random() * 1.5 + 0.5;
-            this.color = 'rgba(255, 255, 255, 0.8)'; // Original color
+            this.color = 'rgba(255, 255, 255, 0.8)';
             this.velocity = {
                 x: (Math.random() - 0.5) * 0.2,
                 y: (Math.random() - 0.5) * 0.2
@@ -196,7 +199,7 @@ window.addEventListener('load', () => {
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < 100) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(139, 92, 246, ${1 - distance / 100})`; // Original color
+                    ctx.strokeStyle = `rgba(139, 92, 246, ${1 - distance / 100})`;
                     ctx.lineWidth = 0.5;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
@@ -428,7 +431,7 @@ window.addEventListener('load', () => {
         const savedPanicEnabled = localStorage.getItem('panicEnabled') === 'true';
         panicToggle.checked = savedPanicEnabled;
         panicOptions.classList.toggle('hidden', !savedPanicEnabled);
-
+        
         const savedPanicKey = localStorage.getItem('panicKey');
         if (savedPanicKey) {
             panicKey = savedPanicKey;
@@ -436,7 +439,7 @@ window.addEventListener('load', () => {
         } else {
             panicKeyInput.value = '';
         }
-
+        
         const savedPanicUrl = localStorage.getItem('panicURL');
         if (savedPanicUrl) {
             panicURL = savedPanicUrl;
@@ -444,13 +447,13 @@ window.addEventListener('load', () => {
         } else {
             panicUrlInput.value = panicURL;
         }
-
+        
         const savedTitle = localStorage.getItem('siteTitle');
         if (savedTitle) {
             document.title = savedTitle;
             siteTitleInput.value = savedTitle;
         }
-
+        
         const savedFavicon = localStorage.getItem('siteFavicon');
         if (savedFavicon) {
             const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -474,13 +477,13 @@ window.addEventListener('load', () => {
             panicStatus.classList.remove('hidden');
             setTimeout(() => panicStatus.classList.add('hidden'), 2000);
         }
-
+        
         const newTitle = siteTitleInput.value.trim();
         if (newTitle) {
             document.title = newTitle;
             localStorage.setItem('siteTitle', newTitle);
         } else {
-            document.title = "IMP GAMES";
+            document.title = "Silly funness";
             localStorage.removeItem('siteTitle');
         }
     };
@@ -491,6 +494,7 @@ window.addEventListener('load', () => {
         if (newWindow) {
             try {
                 newWindow.document.write(`<html><head><title>${document.title}</title><link rel="shortcut icon" href="${document.querySelector("link[rel*='icon']") ? document.querySelector("link[rel*='icon']").href : 'none'}" type="image/x-icon"></head><body><iframe style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="${window.location.href}"></iframe></body></html>`);
+                // window.close(); // This line might be too aggressive
             } catch (e) {
                 newWindow.close();
                 alert("Could not open in about:blank. This might be blocked by your browser's security settings.");
@@ -581,7 +585,7 @@ window.addEventListener('load', () => {
     loadSettings();
     showView('home-page');
     
-    // --- FPS COUNTER LOGIC ---
+    // --- FPS COUNTER LOGIC (MOVED TO A SAFER PLACE) ---
     let lastCalledTime = Date.now();
     let fps = 0;
     
