@@ -308,3 +308,22 @@ input:checked + .slider:before { transform: translateX(24px); }
         transform: rotate(360deg);
     }
 }
+
+.favorite-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+}
+.favorite-btn:hover { transform: scale(1.2); }
+.favorite-btn.favorited { color: #ff6b6b; }
+.game-box { position: relative; }
