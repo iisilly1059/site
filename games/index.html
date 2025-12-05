@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imp Games | games</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/games.css">
+</head>
+<body data-theme="dark">
+    <canvas id="particle-canvas"></canvas>
+    
+    <div class="content">
+        <nav class="bg-gray-800 bg-opacity-90 backdrop-blur-md shadow-xl border-b-2 border-purple-500/50 flex-shrink-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-end h-16 items-center">
+                    <div class="flex items-center space-x-2">
+                        <a href="https://iisilly1059.github.io/site/">Home</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://iisilly1059.github.io/site/games/">Games</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://iisilly1059.github.io/site/settings/">Settings</a>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="home-page-view" class="view">
+            <div class="home-left">
+                <div class="typewriter-container">
+                    <span class="static-text">Welcome to</span>
+                    <span id="gradient-word" class="gradient-word"></span>
+                </div>
+                <button onclick="showView('games')" class="play-btn">Play Games</button>
+                <div class="quote-container mt-8 text-center">
+                    <blockquote id="dynamic-quote" class="dynamic-text"></blockquote>
+                    <p id="dynamic-source" class="dynamic-source mt-2"></p>
+                </div>
+            </div>
+            <div class="home-right">
+                <div id="game-showcase" class="showcase-game">
+                    <img id="showcase-img" src="" alt="">
+                    <div id="showcase-title" class="showcase-title"></div>
+                </div>
+            </div>
+            <button id="home-about-blank-btn" class="about-blank-btn">Open in about:blank</button>
+        </div>
+
+        <div id="games-view" class="view hidden-view pt-6 h-full overflow-y-auto overflow-x-hidden">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="game-search" placeholder="Search games unblocked" autocomplete="off">
+            </div>
+            <div id="game-box-wrapper" class="mx-auto space-y-4">
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/slope/index.html" data-title="Slope" data-img="img/slope4.jpeg">
+                        <img src="img/slope4.jpeg" alt="Slope">
+                        <div class="game-title">Slope</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/slope-2/index.html" data-title="Slope 2" data-img="img/slope-2-logo.png">
+                        <img src="img/slope-2-logo.png" alt="Slope 2">
+                        <div class="game-title">Slope 2</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/stickman-hook/index.html" data-title="Stickman Hook" data-img="img/stickman-hook.jpg">
+                        <img src="img/stickman-hook.jpg" alt="Stickman Hook">
+                        <div class="game-title">Stickman Hook</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/vex-3/index.html" data-title="Vex 3" data-img="img/vex3.png">
+                        <img src="img/vex3.png" alt="Vex 3">
+                        <div class="game-title">Vex 3</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/space-company/index.html" data-title="Space Company" data-img="img/SpaceCompanyFavicon.png">
+                        <img src="img/SpaceCompanyFavicon.png" alt="Space Company">
+                        <div class="game-title">Space Company</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/tiny-fishing/index.html" data-title="Tiny Fishing" data-img="img/tiny-fishing.png">
+                        <img src="img/tiny-fishing.png" alt="Tiny Fishing">
+                        <div class="game-title">Tiny Fishing</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/paper.io-2/index.html" data-title="Paper.io 2" data-img="img/paperio2.png">
+                        <img src="img/paperio2.png" alt="Paper.io 2">
+                        <div class="game-title">Paper.io 2</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://krunker.io" data-title="Krunker.io" data-img="img/krunker-io.jpg">
+                        <img src="img/krunker-io.jpg" alt="Krunker.io">
+                        <div class="game-title">Krunker.io</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/n-gon/index.html" data-title="N-gon" data-img="img/n-gonbot.png">
+                        <img src="img/n-gonbot.png" alt="N-gon">
+                        <div class="game-title">N-gon</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/knife-master/index.html" data-title="Knife Master" data-img="img/knife-master.jpg">
+                        <img src="img/knife-master.jpg" alt="Knife Master">
+                        <div class="game-title">Knife Master</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/the-heist/" data-title="The Heist" data-img="img/theheist.jpg">
+                        <img src="img/theheist.jpg" alt="The Heist">
+                        <div class="game-title">The Heist</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/the-hotel/" data-title="The Hotel" data-img="img/the-hotel.png">
+                        <img src="img/the-hotel.png" alt="The Hotel">
+                        <div class="game-title">The Hotel</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/tiny-islands/" data-title="Tiny Islands" data-img="img/tiny-islands.png">
+                        <img src="img/tiny-islands.png" alt="Tiny Islands">
+                        <div class="game-title">Tiny Islands</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/elastic-man/" data-title="Elastic Man" data-img="img/elasticman.jpg">
+                        <img src="img/elasticman.jpg" alt="Elastic Man">
+                        <div class="game-title">Elastic Man</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/drive-mad/" data-title="Drive Mad" data-img="img/drive-mad.jpg">
+                        <img src="img/drive-mad.jpg" alt="Drive Mad">
+                        <div class="game-title">Drive Mad</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://shellshockers.io/" data-title="Shellshockers" data-img="img/shellshockers.png">
+                        <img src="img/shellshockers.png" alt="Shellshockers">
+                        <div class="game-title">Shellshockers</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/ns-shaft/" data-title="Ns-Shaft" data-img="img/ns-shaft.png">
+                        <img src="img/ns-shaft.png" alt="Ns-Shaft">
+                        <div class="game-title">Ns-Shaft</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/win-the-whitehouse/" data-title="Win The Whitehouse" data-img="img/win-the-whitehouse.png">
+                        <img src="img/win-the-whitehouse.png" alt="Win The Whitehouse">
+                        <div class="game-title">Win The Whitehouse</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://surviv.io/" data-title="Surviv" data-img="img/surviv.io.png">
+                        <img src="img/surviv.io.png" alt="Surviv">
+                        <div class="game-title">Surviv</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/stack/" data-title="Stack" data-img="img/stack.jpg">
+                        <img src="img/stack.jpg" alt="Stack">
+                        <div class="game-title">Stack</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://starve.io/" data-title="Starve" data-img="img/starve.png">
+                        <img src="img/starve.png" alt="Starve">
+                        <div class="game-title">Starve</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/rolly-vortex/" data-title="Rolly Vortex" data-img="img/rolly-vortex.png">
+                        <img src="img/rolly-vortex.png" alt="Rolly Vortex">
+                        <div class="game-title">Rolly Vortex</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/poly-branch/" data-title="Poly Branch" data-img="img/poly-branch.png">
+                        <img src="img/poly-branch.png" alt="Poly Branch">
+                        <div class="game-title">Poly Branch</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/flappy-bird/" data-title="Flappy Bird" data-img="img/flappy-bird.png">
+                        <img src="img/flappy-bird.png" alt="Flappy Bird">
+                        <div class="game-title">Flappy Bird</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/geometry-dash/" data-title="Geometry Dash" data-img="img/geo-dash.png">
+                        <img src="img/geo-dash.png" alt="Geometry Dash">
+                        <div class="game-title">Geometry Dash</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/the-final-earth/" data-title="The Final Earth" data-img="img/the-final-earth.png">
+                        <img src="img/the-final-earth.png" alt="The Final Earth">
+                        <div class="game-title">The Final Earth</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/stickwar/" data-title="Stick War" data-img="img/stickwar.jpg">
+                        <img src="img/stickwar.jpg" alt="Stick War">
+                        <div class="game-title">Stick War</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/stick-archers/" data-title="Stick Archers" data-img="img/stick-archers.jpg">
+                        <img src="img/stick-archers.jpg" alt="Stick Archers">
+                        <div class="game-title">Stick Archers</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/solitaire/" data-title="Solitaire" data-img="img/solitaire.png">
+                        <img src="img/solitaire.png" alt="Solitaire">
+                        <div class="game-title">Solitaire</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/sort-the-court/" data-title="Sort The Court" data-img="img/sort-the-court.png">
+                        <img src="img/sort-the-court.png" alt="Sort The Court">
+                        <div class="game-title">Sort The Court</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/sleeping-beauty/" data-title="Sleeping Beauty" data-img="img/sleeping-bueaty.png">
+                        <img src="img/sleeping-bueaty.png" alt="sleeping beauty">
+                        <div class="game-title">Sleeping beauty</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/rooftop-snipers/" data-title="Rooftop Snipers" data-img="img/rooftop-snipers.png">
+                        <img src="img/rooftop-snipers.png" alt="Rooftop Snipers">
+                        <div class="game-title">Rooftop Snipers</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/rolling-forests/" data-title="Rolling Forests" data-img="img/rolling-forest.png">
+                        <img src="img/rolling-forest.png" alt="Rolling Forests">
+                        <div class="game-title">Rolling Forests</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/retro-bowl/" data-title="Retro Bowl" data-img="img/retro-bowl.jpg">
+                        <img src="img/retro-bowl.jpg" alt="Retro Bowl">
+                        <div class="game-title">Retro Bowl</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/papas-pizzaria/" data-title="Papas Pizzaria" data-img="img/papaspizzaria.jpg">
+                        <img src="img/papaspizzaria.jpg" alt="Papas Pizzaria">
+                        <div class="game-title">Papas Pizzaria</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/papery-planes/" data-title="Papery Planes" data-img="img/papery-planes.jpg">
+                        <img src="img/papery-planes.jpg" alt="Papery Planes">
+                        <div class="game-title">Papery Planes</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/nsresurgence/" data-title="NS Resurgence" data-img="img/ns-resurgence.png">
+                        <img src="img/ns-resurgence.png" alt="NS Resurgence">
+                        <div class="game-title">NS Resurgence</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/my-rusty-submarine/" data-title="My Rusty Submarine" data-img="img/my-rusty-submarine.png">
+                        <img src="img/my-rusty-submarine.png" alt="My Rusty Submarine">
+                        <div class="game-title">My Rusty Submarine</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/minesweeper/" data-title="Minesweeper" data-img="img/minesweeper.png">
+                        <img src="img/minesweeper.png" alt="Minesweeper">
+                        <div class="game-title">Minesweeper</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/learn-to-fly/" data-title="Learn To Fly" data-img="img/learntofly.png">
+                        <img src="img/learntofly.png" alt="Learn To Fly">
+                        <div class="game-title">Learn To Fly</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/learn-to-fly2/" data-title="Learn To Fly 2" data-img="img/learn-to-fly-2.jpg">
+                        <img src="img/learn-to-fly-2.jpg" alt="Learn To Fly 2">
+                        <div class="game-title">Learn To Fly 2</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/just-fall/" data-title="Just Fall" data-img="img/just-fall.png">
+                        <img src="img/just-fall.png" alt="Just Fall">
+                        <div class="game-title">Just Fall</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/just-one-boss/" data-title="Just One Boss" data-img="img/just-one-boss.png">
+                        <img src="img/just-one-boss.png" alt="Just One Boss">
+                        <div class="game-title">Just One Boss</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/hextris/" data-title="Hextris" data-img="img/hextris.png">
+                        <img src="img/hextris.png" alt="Hextris">
+                        <div class="game-title">Hextris</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/frying-nemo/" data-title="Frying Nemo" data-img="img/frying-nemo.png">
+                        <img src="img/frying-nemo.png" alt="Frying Nemo">
+                        <div class="game-title">Frying Nemo</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/glass-city/" data-title="Glass City" data-img="img/glass-city.png">
+                        <img src="img/glass-city.png" alt="Glass City">
+                        <div class="game-title">Glass City</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/driftboss/" data-title="Drift Boss" data-img="img/drift-boss.png">
+                        <img src="img/drift-boss.png" alt="Drift Boss">
+                        <div class="game-title">Drift Boss</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/cluster-rush2/" data-title="Cluster Rush" data-img="img/cluster-rush.png">
+                        <img src="img/cluster-rush.png" alt="Cluster Rush">
+                        <div class="game-title">Cluster Rush</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/bitlife/" data-title="Bitlife" data-img="img/bit-life.png">
+                        <img src="img/bit-life.png" alt="Bitlife">
+                        <div class="game-title">Bitlife</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/angrysharks/" data-title="Angry Sharks" data-img="img/angry-sharks.png">
+                        <img src="img/angry-sharks.png" alt="Angry Sharks">
+                        <div class="game-title">Angry Sharks</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/death-run-3d/" data-title="Death Run 3d" data-img="img/death-run-3d.png">
+                        <img src="img/death-run-3d.png" alt="Death Run 3d" loading="lazy">
+                        <div class="game-title">Death Run 3d</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/cube-field/" data-title="Cube Field" data-img="img/cube-field.png">
+                        <img src="img/cube-field.png" alt="Cube Field" loading="lazy">
+                        <div class="game-title">Cube Field</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/creative-kill-chamber/" data-title="Creative Kill Chamber" data-img="img/creativekillchamber.jpg">
+                        <img src="img/creativekillchamber.jpg" alt="Creative Kill Chamber" loading="lazy">
+                        <div class="game-title">Creative Kill Chamber</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/circlo/" data-title="Circlo" data-img="img/circlo.png">
+                        <img src="img/circlo.png" alt="Circlo" loading="lazy">
+                        <div class="game-title">Circlo</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/chill-radio/" data-title="Chill Radio" data-img="img/chill-radio.png">
+                        <img src="img/chill-radio.png" alt="Chill Radio" loading="lazy">
+                        <div class="game-title">Chill Radio</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/boxing-random/" data-title="Boxing Random" data-img="img/boxing-random.jpg">
+                        <img src="img/boxing-random.jpg" alt="Boxing Random" loading="lazy">
+                        <div class="game-title">Boxing Random</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/breaking-the-bank/" data-title="Breaking The Bank" data-img="img/breakingthebank.png">
+                        <img src="img/breakingthebank.png" alt="Breaking The Bank" loading="lazy">
+                        <div class="game-title">Breaking The Bank</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/boxhead2play/" data-title="Boxhead 2 player" data-img="img/boxhead2play.jpg">
+                        <img src="img/boxhead2play.jpg" alt="Boxhead 2 player" loading="lazy">
+                        <div class="game-title">Boxhead 2 player</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/black-knight/" data-title="Black Knight" data-img="img/blackknight.png">
+                        <img src="img/blackknight.png" alt="Black Knight" loading="lazy">
+                        <div class="game-title">Black Knight</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/bloonstd/" data-title="Bloonstd" data-img="img/bloonstd.jpg">
+                        <img src="img/bloonstd.jpg" alt="Bloonstd" loading="lazy">
+                        <div class="game-title">Bloonstd</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/bloonstd2/" data-title="Bloonstd 2" data-img="img/bloonstd2.png">
+                        <img src="img/bloonstd2.png" alt="Bloonstd 2" loading="lazy">
+                        <div class="game-title">Bloonstd 2</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/bloxors/" data-title="Bloxors" data-img="img/bloxors.png">
+                        <img src="img/bloxors.png" alt="Bloxors" loading="lazy">
+                        <div class="game-title">Bloxors</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/core-ball/" data-title="Core Ball" data-img="img/core-ball.png">
+                        <img src="img/core-ball.png" alt="Core Ball" loading="lazy">
+                        <div class="game-title">Core Ball</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/champion-archer/" data-title="Champion Archer" data-img="img/championarcher.png">
+                        <img src="img/championarcher.png" alt="Champion Archer" loading="lazy">
+                        <div class="game-title">Champion Archer</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/cell-machine/" data-title="Cell Machine" data-img="img/cell-machine.png">
+                        <img src="img/cell-machine.png" alt="Cell Machine" loading="lazy">
+                        <div class="game-title">Cell Machine</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/astray/" data-title="Astray" data-img="img/astray.png">
+                        <img src="img/astray.png" alt="Astray" loading="lazy">
+                        <div class="game-title">Astray</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/amidst-the-clouds/" data-title="Amidst The Clouds" data-img="img/amidst-the-clouds.png">
+                        <img src="img/amidst-the-clouds.png" alt="Amidst The Clouds" loading="lazy">
+                        <div class="game-title">Amidst The Clouds</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/achievement-unlocked/" data-title="Achievement Unlocked" data-img="img/achievementunlocked.png">
+                        <img src="img/achievementunlocked.png" alt="Achievement Unlocked" loading="lazy">
+                        <div class="game-title">Achievement Unlocked</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/a-dance-of-fire-and-ice/" data-title="A Dance Of Fire And Ice" data-img="img/a-dance-of-fire-and-ice.png">
+                        <img src="img/a-dance-of-fire-and-ice.png" alt="A Dance Of Fire And Ice" loading="lazy">
+                        <div class="game-title">A Dance Of Fire And Ice</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/blackhole-square/" data-title="Blackhole Square" data-img="img/blackhole-square.png">
+                        <img src="img/blackhole-square.png" alt="Blackhole Square" loading="lazy">
+                        <div class="game-title">Blackhole Square</div>
+                    </div>
+                </div>
+
+                <div class="five-box-row">
+                    <div class="game-box" data-url="iframe.html?url=https://bitfexl.github.io/operius/" data-title="Operius" data-img="img/operius.png">
+                        <img src="img/operius.png" alt="Operius" loading="lazy">
+                        <div class="game-title">Operius</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/edge-surf/" data-title="Edge Surf" data-img="img/edge-surf.png">
+                        <img src="img/edge-surf.png" alt="Edge Surf" loading="lazy">
+                        <div class="game-title">Edge Surf</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/drift-hunters/" data-title="Drift Hunters" data-img="img/drift-hunters.png">
+                        <img src="img/drift-hunters.png" alt="Drift Hunters" loading="lazy">
+                        <div class="game-title">Drift Hunters</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/evil-glitch/" data-title="Evil Glitch" data-img="img/evil-glitch.png">
+                        <img src="img/evil-glitch.png" alt="Evil Glitch" loading="lazy">
+                        <div class="game-title">Evil Glitch</div>
+                    </div>
+                    <div class="game-box" data-url="iframe.html?url=https://iisilly1059.github.io/double-wires/" data-title="Double Wires" data-img="img/doublewires.png">
+                        <img src="img/doublewires.png" alt="Double Wires" loading="lazy">
+                        <div class="game-title">Double Wires</div>
+                    </div>
+                </div>
+
+                    </div>
+                </div> 
+
+<div id="game-view" class="view hidden-view">
+        
+            <div id="game-loader" class="active">
+                <div class="spinner"></div>
+                <p>Loading game, please wait...</p>
+            </div>
+            
+            <button id="fullscreen-btn-game" title="Fullscreen"><i class="fas fa-expand"></i></button>
+            <iframe id="game-iframe" src="" allow="fullscreen"></iframe>
+        </div>
+
+        <div id="settings-view" class="view hidden-view p-8 h-full overflow-y-auto flex">
+            <div id="settings-sidebar" class="w-32">
+                <button class="tab-button active" data-tab="appearance">Appearance</button>
+                <button class="tab-button" data-tab="audio">Audio</button>
+                <button class="tab-button" data-tab="panic">Panic</button>
+                <button class="tab-button" data-tab="cloak">Cloak</button>
+                <button class="tab-button" data-tab="general">General</button>
+            </div>
+            <div id="settings-content" class="max-w-lg mx-auto">
+                <div class="tab-panel active" id="appearance-tab">
+                    <div class="setting-item">
+                        <label class="flex items-center justify-between">
+                            <span class="font-semibold">Enable Particles</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="particles-toggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="block mb-2 font-semibold">Particle Density</label>
+                        <input type="range" id="particle-density" min="10" max="200" value="50" class="w-full">
+                        <span id="particle-density-value" class="text-sm">50</span>
+                    </div>
+                    <div class="setting-item">
+                        <label class="flex items-center justify-between">
+                            <span class="font-semibold">Performance Mode</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="performance-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="block mb-2 font-semibold">Auto-Showcase Speed (seconds)</label>
+                        <select id="showcase-speed" class="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600">
+                            <option value="1000">1s</option>
+                            <option value="2000" selected>2s</option>
+                            <option value="3000">3s</option>
+                            <option value="5000">5s</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label class="block mb-3 font-semibold">Choose Theme</label>
+                        <div class="theme-grid">
+                            <div class="theme-option" data-theme="dark">Dark</div>
+                            <div class="theme-option" data-theme="cotton-candy">Cotton Candy</div>
+                            <div class="theme-option" data-theme="hacker">Hacker</div>
+                            <div class="theme-option" data-theme="neon">Neon</div>
+                            <div class="theme-option" data-theme="galaxy">Galaxy</div>
+                            <div class="theme-option" data-theme="sunset">Sunset</div>
+                            <div class="theme-option" data-theme="forest">Forest</div>
+                            <div class="theme-option" data-theme="xmas">Christmas 🎄</div>
+                            <div class="theme-option" data-theme="midnight">Midnight</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="audio-tab">
+                    <div class="setting-item">
+                        <label class="flex items-center justify-between">
+                            <span class="font-semibold">Mute Game Audio</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="game-volume-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <div class="tab-panel" id="panic-tab">
+                    <div class="setting-item">
+                        <label class="flex items-center justify-between mb-3">
+                            <span class="font-semibold">Enable Panic Key</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="panic-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                        <div id="panic-options" class="space-y-3 hidden">
+                            <div><label class="block text-sm mb-1">Panic Key</label><input type="text" id="panic-key-input" class="panic-input" placeholder="Press a key (A-Z)..."></div>
+                            <div><label class="block text-sm mb-1">Redirect URL</label><input type="text" id="panic-url" class="panic-input" placeholder="https://docs.google.com"></div>
+                            <button id="save-panic-btn" class="save-btn w-full">Save</button>
+                            <p id="panic-status" class="text-sm text-green-400 mt-2 hidden">Saved!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="cloak-tab">
+                    <div class="setting-item">
+                        <label class="block mb-1">Cloak Title</label>
+                        <input type="text" id="site-title-input" class="w-full p-2 rounded bg-gray-900 text-gray-100 border border-gray-600" placeholder="Google Docs">
+                    </div>
+                    <div class="setting-item">
+                        <label class="block mb-1">Cloak Favicon</label>
+                        <input type="file" id="site-logo-input" accept="image/*" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white">
+                        <p class="text-xs mt-1">Current: <span id="current-logo">none</span></p>
+                    </div>
+                </div>
+                <div class="tab-panel" id="general-tab">
+                    <button id="open-about-blank-btn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-lg transition transform hover:scale-105">Open in about:blank</button>
+                    <button id="reset-settings" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition mt-4">Reset All</button>
+                </div>
+            </div>
+
+    <script src="assets/games.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.pathname.includes('/site/games/'))  { // change /sites/games/ to whatever directory if you end up changing it to
+                const h = document.getElementById('home-page-view');
+                const g = document.getElementById('games-view');
+                if (h) h.classList.add('hidden-view');
+                if (g) g.classList.remove('hidden-view');
+            }
+        });
+    </script>
+</body>
+</html>
