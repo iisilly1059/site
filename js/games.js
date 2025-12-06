@@ -300,28 +300,25 @@ window.addEventListener('load', () => {
             showView(targetView);
         });
     });
-    
-    // --- THIS IS THE CLICK HANDLER LOGIC ---
+
     const handleGameClick = (url) => {
         if (!url) return;
         
         if (url.startsWith('https://iisilly1059.github.io') || !url.startsWith('http')) {
             
-            // Show the loader
             gameLoader.classList.add('active');
             gameIframe.src = url;
             showView('game');
             
             setTimeout(() => {
                 gameLoader.classList.remove('active');
-            }, 3000); // 3 seconds
+            }, 3000);
             
         } else {
             window.open(url, '_blank');
         }
     };
     
-    // --- THIS IS THE CLICK EVENT LISTENER ---
     gameBoxes.forEach(box => {
         box.addEventListener('click', () => {
             handleGameClick(box.dataset.url);
@@ -340,7 +337,6 @@ window.addEventListener('load', () => {
             gameIframe.msRequestFullscreen();
         }
     });
-    // --- END OF FULLSCREEN BUTTON ---
     
     const themeOptions = document.querySelectorAll('.theme-option');
     const body = document.body;
@@ -381,11 +377,9 @@ window.addEventListener('load', () => {
                 }
                 const clonedBox = box.cloneNode(true);
                 
-                // --- THIS IS THE CLICK HANDLER FOR SEARCH RESULTS ---
                 clonedBox.addEventListener('click', () => {
                     handleGameClick(clonedBox.dataset.url);
                 });
-                // --- END OF CLICK HANDLER ---
                 
                 currentRow.appendChild(clonedBox);
                 boxCount++;
@@ -576,23 +570,7 @@ window.addEventListener('load', () => {
     loadSettings();
     showView('games');
     
-    // --- FPS COUNTER LOGIC (MOVED TO A SAFER PLACE) ---
-    let lastCalledTime = Date.now();
-    let fps = 0;
-    
-    function updateFPS() {
-        const delta = (Date.now() - lastCalledTime) / 1000;
-        lastCalledTime = Date.now();
-        fps = Math.round(1 / delta);
-        if (fpsDisplay) { // Check if fpsDisplay exists
-            fpsDisplay.textContent = `FPS: ${fps}`;
-        }
-        requestAnimationFrame(updateFPS);
-    }
-    requestAnimationFrame(updateFPS);
-    // --- END FPS COUNTER ---
 });
-// ————— SMOOTH FADE-IN WHEN SCROLLING TO GAMES —————
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -609,11 +587,9 @@ document.querySelectorAll('li, .game-item').forEach(item => {
   observer.observe(item);
 });
 
-// ————— SMOOTH FADE WHEN SWITCHING TABS —————
 function openTab(tabName) {
   const tabs = document.querySelectorAll('.tab-content');
   
-  // Fade out all tabs first
   tabs.forEach(tab => {
     tab.style.opacity = '0';
     tab.style.transition = 'opacity 0.4s ease';
@@ -632,15 +608,12 @@ function openTab(tabName) {
     event.target.classList.add('active');
   }, 400);
 }
-// ————— NEW: ENSURE PAGE FADES ON LOAD —————
 function initPageFade() {
   document.body.style.opacity = '1'; // In case CSS didn't trigger
 }
 
-// Run everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   initScrollFades();
   initPageFade();
-  // Call your original init if any (e.g., load active tab)
-  openTab('games', {target: document.querySelector('.tab-button[onclick*="games"]')}); // Default to games tab
+  openTab('games', {target: document.querySelector('.tab-button[onclick*="games"]')});
 });
