@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SYSTEM CRITICAL FAILURE: 404 - ERROR SYMBOL</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        /*
+        NOTE TO SELF: Get Inter font working locally. This local path is probably wrong.
+        */
+        @font-face {
+            font-family: 'Inter';
+            src: local('Inter Regular'), url('images/Inter-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box; 
+        }
+
+        body {
+            /* Basic layout stuff */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', system-ui, sans-serif; 
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d0eaff;
+
+            /* !!! CHANGED: Solid Black Background */
+            background: radial-gradient(circle at center, #000000 0%, #000000 100%); 
+            position: relative;
+        }
+
+        /* @keyframes bgShift is now unnecessary and removed */
+
+        #main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            text-align: center;
+            padding-top: 40px; 
+        }
+
+        /* --- THE WARNING SIGN (Triangle) --- */
+        .loader-spinny {
+            width: 160px;
+            height: 140px;
+            position: relative;
+            margin-bottom: 25px;
+            
+            /* Apply filter and the chaotic animation */
+            filter: drop-shadow(0 0 10px #ff5722);
+            animation: glitch_shake 0.15s steps(2, end) infinite; 
+        }
+
+        /* Create the Triangle Border using border property */
+        .spinner-ring { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            /* Transparent container */
+            background: transparent;
+
+            /* Use thick borders to create the triangle shape */
+            border-bottom: 15px solid #ff5722; /* Bottom line of the triangle */
+            border-left: 15px solid transparent; 
+            border-right: 15px solid transparent; 
+            
+            /* Set the shape to triangle */
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            -webkit-clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            
+            /* Slightly more rounded corners for the triangle */
+            border-radius: 10px; 
+        }
+        
+        /* The inner exclamation mark */
+        .loader-spinny::before {
+            content: '!';
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            font-size: 80px; /* Big exclamation mark */
+            font-weight: 900;
+            color: #ff5722; /* Warning color */
+            z-index: 3;
+            line-height: 0.8; /* Adjust vertical position */
+            /* Add a pulsating glow to the exclamation mark */
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        
+        /* The inner circles are now hidden as we use the pseudo-element for the mark */
+        .spinner-ring:nth-child(2) {
+            display: none;
+        }
+
+        /* Text Area: FROZEN STATE */
+        #error-code-display { 
+            font-size: 80px; 
+            font-weight: 900;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            color: #e74c3c; 
+            margin-top: 15px;
+            text-shadow:
+                0 0 15px #e74c3c,
+                0 0 25px #c0392b;
+        }
+
+        /* Glitch shake animation for the symbol */
+        @keyframes glitch_shake {
+            0% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, 2px); }
+            100% { transform: translate(2px, -2px); }
+        }
+        
+        /* Pulsing animation for the exclamation mark */
+        @keyframes pulse {
+            0% { 
+                opacity: 0.7;
+                text-shadow: 0 0 5px #ff5722;
+            }
+            100% {
+                opacity: 1.0;
+                text-shadow: 0 0 20px #ff5722, 0 0 40px #e74c3c;
+            }
+        }
+
+        /* The sub-message */
+        #sub-message {
+            font-size: 20px;
+            color: #f39c12; 
+            margin-bottom: 30px;
+        }
+
+        center {
+            z-index: 2;
+        }
+
+        /* .shadow-layer and .stars_texture styles are now unnecessary and can be ignored/removed */
+        
+        .action-link {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s;
+            filter: drop-shadow(0 0 5px rgba(231, 76, 60, 0.5));
+        }
+
+        .primary-link {
+            background-color: #e74c3c; 
+            color: #ffffff;
+            border: 2px solid #c0392b;
+        }
+        
+        .primary-link:hover {
+            background-color: #c0392b;
+        }
+
+        .secondary-link {
+            background-color: transparent;
+            color: #bdc3c7; 
+            border: 2px solid #555;
+        }
+
+        .secondary-link:hover {
+            border-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+    <center id="main-content">
+        <div class="loader-spinny">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+
+        <p id="error-code-display" data-original-text="ERROR 404">ERROR 404</p>
+        <p id="sub-message">ERROR 404: Go Back To The Site.</p>
+        
+        <p class="text-lg text-gray-300 mt-2 max-w-sm" style="color: #ccc;">
+            Click "Go Home" cuz you ain't ment to be here.
+            Try checking the URL or head back to the homepage.
+        </p>
+
+        <div>
+             <a href="https://iisilly1059.github.io/site/" class="action-link primary-link">
+                Go Home
+             </a>
+             <a href="https://iisilly1059.github.io/site/games" class="action-link primary-link">
+                Go To Games
+             </a>
+        </div>
+        
+    </center>
+
+    <script>
+        // No JavaScript is needed.
+    </script>
+</body>
+</html>
