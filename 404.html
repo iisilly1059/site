@@ -8,9 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
-        /*
-        NOTE TO SELF: Get Inter font working locally. This local path is probably wrong.
-        */
+        
         @font-face {
             font-family: 'Inter';
             src: local('Inter Regular'), url('images/Inter-Regular.woff2') format('woff2');
@@ -23,7 +21,7 @@
         }
 
         body {
-            /* Basic layout stuff */
+            
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -35,12 +33,10 @@
             align-items: center;
             color: #d0eaff;
 
-            /* !!! CHANGED: Solid Black Background */
             background: radial-gradient(circle at center, #000000 0%, #000000 100%); 
             position: relative;
         }
 
-        /* @keyframes bgShift is now unnecessary and removed */
 
         #main-content {
             display: flex;
@@ -51,19 +47,16 @@
             padding-top: 40px; 
         }
 
-        /* --- THE WARNING SIGN (Triangle) --- */
         .loader-spinny {
             width: 160px;
             height: 140px;
             position: relative;
             margin-bottom: 25px;
             
-            /* Apply filter and the chaotic animation */
             filter: drop-shadow(0 0 10px #ff5722);
             animation: glitch_shake 0.15s steps(2, end) infinite; 
         }
 
-        /* Create the Triangle Border using border property */
         .spinner-ring { 
             position: absolute;
             top: 0;
@@ -71,44 +64,36 @@
             width: 100%;
             height: 100%;
             
-            /* Transparent container */
             background: transparent;
 
-            /* Use thick borders to create the triangle shape */
-            border-bottom: 15px solid #ff5722; /* Bottom line of the triangle */
+            border-bottom: 15px solid #ff5722;
             border-left: 15px solid transparent; 
             border-right: 15px solid transparent; 
             
-            /* Set the shape to triangle */
             clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
             -webkit-clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
             
-            /* Slightly more rounded corners for the triangle */
             border-radius: 10px; 
         }
         
-        /* The inner exclamation mark */
         .loader-spinny::before {
             content: '!';
             position: absolute;
             top: 25%;
             left: 50%;
             transform: translate(-50%, 0%);
-            font-size: 80px; /* Big exclamation mark */
+            font-size: 80px;
             font-weight: 900;
-            color: #ff5722; /* Warning color */
+            color: #ff5722;
             z-index: 3;
-            line-height: 0.8; /* Adjust vertical position */
-            /* Add a pulsating glow to the exclamation mark */
+            line-height: 0.8;
             animation: pulse 2s ease-in-out infinite alternate;
         }
         
-        /* The inner circles are now hidden as we use the pseudo-element for the mark */
         .spinner-ring:nth-child(2) {
             display: none;
         }
 
-        /* Text Area: FROZEN STATE */
         #error-code-display { 
             font-size: 80px; 
             font-weight: 900;
@@ -121,14 +106,12 @@
                 0 0 25px #c0392b;
         }
 
-        /* Glitch shake animation for the symbol */
         @keyframes glitch_shake {
             0% { transform: translate(2px, -2px); }
             50% { transform: translate(-2px, 2px); }
             100% { transform: translate(2px, -2px); }
         }
         
-        /* Pulsing animation for the exclamation mark */
         @keyframes pulse {
             0% { 
                 opacity: 0.7;
@@ -140,7 +123,6 @@
             }
         }
 
-        /* The sub-message */
         #sub-message {
             font-size: 20px;
             color: #f39c12; 
@@ -150,8 +132,6 @@
         center {
             z-index: 2;
         }
-
-        /* .shadow-layer and .stars_texture styles are now unnecessary and can be ignored/removed */
         
         .action-link {
             display: inline-block;
