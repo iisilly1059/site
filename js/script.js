@@ -3,16 +3,15 @@ window.addEventListener('load', () => {
         'home-page': document.getElementById('home-page-view'),
         'games': document.getElementById('games-view'),
         'game': document.getElementById('game-view'),
-        'settings': document.getElementById('settings-view')
+        'settings': document.getElementById('settings-view'),
+        'favorites': document.getElementById('favorites-view'),
+        'recent': document.getElementById('recent-view')
     };
-    
-    // --- THIS BLOCK IS NOW FIXED ---
+
     const navButtons = document.querySelectorAll('.nav-button');
     const gameIframe = document.getElementById('game-iframe');
-    const gameLoader = document.getElementById('game-loader'); // This was the line we were trying to add
+    const gameLoader = document.getElementById('game-loader');
     const particlesToggle = document.getElementById('particles-toggle');
-    // --- END OF FIX ---
-    
     const particleDensity = document.getElementById('particle-density');
     const particleDensityValue = document.getElementById('particle-density-value');
     const gameVolumeToggle = document.getElementById('game-volume-toggle');
@@ -26,14 +25,13 @@ window.addEventListener('load', () => {
     const gameBoxWrapper = document.getElementById('game-box-wrapper');
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanels = document.querySelectorAll('.tab-panel');
-    const fpsDisplay = document.getElementById('fps'); // Moved this here
-    
+
     const words = ['silly.', 'freedom.', 'beauty.', 'peace.', 'amazement.', 'fun.'];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let typingTimeout;
-    
+
     const type = () => {
         const currentWord = words[wordIndex];
         if (isDeleting) {
@@ -56,31 +54,26 @@ window.addEventListener('load', () => {
         typingTimeout = setTimeout(type, typeSpeed);
     };
     type();
-    
+
     const gameBoxes = document.querySelectorAll('.game-box[data-url]');
     let currentShowcaseIndex = 0;
     let showcaseInterval = null;
-    
+
     const updateShowcase = () => {
         const box = gameBoxes[currentShowcaseIndex];
-        const url = box.dataset.url;
-        const title = box.dataset.title;
-        const img = box.dataset.img;
-        showcaseImg.src = img;
-        showcaseTitle.textContent = title;
-        showcase.onclick = () => {
-            box.click();
-        };
+        showcaseImg.src = box.dataset.img;
+        showcaseTitle.textContent = box.dataset.title;
+        showcase.onclick = () => box.click();
         currentShowcaseIndex = (currentShowcaseIndex + 1) % gameBoxes.length;
     };
-    
+
     const startShowcase = () => {
         updateShowcase();
         showcaseInterval = setInterval(updateShowcase, parseInt(showcaseSpeed.value));
     };
-    
+
     let shootingStarInterval = null;
-    
+
     const createShootingStar = () => {
         if (views['home-page'].classList.contains('hidden-view')) return;
         const star = document.createElement('div');
@@ -104,22 +97,20 @@ window.addEventListener('load', () => {
         };
         moveStar();
     };
-    
+
     const startShootingStars = () => {
         if (shootingStarInterval) clearInterval(shootingStarInterval);
         createShootingStar();
         shootingStarInterval = setInterval(createShootingStar, 5000);
     };
-    
+
     const stopShootingStars = () => {
         if (shootingStarInterval) clearInterval(shootingStarInterval);
         document.querySelectorAll('.shooting-star').forEach(s => s.remove());
     };
-    
+
     window.showView = function(name) {
-        for (let view in views) {
-            views[view].classList.add('hidden-view');
-        }
+        for (let view in views) views[view].classList.add('hidden-view');
         views[name].classList.remove('hidden-view');
         navButtons.forEach(btn => {
             btn.classList.remove('bg-purple-600', 'text-white');
@@ -129,49 +120,39 @@ window.addEventListener('load', () => {
                 btn.classList.remove('text-gray-300', 'hover:bg-gray-700', 'hover:text-white');
             }
         });
-        if (name === 'home-page' || name === 'game') {
-            startShootingStars();
-        } else {
-            stopShootingStars();
-        }
-        if (name === 'home-page') {
-            startShowcase();
-        } else {
-            clearInterval(showcaseInterval);
-        }
+        if (name === 'home-page' || name === 'game') startShootingStars();
+        else stopShootingStars();
+        if (name === 'home-page') startShowcase();
+        else clearInterval(showcaseInterval);
         if (name === 'games') {
             searchInput.value = '';
             filterGames('');
         }
     };
-    
+
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
     let animationFrameId;
-    
+
     const resizeCanvas = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     };
-    
+
     class Particle {
-        constructor(x, y) {
-            this.x = x || Math.random() * canvas.width;
-            this.y = y || Math.random() * canvas.height;
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
             this.radius = Math.random() * 1.5 + 0.5;
             this.color = 'rgba(255, 255, 255, 0.8)';
-            this.velocity = {
-                x: (Math.random() - 0.5) * 0.2,
-                y: (Math.random() - 0.5) * 0.2
-            };
+            this.velocity = { x: (Math.random() - 0.5) * 0.2, y: (Math.random() - 0.5) * 0.2 };
         }
         draw() {
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
             ctx.fillStyle = this.color;
             ctx.fill();
-            ctx.closePath();
         }
         update() {
             this.x += this.velocity.x;
@@ -180,37 +161,35 @@ window.addEventListener('load', () => {
             if (this.y < 0 || this.y > canvas.height) this.velocity.y = -this.velocity.y;
         }
     }
-    
-    const initParticles = (count) => {
+
+    const initParticles = count => {
         particles = [];
-        for (let i = 0; i < count; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < count; i++) particles.push(new Particle());
     };
-    
+
     const animateParticles = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 100) {
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+            particles.forEach(q => {
+                if (p === q) return;
+                const dx = p.x - q.x;
+                const dy = p.y - q.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 100) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(139, 92, 246, ${1 - distance / 100})`;
+                    ctx.strokeStyle = `rgba(139, 92, 246, ${1 - dist / 100})`;
                     ctx.lineWidth = 0.5;
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(q.x, q.y);
                     ctx.stroke();
-                    ctx.closePath();
                 }
-            }
-        }
+            });
+        });
         animationFrameId = requestAnimationFrame(animateParticles);
     };
-    
+
     const toggleParticles = (enabled, count) => {
         if (enabled) {
             canvas.style.display = 'block';
@@ -220,190 +199,262 @@ window.addEventListener('load', () => {
             canvas.style.display = 'none';
             cancelAnimationFrame(animationFrameId);
         }
-        localStorage.setItem('particlesEnabled', enabled ? 'true' : 'false');
+        localStorage.setItem('particlesEnabled', enabled);
         localStorage.setItem('particleCount', count);
     };
-    
+
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    
-    const savedParticles = localStorage.getItem('particlesEnabled');
-    const savedParticleCount = parseInt(localStorage.getItem('particleCount')) || 50;
-    const particlesEnabled = savedParticles ? savedParticles === 'true' : true;
-    particlesToggle.checked = particlesEnabled;
-    particleDensity.value = savedParticleCount;
-    particleDensityValue.textContent = savedParticleCount;
-    toggleParticles(particlesEnabled, savedParticleCount);
-    
-    particleDensity.addEventListener('input', (e) => {
+
+    const savedParticles = localStorage.getItem('particlesEnabled') !== 'false';
+    const savedCount = parseInt(localStorage.getItem('particleCount')) || 50;
+    particlesToggle.checked = savedParticles;
+    particleDensity.value = savedCount;
+    particleDensityValue.textContent = savedCount;
+    toggleParticles(savedParticles, savedCount);
+
+    particleDensity.addEventListener('input', e => {
         particleDensityValue.textContent = e.target.value;
-        if (particlesToggle.checked) {
-            toggleParticles(true, parseInt(e.target.value));
-        }
+        if (particlesToggle.checked) toggleParticles(true, e.target.value);
     });
-    
-    particlesToggle.addEventListener('change', (e) => {
-        toggleParticles(e.target.checked, parseInt(particleDensity.value));
-    });
-    
+
+    particlesToggle.addEventListener('change', e => toggleParticles(e.target.checked, particleDensity.value));
+
     const savedVolume = localStorage.getItem('gameVolumeMuted') === 'true';
     gameVolumeToggle.checked = savedVolume;
     gameIframe.volume = savedVolume ? 0 : 1;
-    
-    gameVolumeToggle.addEventListener('change', (e) => {
+    gameVolumeToggle.addEventListener('change', e => {
         gameIframe.volume = e.target.checked ? 0 : 1;
-        localStorage.setItem('gameVolumeMuted', e.target.checked ? 'true' : 'false');
+        localStorage.setItem('gameVolumeMuted', e.target.checked);
     });
-    
-    const savedPerformance = localStorage.getItem('performanceMode') === 'true';
-    performanceToggle.checked = savedPerformance;
-    if (savedPerformance) {
+
+    const savedPerf = localStorage.getItem('performanceMode') === 'true';
+    performanceToggle.checked = savedPerf;
+    if (savedPerf) {
         toggleParticles(false, 10);
         stopShootingStars();
         showcaseSpeed.value = '5000';
-        clearInterval(showcaseInterval);
-        if (views['home-page'] && !views['home-page'].classList.contains('hidden-view')) {
-            startShowcase();
-        }
     }
-    
-    performanceToggle.addEventListener('change', (e) => {
-        localStorage.setItem('performanceMode', e.target.checked ? 'true' : 'false');
+    performanceToggle.addEventListener('change', e => {
+        localStorage.setItem('performanceMode', e.target.checked);
         if (e.target.checked) {
             toggleParticles(false, 10);
             stopShootingStars();
             showcaseSpeed.value = '5000';
-            clearInterval(showcaseInterval);
-            if (views['home-page'] && !views['home-page'].classList.contains('hidden-view')) {
-                startShowcase();
-            }
         } else {
-            toggleParticles(particlesToggle.checked, parseInt(particleDensity.value));
-            if (views['home-page'] && !views['home-page'].classList.contains('hidden-view')) {
-                startShootingStars();
-            }
+            toggleParticles(particlesToggle.checked, particleDensity.value);
+            if (!views['home-page'].classList.contains('hidden-view')) startShootingStars();
         }
     });
-    
-    const savedShowcaseSpeed = localStorage.getItem('showcaseSpeed') || '2000';
-    showcaseSpeed.value = savedShowcaseSpeed;
-    
-    showcaseSpeed.addEventListener('change', (e) => {
+
+    const savedSpeed = localStorage.getItem('showcaseSpeed') || '2000';
+    showcaseSpeed.value = savedSpeed;
+    showcaseSpeed.addEventListener('change', e => {
         clearInterval(showcaseInterval);
-        if (views['home-page'] && !views['home-page'].classList.contains('hidden-view')) {
-            startShowcase();
-        }
+        if (!views['home-page'].classList.contains('hidden-view')) startShowcase();
         localStorage.setItem('showcaseSpeed', e.target.value);
     });
-    
-    navButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const targetView = e.target.dataset.view;
-            showView(targetView);
+
+    navButtons.forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
+
+    const favoritesKey = 'impGamesFavs';
+    const recentKey = 'impGamesRecent';
+    let favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
+    let recent = JSON.parse(localStorage.getItem(recentKey)) || [];
+
+    const saveFavs = () => localStorage.setItem(favoritesKey, JSON.stringify(favorites));
+    const saveRecent = () => localStorage.setItem(recentKey, JSON.stringify(recent.slice(0,50)));
+
+    const isFavorited = url => favorites.includes(url);
+
+    const toggleFavorite = (url, btn) => {
+        const i = favorites.indexOf(url);
+        if (i === -1) {
+            favorites.push(url);
+            btn.classList.add('favorited');
+            btn.innerHTML = '<i class="fas fa-heart"></i>';
+        } else {
+            favorites.splice(i, 1);
+            btn.classList.remove('favorited');
+            btn.innerHTML = '<i class="far fa-heart"></i>';
+        }
+        saveFavs();
+        if (!views['favorites'].classList.contains('hidden-view')) renderFavorites();
+    };
+
+    const addRecent = (url, title, img) => {
+        recent = recent.filter(g => g.url !== url);
+        recent.unshift({url, title, img});
+        saveRecent();
+        if (!views['recent'].classList.contains('hidden-view')) renderRecent();
+    };
+
+    const createGameBox = game => {
+        const box = document.createElement('div');
+        box.className = 'game-box';
+        box.dataset.url = game.url;
+        box.dataset.title = game.title;
+        box.dataset.img = game.img;
+        box.innerHTML = `
+            <img src="${game.img}" loading="lazy">
+            <div class="game-title">${game.title}</div>
+            <div class="favorite-btn"><i class="${isFavorited(game.url)?'fas':'far'} fa-heart"></i></div>
+        `;
+        const favBtn = box.querySelector('.favorite-btn');
+        favBtn.onclick = e => {
+            e.stopPropagation();
+            toggleFavorite(game.url, favBtn);
+        };
+        box.onclick = e => {
+            if (e.target.closest('.favorite-btn')) return;
+            handleGameClick(game.url);
+            addRecent(game.url, game.title, game.img);
+        };
+        return box;
+    };
+
+    const renderFavorites = () => {
+        const wrapper = document.getElementById('favorites-wrapper');
+        wrapper.innerHTML = '';
+        const favGames = [...document.querySelectorAll('.game-box')].filter(b => favorites.includes(b.dataset.url));
+        if (!favGames.length) {
+            wrapper.innerHTML = '<p class="text-center text-gray-400 py-8">No favorites yet</p>';
+            return;
+        }
+        let row;
+        favGames.forEach((orig, i) => {
+            if (i % 5 === 0) {
+                row = document.createElement('div');
+                row.className = 'five-box-row';
+                wrapper.appendChild(row);
+            }
+            const data = {url: orig.dataset.url, title: orig.dataset.title, img: orig.dataset.img};
+            row.appendChild(createGameBox(data));
         });
-    });
-    
-    // --- THIS IS THE CLICK HANDLER LOGIC ---
-    const handleGameClick = (url) => {
+    };
+
+    const renderRecent = () => {
+        const wrapper = document.getElementById('recent-wrapper');
+        wrapper.innerHTML = '';
+        if (!recent.length) {
+            wrapper.innerHTML = '<p class="text-center text-gray-400 py-8">No recently played games</p>';
+            return;
+        }
+        let row;
+        recent.forEach((game, i) => {
+            if (i % 5 === 0) {
+                row = document.createElement('div');
+                row.className = 'five-box-row';
+                wrapper.appendChild(row);
+            }
+            row.appendChild(createGameBox(game));
+        });
+    };
+
+    const handleGameClick = url => {
         if (!url) return;
-        
-        // If it's a link to your own github.io page, load it in the iframe
         if (url.startsWith('https://iisilly1059.github.io') || !url.startsWith('http')) {
-            
-            // Show the loader
             gameLoader.classList.add('active');
             gameIframe.src = url;
             showView('game');
-            
-            // --- Hide the loader after 5 seconds (5000ms) ---
-            setTimeout(() => {
-                gameLoader.classList.remove('active');
-            }, 5000); // 5seconds
-            
+            setTimeout(() => gameLoader.classList.remove('active'), 10000);
         } else {
-            // For external links (like krunker.io), open in a new tab
             window.open(url, '_blank');
         }
     };
-    
-    // --- THIS IS THE CLICK EVENT LISTENER ---
-    gameBoxes.forEach(box => {
-        box.addEventListener('click', () => {
+
+    document.querySelectorAll('.game-box').forEach(box => {
+        const favBtn = box.querySelector('.favorite-btn');
+        if (!favBtn) {
+            const btn = document.createElement('div');
+            btn.className = 'favorite-btn';
+            btn.innerHTML = `<i class="${isFavorited(box.dataset.url)?'fas':'far'} fa-heart"></i>`;
+            if (isFavorited(box.dataset.url)) btn.classList.add('favorited');
+            btn.onclick = e => {
+                e.stopPropagation();
+                toggleFavorite(box.dataset.url, btn);
+            };
+            box.appendChild(btn);
+        } else {
+            favBtn.onclick = e => {
+                e.stopPropagation();
+                toggleFavorite(box.dataset.url, favBtn);
+            };
+            if (isFavorited(box.dataset.url)) favBtn.classList.add('favorited');
+        }
+        box.onclick = e => {
+            if (e.target.closest('.favorite-btn')) return;
             handleGameClick(box.dataset.url);
-        });
+            addRecent(box.dataset.url, box.dataset.title, box.dataset.img);
+        };
     });
-    // --- END OF CLICK LOGIC ---
-    
-    
-    // --- FULLSCREEN BUTTON ---
+
     document.getElementById('fullscreen-btn-game').addEventListener('click', () => {
-        if (gameIframe.requestFullscreen) {
-            gameIframe.requestFullscreen();
-        } else if (gameIframe.mozRequestFullScreen) { // Firefox
-            gameIframe.mozRequestFullScreen();
-        } else if (gameIframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
-            gameIframe.webkitRequestFullscreen();
-        } else if (gameIframe.msRequestFullscreen) { // IE/Edge
-            gameIframe.msRequestFullscreen();
-        }
+        if (gameIframe.requestFullscreen) gameIframe.requestFullscreen();
+        else if (gameIframe.webkitRequestFullscreen) gameIframe.webkitRequestFullscreen();
+        else if (gameIframe.msRequestFullscreen) gameIframe.msRequestFullscreen();
     });
-    // --- END OF FULLSCREEN BUTTON ---
-    
+
     const themeOptions = document.querySelectorAll('.theme-option');
-    const body = document.body;
-    
-    const applyTheme = (theme) => {
-        body.setAttribute('data-theme', theme);
+    const applyTheme = theme => {
+        document.body.setAttribute('data-theme', theme);
         localStorage.setItem('selectedTheme', theme);
-        themeOptions.forEach(opt => {
-            opt.classList.toggle('active', opt.dataset.theme === theme);
-        });
-        if (views['home-page'] && !views['home-page'].classList.contains('hidden-view') && (theme === 'galaxy' || theme === 'dark')) {
-            stopShootingStars();
-            startShootingStars();
-        }
+        themeOptions.forEach(o => o.classList.toggle('active', o.dataset.theme === theme));
     };
-    
-    themeOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            applyTheme(option.dataset.theme);
-        });
-    });
-    
-    const savedTheme = localStorage.getItem('selectedTheme') || 'dark';
-    applyTheme(savedTheme);
-    
-    const filterGames = (searchTerm) => {
-        const lowerCaseSearch = searchTerm.toLowerCase();
+    themeOptions.forEach(o => o.addEventListener('click', () => applyTheme(o.dataset.theme)));
+    applyTheme(localStorage.getItem('selectedTheme') || 'dark');
+
+    const filterGames = term => {
+        const lower = term.toLowerCase();
         gameBoxWrapper.innerHTML = '';
-        let currentRow = null;
-        let boxCount = 0;
+        let row = null;
+        let count = 0;
         gameBoxes.forEach(box => {
-            const title = box.dataset.title.toLowerCase();
-            if (!lowerCaseSearch || title.includes(lowerCaseSearch)) {
-                if (boxCount % 5 === 0) {
-                    currentRow = document.createElement('div');
-                    currentRow.className = 'five-box-row';
-                    gameBoxWrapper.appendChild(currentRow);
+            if (!term || box.dataset.title.toLowerCase().includes(lower)) {
+                if (count % 5 === 0) {
+                    row = document.createElement('div');
+                    row.className = 'five-box-row';
+                    gameBoxWrapper.appendChild(row);
                 }
-                const clonedBox = box.cloneNode(true);
-                
-                // --- THIS IS THE CLICK HANDLER FOR SEARCH RESULTS ---
-                clonedBox.addEventListener('click', () => {
-                    handleGameClick(clonedBox.dataset.url);
+                const clone = box.cloneNode(true);
+                clone.onclick = e => {
+                    if (e.target.closest('.favorite-btn')) return;
+                    handleGameClick(clone.dataset.url);
+                    addRecent(clone.dataset.url, clone.dataset.title, clone.dataset.img);
+                };
+                clone.querySelector('.favorite-btn')?.addEventListener('click', ev => {
+                    ev.stopPropagation();
+                    toggleFavorite(clone.dataset.url, ev.target.closest('.favorite-btn'));
                 });
-                // --- END OF CLICK HANDLER ---
-                
-                currentRow.appendChild(clonedBox);
-                boxCount++;
+                row.appendChild(clone);
+                count++;
             }
         });
     };
-    
-    searchInput.addEventListener('input', (e) => {
-        filterGames(e.target.value);
+    searchInput.addEventListener('input', e => filterGames(e.target.value));
+
+    document.querySelectorAll('[data-view="favorites"], [data-view="recent"]').forEach(b => {
+        b.addEventListener('click', () => {
+            showView(b.dataset.view === 'favorites' ? 'favorites' : 'recent');
+            if (b.dataset.view === 'favorites') renderFavorites();
+            if (b.dataset.view === 'recent') renderRecent();
+        });
     });
-    
+
+    document.getElementById('favorites-search')?.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('#favorites-wrapper .game-box').forEach(b => {
+            b.style.display = b.dataset.title.toLowerCase().includes(term) ? '' : 'none';
+        });
+    });
+
+    document.getElementById('recent-search')?.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('#recent-wrapper .game-box').forEach(b => {
+            b.style.display = b.dataset.title.toLowerCase().includes(term) ? '' : 'none';
+        });
+    });
+
     const panicToggle = document.getElementById('panic-toggle');
     const panicOptions = document.getElementById('panic-options');
     const panicKeyInput = document.getElementById('panic-key-input');
@@ -416,247 +467,126 @@ window.addEventListener('load', () => {
     const openAboutBlankBtn = document.getElementById('open-about-blank-btn');
     const homeAboutBlankBtn = document.getElementById('home-about-blank-btn');
     const resetSettingsBtn = document.getElementById('reset-settings');
-    
+
     let panicKey = null;
     let panicURL = 'https://docs.google.com';
-    
-    const panicHandler = (event) => {
-        if (panicToggle.checked && panicKey && event.key.toUpperCase() === panicKey) {
+
+    document.addEventListener('keydown', e => {
+        if (panicToggle?.checked && panicKey && e.key.toUpperCase() === panicKey) {
             window.location.replace(panicURL);
         }
-    };
-    document.addEventListener('keydown', panicHandler);
-    
+    });
+
     const loadSettings = () => {
-        const savedPanicEnabled = localStorage.getItem('panicEnabled') === 'true';
-        panicToggle.checked = savedPanicEnabled;
-        panicOptions.classList.toggle('hidden', !savedPanicEnabled);
-        
-        const savedPanicKey = localStorage.getItem('panicKey');
-        if (savedPanicKey) {
-            panicKey = savedPanicKey;
-            panicKeyInput.value = `Key: ${savedPanicKey}`;
-        } else {
-            panicKeyInput.value = '';
+        panicToggle.checked = localStorage.getItem('panicEnabled') === 'true';
+        panicOptions.classList.toggle('hidden', !panicToggle.checked);
+        panicKey = localStorage.getItem('panicKey') || null;
+        panicKeyInput.value = panicKey ? `Key: ${panicKey}` : '';
+        panicURL = localStorage.getItem('panicURL') || 'https://docs.google.com';
+        panicUrlInput.value = panicURL;
+
+        const title = localStorage.getItem('siteTitle');
+        if (title) {
+            document.title = title;
+            siteTitleInput.value = title;
         }
-        
-        const savedPanicUrl = localStorage.getItem('panicURL');
-        if (savedPanicUrl) {
-            panicURL = savedPanicUrl;
-            panicUrlInput.value = savedPanicUrl;
-        } else {
-            panicUrlInput.value = panicURL;
-        }
-        
-        const savedTitle = localStorage.getItem('siteTitle');
-        if (savedTitle) {
-            document.title = savedTitle;
-            siteTitleInput.value = savedTitle;
-        }
-        
-        const savedFavicon = localStorage.getItem('siteFavicon');
-        if (savedFavicon) {
-            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            link.type = 'image/x-icon';
+
+        const favicon = localStorage.getItem('siteFavicon');
+        if (favicon) {
+            let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
             link.rel = 'shortcut icon';
-            link.href = savedFavicon;
-            document.getElementsByTagName('head')[0].appendChild(link);
+            link.href = favicon;
+            document.head.appendChild(link);
             currentLogoSpan.textContent = 'Custom';
-        } else {
-            currentLogoSpan.textContent = 'none';
         }
     };
-    
+
     const saveSettings = () => {
         localStorage.setItem('panicEnabled', panicToggle.checked);
         if (panicKey) {
             localStorage.setItem('panicKey', panicKey);
             localStorage.setItem('panicURL', panicUrlInput.value || 'https://docs.google.com');
             panicURL = panicUrlInput.value || 'https://docs.google.com';
-            panicStatus.textContent = 'Saved!';
-            panicStatus.classList.remove('hidden');
-            setTimeout(() => panicStatus.classList.add('hidden'), 2000);
         }
-        
-        const newTitle = siteTitleInput.value.trim();
-        if (newTitle) {
-            document.title = newTitle;
-            localStorage.setItem('siteTitle', newTitle);
+        const title = siteTitleInput.value.trim();
+        if (title) {
+            document.title = title;
+            localStorage.setItem('siteTitle', title);
         } else {
-            document.title = "Silly funness";
+            document.title = "Imp Games";
             localStorage.removeItem('siteTitle');
         }
+        panicStatus.classList.remove('hidden');
+        setTimeout(() => panicStatus.classList.add('hidden'), 2000);
     };
-    
-    // --- FIXED 'about:blank' logic ---
+
     const openAboutBlank = () => {
-        const newWindow = window.open('about:blank', '_blank');
-        if (newWindow) {
-            try {
-                newWindow.document.write(`<html><head><title>${document.title}</title><link rel="shortcut icon" href="${document.querySelector("link[rel*='icon']") ? document.querySelector("link[rel*='icon']").href : 'none'}" type="image/x-icon"></head><body><iframe style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="${window.location.href}"></iframe></body></html>`);
-                // window.close(); // This line might be too aggressive
-            } catch (e) {
-                newWindow.close();
-                alert("Could not open in about:blank. This might be blocked by your browser's security settings.");
-            }
-        } else {
-            alert("Pop-up blocked! Please allow pop-ups for this site to use the about:blank feature.");
+        const win = window.open('about:blank', '_blank');
+        if (win) {
+            const favicon = document.querySelector("link[rel*='icon']")?.href || '';
+            win.document.write(`
+                <html>
+                    <head><title>${document.title}</title><link rel="icon" href="${favicon}"></head>
+                    <body style="margin:0">
+                        <iframe style="position:fixed;top:0;left:0;width:100%;height:100%;border:none" src="${location.href}"></iframe>
+                    </body>
+                </html>
+            `);
         }
     };
-    // --- END OF 'about:blank' FIX ---
-    
-    const handlePanicKeydown = (event) => {
-        event.preventDefault();
-        const key = event.key.toUpperCase();
-        if (key.length === 1 && !event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey) {
-            panicKey = key;
-            panicKeyInput.value = `Key: ${key}`;
-            panicKeyInput.blur();
-        } else if (key === 'BACKSPACE' || key === 'DELETE') {
-            panicKey = null;
-            panicKeyInput.value = '';
-        }
-    };
-    
-    panicToggle.addEventListener('change', (e) => {
+
+    panicToggle.addEventListener('change', e => {
         panicOptions.classList.toggle('hidden', !e.target.checked);
         localStorage.setItem('panicEnabled', e.target.checked);
     });
-    
+
     panicKeyInput.addEventListener('focus', () => {
-        panicKeyInput.value = 'Press a key (A-Z)...';
-        panicKeyInput.addEventListener('keydown', handlePanicKeydown, { once: true });
+        panicKeyInput.value = 'Press key...';
+        const handler = e => {
+            e.preventDefault();
+            if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
+                panicKey = e.key.toUpperCase();
+                panicKeyInput.value = `Key: ${panicKey}`;
+            }
+            panicKeyInput.removeEventListener('keydown', handler);
+        };
+        panicKeyInput.addEventListener('keydown', handler);
     });
-    
-    panicKeyInput.addEventListener('blur', () => {
-        panicKeyInput.removeEventListener('keydown', handlePanicKeydown);
-        if (panicKey) {
-            panicKeyInput.value = `Key: ${panicKey}`;
-        } else {
-            panicKeyInput.value = '';
-        }
-    });
-    
+
     savePanicBtn.addEventListener('click', saveSettings);
     siteTitleInput.addEventListener('input', saveSettings);
-    
-    siteLogoInput.addEventListener('change', (e) => {
+
+    siteLogoInput.addEventListener('change', e => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(event) {
-                const faviconBase64 = event.target.result;
-                localStorage.setItem('siteFavicon', faviconBase64);
+            reader.onload = ev => {
+                localStorage.setItem('siteFavicon', ev.target.result);
                 loadSettings();
             };
             reader.readAsDataURL(file);
         }
     });
-    
+
     openAboutBlankBtn.addEventListener('click', openAboutBlank);
     homeAboutBlankBtn.addEventListener('click', openAboutBlank);
-    
+
     resetSettingsBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to reset all settings?')) {
-            localStorage.removeItem('panicEnabled');
-            localStorage.removeItem('panicKey');
-            localStorage.removeItem('panicURL');
-            localStorage.removeItem('siteTitle');
-            localStorage.removeItem('siteFavicon');
-            localStorage.removeItem('selectedTheme');
-            localStorage.removeItem('particlesEnabled');
-            localStorage.removeItem('particleCount');
-            localStorage.removeItem('gameVolumeMuted');
-            localStorage.removeItem('showcaseSpeed');
-            localStorage.removeItem('performanceMode');
-            window.location.reload();
+        if (confirm('Reset all settings?')) {
+            localStorage.clear();
+            location.reload();
         }
     });
-    
-    tabButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            tabButtons.forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            tabPanels.forEach(p => p.classList.remove('active'));
-            document.getElementById(e.target.dataset.tab + '-tab').classList.add('active');
-        });
-    });
-    
+
+    tabButtons.forEach(btn => btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab + '-tab').classList.add('active');
+    }));
+
     loadSettings();
     showView('home-page');
-    
-    // --- FPS COUNTER LOGIC (MOVED TO A SAFER PLACE) ---
-    let lastCalledTime = Date.now();
-    let fps = 0;
-    
-    function updateFPS() {
-        const delta = (Date.now() - lastCalledTime) / 1000;
-        lastCalledTime = Date.now();
-        fps = Math.round(1 / delta);
-        if (fpsDisplay) { // Check if fpsDisplay exists
-            fpsDisplay.textContent = `FPS: ${fps}`;
-        }
-        requestAnimationFrame(updateFPS);
-    }
-    requestAnimationFrame(updateFPS);
-    // --- END FPS COUNTER ---
-});
-// ————— SMOOTH FADE-IN WHEN SCROLLING TO GAMES —————
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('li, .game-item').forEach(item => {
-  item.style.opacity = '0';
-  item.style.transform = 'translateY(25px)';
-  item.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  observer.observe(item);
-});
-
-// ————— SMOOTH FADE WHEN SWITCHING TABS —————
-function openTab(tabName) {
-  const tabs = document.querySelectorAll('.tab-content');
-  
-  // Fade out all tabs first
-  tabs.forEach(tab => {
-    tab.style.opacity = '0';
-    tab.style.transition = 'opacity 0.4s ease';
-  });
-
-  setTimeout(() => {
-    // Hide all + show the clicked one
-    tabs.forEach(tab => tab.classList.remove('active'));
-    document.getElementById(tabName).classList.add('active');
-
-    // Fade in the new tab
-    document.getElementById(tabName).style.opacity = '1';
-
-    // Update button highlight
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-  }, 400);
-}
-// ————— NEW: ENSURE PAGE FADES ON LOAD —————
-function initPageFade() {
-  document.body.style.opacity = '1'; // In case CSS didn't trigger
-}
-
-// Run everything when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  initScrollFades();
-  initPageFade();
-  // Call your original init if any (e.g., load active tab)
-  openTab('games', {target: document.querySelector('.tab-button[onclick*="games"]')}); // Default to games tab
-});
-// button that opens the game in a new tab ty petezah for telling me
-document.getElementById('newtab-btn-game').addEventListener('click', () => {
-    const gameUrl = document.getElementById('game-iframe').src;
-    if (gameUrl && gameUrl !== '') {
-        window.open(gameUrl, '_blank');
-    }
+    renderFavorites();
+    renderRecent();
 });
