@@ -315,13 +315,12 @@ window.addEventListener('load', () => {
             gameIframe.src = url;
             showView('game');
             
-            // --- Hide the loader after 5 seconds (5000ms) ---
+            // --- Hide the loader after 10 seconds---
             setTimeout(() => {
                 gameLoader.classList.remove('active');
-            }, 5000); // 5seconds
+            }, 10000); // 10seconds
             
         } else {
-            // For external links (like krunker.io), open in a new tab
             window.open(url, '_blank');
         }
     };
