@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal | Abyss Network</title>
+    <meta property="og:title" content="Legal | Abyss Network" />
+    <meta property="og:description" content="Privacy Policy and DMCA information." />
+    <link rel="icon" type="image/png" href="games/img/imp-games.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-bg: #000000;
+            --color-text: #ffffff;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html, body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #000000 !important;
+            color: var(--color-text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            max-width: 95%;
+            padding: 3rem 2rem;
+            max-height: 100vh;
+            overflow-y: auto;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 30px rgb(150, 147, 147);
+        }
+        .update {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin: 0.5rem 0;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-button {
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: rgb(33, 33, 33);
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+        .nav-button.active {
+            background: #333;
+            color: #ffffff;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgb(255, 255, 255);
+        }
+        .policy-content {
+            text-align: left;
+            background: rgb(0, 0, 0);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 1100px;
+            width: 100%;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+        .policy-content p {
+            text-align: center;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .policy-content ul {
+            padding-left: 2rem;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 800px;
+        }
+        .policy-content li {
+            text-align: left;
+        }
+        .policy-content h2 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin: 2.5rem 0 1rem;
+            text-align: center;
+            text-shadow: 0 0 20px rgb(255, 255, 255);
+        }
+        .policy-content h2:first-child {
+            margin-top: 0;
+        }
+        .policy-content a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .important {
+            text-decoration: underline;
+            font-weight: bold;
+            color: #0099ff;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            .content { padding: 2rem 1rem; }
+            .policy-content { 
+                padding: 1.5rem; 
+                max-width: 95%; 
+                font-size: 1rem;
+            }
+            .policy-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+        <h1>Legal</h1>
+        <a href="https://studythemes.com/" style="color:#ffffff; font-size:1.2em;">← Return to the site</a>
+        <p class="update">Last Updated & Effective: December 23, 2025</p>
+
+        <div class="nav-buttons">
+            <button id="privacy-btn" class="nav-button active">Privacy Policy</button>
+            <button id="dmca-btn" class="nav-button">DMCA Policy</button>
+        </div>
+
+        <div id="privacy-content" class="policy-content">
+            <h2>Privacy Policy</h2>
+            <p class="update" style="font-size:0.9em; opacity:0.8;">Updated as of December 23, 2025</p>
+            <p>Your <span class="important">privacy is important to us</span>. This Privacy Policy explains how we collect, use, and protect your data when you visit Abyss Network.</p>
+
+            <h2>1. Information We Collect</h2>
+            <p>We collect the following types of data:</p>
+            <ul>
+                <li><strong>Anonymous Usage Data:</strong> Data on how you interact with our site (e.g., pages visited, time spent).</li>
+                <li><strong>Cookies and Similar Technologies:</strong> We and our partners use <span class="important">cookies</span>, local storage, and tracking pixels for analytics and advertising.</li>
+                <li><strong>Game Request Form:</strong> If you submit a game request via our embedded Google Form and choose to provide your <span class="important">email address</span> (optional), we collect it along with your request details.</li>
+            </ul>
+
+            <h2>2. Game Request Form</h2>
+            <p>Our Google Form for game requests is optional. If you provide your email, we use it only to contact you about your request (e.g., when the game is added). We do not use it for marketing or share it with third parties. Responses are stored in Google Drive and subject to <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</p>
+
+            <h2>3. Sensitive Personal Information</h2>
+            <p>We do not collect or process any <span class="important">sensitive personal information</span> (e.g., racial or ethnic origin, political opinions, religious beliefs, health data).</p>
+
+            <h2>4. Analytics</h2>
+            <p>We use <span class="important">Google Analytics</span> to improve site performance. Learn more: <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></p>
+
+            <h2>5. Advertising</h2>
+            <p>We display ads from:</p>
+            <ul>
+                <li><strong>Adsterra:</strong> Currently active on the site.</li>
+                <li><strong>Google AdSense:</strong> Planned for future use.</li>
+            </ul>
+            <p>Opt out of personalized ads: <a href="https://adssettings.google.com" target="_blank">Google Ads Settings</a> or <a href="https://www.youradchoices.com/" target="_blank">youradchoices.com</a></p>
+
+            <h2>6. Third-Party Websites</h2>
+            <p>Our site may link to or embed content from third-party websites and games. We are not responsible for their privacy practices or content. Please review their policies before use.</p>
+
+            <h2>7. How We Use Your Data</h2>
+            <p>Anonymous data helps us improve the site, analyze traffic, and display relevant ads. Form emails are used only to respond to your game requests.</p>
+
+            <h2>8. Data Security & Retention</h2>
+            <p>We implement reasonable technical and organizational measures to protect your data. However, no internet transmission or storage system is 100% secure. Anonymous data follows third-party retention policies. Form responses are kept only as long as needed.</p>
+
+            <h2>9. Cookies & How to Manage Them</h2>
+            <p>You can manage or block cookies in your browser settings. This may affect ad personalization or site features.</p>
+
+            <h2>11. Your Rights</h2>
+            <p>You can opt out of cookies/ads via the links above or contact us to access/delete your form data.</p>
+
+            <h2>12. Changes to This Policy</h2>
+            <p>We may <span class="important">update this policy</span> as needed. Changes will be posted here with a new date.</p>
+
+            <h2>13. Contact Us</h2>
+            <p>For questions, contact: <a href="mailto:impgamessuppo@gmail.com">impgamessuppo@gmail.com</a></p>
+            <p>Or dm in discord <span class="important">iisilly_</span>
+        </div>
+
+        <div id="dmca-content" class="policy-content" style="display:none;">
+            <h2>DMCA Takedown Notice</h2>
+            <p>If you believe that any <span class="important">copyright infringement</span> exists on the Site, please use the following process to notify us. We will act expeditiously to remove infringing material once informed.</p>
+            <p><strong>Email:</strong> <span class="important">impgamessuppo@gmail.com</span></p>
+            <p><strong>or dm me in discord</strong> <span class="important">iisilly_</span></p>
+            <p>Your notice must contain the following information:</p>
+            <ul>
+                <li>Your physical or electronic signature (as either the owner of an exclusive right that is allegedly infringed or as a person authorized to act on behalf of such owner).</li>
+                <li>Identification of the <span class="important">copyrighted work</span> claimed to have been infringed or, if multiple copyrighted works at a single online site are covered by a single claim, a representative list of such works at that online site.</li>
+                <li>Identification of the material that is claimed to be infringing or to be the subject of infringing activity and that is to be removed or access to which is to be disabled, and information reasonably sufficient to permit us to locate the material.</li>
+                <li>Information reasonably sufficient to permit us to contact you, such as an address, telephone number and, if available, an electronic mail address.</li>
+                <li>A statement that you believe in good faith that use of the material in the manner complained of is not authorized by the copyright owner, its agent or the law.</li>
+                <li>A statement that the information in the notice is accurate and that, under penalty of perjury, you are the owner of an exclusive right that is allegedly infringed or are authorized to act on behalf of such owner.</li>
+            </ul>
+            <p>Once we are informed, we will <span class="important">get the content off as soon as we can</span>.</p>
+            <p>Note: Submitting false or misleading claims may result in <span class="important">liability for damages</span> under applicable law.</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        let particles = [];
+        const numParticles = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.4 + 0.4;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        document.getElementById('privacy-btn').addEventListener('click', () => {
+            document.getElementById('privacy-content').style.display = 'block';
+            document.getElementById('dmca-content').style.display = 'none';
+            document.getElementById('privacy-btn').classList.add('active');
+            document.getElementById('dmca-btn').classList.remove('active');
+        });
+
+        document.getElementById('dmca-btn').addEventListener('click', () => {
+            document.getElementById('dmca-content').style.display = 'block';
+            document.getElementById('privacy-content').style.display = 'none';
+            document.getElementById('dmca-btn').classList.add('active');
+            document.getElementById('privacy-btn').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

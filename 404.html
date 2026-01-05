@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 Not Found | Abyss Network</title>
+    <meta property="og:title" content="404 - Page Not Found | Abyss Network" />
+    <meta property="og:description" content="This page doesn't exist. Also if u read this your a real one." />
+    <link rel="icon" type="image/png" href="games/img/imp-games.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-bg: #000000;
+            --color-text: #ffffff;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html, body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #000000 !important;
+            color: var(--color-text);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            max-width: 90%;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .code {
+            font-size: 11rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, #000000, #ffffff, #000000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 50px rgba(255,255,255,0.2);
+            animation: glow 4s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 50px rgba(255,255,255,0.2); }
+            to   { text-shadow: 0 0 80px rgba(255,255,255,0.4); }
+        }
+        h2 {
+            font-size: 3rem;
+            margin: 0;
+            color: #ffffff;
+            font-weight: 800;
+        }
+        p {
+            font-size: 1.6rem;
+            color: #ffffff;
+            max-width: 1000px;
+            line-height: 1.7;
+            margin: 0;
+        }
+        .btn {
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 2.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0f0f0f, #000000);
+            color: #ffffff;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: breathe-glow 6s infinite ease-in-out;
+        }
+        .btn::after {
+            content: "";
+            position: absolute;
+            width: 0; height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: width 0.6s ease-out, height 0.6s ease-out;
+            top: var(--y, 50%);
+            left: var(--x, 50%);
+        }
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 50px rgba(255,255,255,0.2);
+        }
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        @keyframes breathe-glow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.1); }
+            50%      { box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 50px rgba(255,255,255,0.2); }
+        }
+        @media (max-width: 768px) {
+            .code { font-size: 7rem; }
+            h2 { font-size: 2.2rem; }
+            p { 
+                font-size: 1.3rem; 
+                max-width: 95%;
+            }
+            .btn { padding: 0.9rem 2rem; font-size: 1.3rem; }
+            .content { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+        <h1 class="code">404</h1>
+        <h2>Page Not Found</h2>
+        <p>The page you're looking for doesn't exist or has been moved. If you believe this is an error, please let us know.</p>
+
+        <a href="https://studythemes.com/" class="btn"
+           onmousemove="this.style.setProperty('--x', event.offsetX + 'px'); this.style.setProperty('--y', event.offsetY + 'px');">
+            Back to Home
+        </a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        let particles = [];
+        const numParticles = 300;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.4 + 0.4;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>

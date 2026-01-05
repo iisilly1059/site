@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyThemes | Learn ELA</title>
+    <meta property="og:title" content="StudyThemes – Aesthetic & Functional Notion Templates" />
+    <meta property="og:description" content="Themes are the unifying, generalized statements about life or human nature that serve as the controlling idea or central insight of a work of literature." />
+    <meta property="og:url" content="https://studythemes.com/" />
+    <meta property="og:site_name" content="StudyThemes" />
+    <meta property="og:type" content="website" />
+    <meta name="google-adsense-account" content="ca-pub-7164184929971692">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ESCLX91T0"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8ESCLX91T0');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7164184929971692"
+     crossorigin="anonymous"></script>
+</head>
+<body data-theme="dark">
+    <canvas id="particle-canvas"></canvas>
+    <div class="content">
+<div class="flex h-screen">
+
+<button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 w-12 h-12 bg-gray-900 bg-opacity-80 backdrop-blur-xl rounded-xl flex items-center justify-center text-white shadow-xl border border-purple-500/30">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+</button>
+
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-20 bg-gray-900 bg-opacity-80 backdrop-blur-xl border-r border-purple-500/30 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col items-center">
+    <nav class="flex-1 w-full py-8 flex flex-col items-center">
+        <ul class="space-y-6 flex flex-col items-center">
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="home-page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="games">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gamepad2-icon lucide-gamepad-2"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="favorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-plus-icon lucide-heart-plus"><path d="m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"/><path d="M15 15h6"/><path d="M18 12v6"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="recent">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-plus-icon lucide-clock-plus"><path d="M12 6v6l3.644 1.822"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M21.92 13.267a10 10 0 1 0-8.653 8.653"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="extras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="proxy">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+                </button>
+            </li>
+            <li>
+                <button class="sidebar-btn nav-button w-16 h-16 flex items-center justify-center text-white rounded-xl" data-view="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </li>
+        </ul>
+
+<div class="mt-8 w-full flex flex-col items-center">
+            <hr class="w-10 mb-4">
+
+            <div class="social-links">
+                    <li>
+                        <a href="https://github.com/iisilly1059" target="_blank">
+                            <button class="sidebar-btn w-14 h-14 flex items-center justify-center text-white rounded-xl">
+                                <i class="fab fa-github text-2xl"></i>
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</aside>
+
+        <div id="home-page-view" class="view">
+        <div class="fixed top-0 left-0 right-0">
+                <div class="w-full flex justify-center">
+                    <script src="https://pl28333183.effectivegatecpm.com/14/dd/91/14dd9195642a03e8efef9991f5307409.js"></script>
+                </div>
+            </div>
+            <div class="fixed top-24 right-0 z-10 hidden md:block">
+                <script>
+                    atOptions = {
+                        'key' : '98bf47ef8565f3810e7383c6070e75d0',
+                        'format' : 'iframe',
+                        'height' : 600,
+                        'width' : 160,
+                        'params' : {}
+                    };
+                    document.write('<scr' + 'ipt src="//www.highcpmcreativeformat.com/98bf47ef8565f3810e7383c6070e75d0/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+    
+
+            <div class="home-left">
+                <div class="typewriter-container">
+                    <span class="static-text">Welcome to</span>
+                    <span id="gradient-word" class="gradient-word"></span>
+                </div>
+                <button onclick="showView('games')" class="play-btn">Play Gxmes!</button>
+                <div class="quote-container mt-8 text-center">
+                    <blockquote id="dynamic-quote" class="dynamic-text"></blockquote>
+                    <p id="dynamic-source" class="dynamic-source mt-2"></p>
+                        <p>Credits to Marki, Petezah, and Slayer for helping.</p>
+                </div>
+            </div>
+            <div class="home-right">
+                <div id="game-showcase" class="showcase-game">
+                    <img id="showcase-img" src="" alt="">
+                    <div id="showcase-title" class="showcase-title"></div>
+                </div>
+            </div>
+            <button id="home-about-blank-btn" class="about-blank-btn">about:blank Cloaker</button>
+        </div>
+
+        <div id="games-view" class="view hidden-view pt-6 h-full overflow-y-auto overflow-x-hidden">
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="text" id="game-search" placeholder="Search for your favorite gxmes..." autocomplete="off">
+                    <button class="clear-search-btn hidden" id="clear-search-btn" title="Clear search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    </button>
+                </div>
+                <div class="category-wrapper">
+                    <button id="category-dropdown-toggle" class="category-toggle">
+                        <span id="category-current-text">All Gxmes</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </button>
+                    <div id="category-dropdown-menu" class="category-menu hidden">
+                        <button class="category-option" data-category="all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                            <span>All Gxmes</span>
+                        </button>
+                        <button class="category-option" data-category="racing">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v8M4.93 4.93l4.24 4.24M2 12h8M4.93 19.07l4.24-4.24"/></svg>
+                            <span>Racing</span>
+                        </button>
+                        <button class="category-option" data-category="multiplayer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>Multiplayer</span>
+                        </button>
+                        <button class="category-option" data-category="action">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                            <span>Action / Sh00ting</span>
+                        </button>
+                        <button class="category-option" data-category="platformer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Platformer</span>
+                        </button>
+                        <button class="category-option" data-category="idle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>Idle / Incremental</span>
+                        </button>
+                        <div class="category-divider"></div>
+                        <button class="category-option" data-category="other">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            <span>Other</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-0 mb-4">
+                <p class="text-left text-gray-400 font-medium ml-16">275 gxmes</p>
+            <div id="game-box-wrapper" class="mx-auto space-y-200">
+            </div>
+        </div>
+    </div>
+
+        <div id="game-view" class="view hidden-view">
+            <div id="fps-counter" style="position: fixed; top: 10px; right: 10px; z-index: 9999; 
+            background: rgb(0, 0, 0); color: #ffffff; padding: 8px 12px; border-radius: 8px; 
+            font-family: 'Courier New', monospace; font-size: 14px; pointer-events: none; 
+            backdrop-filter: blur(4px); border: 1px solid rgb(0, 0, 0); display: none;">
+            FPS: <span id="fps-value">60</span>
+        </div>
+            <div id="game-loader" class="active">
+                <div class="spinner"></div>
+                <p class="main-message">Loading your selected gxme.</p>
+                <p class="sub-message">See a problem with the gxme? Report it at our discord server https://discord.gg/YSdyfAfmvZ.</p>
+            </div>
+            <button id="fullscreen-btn-game" title="Fullscreen"><i class="fas fa-expand"></i></button>
+            <button id="newtab-btn-game" title="Open g*me in a new tab"><i class="fas fa-external-link-alt"></i></button>
+            <iframe id="game-iframe" src="" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+
+        <div id="favorites-view" class="view hidden-view pt-6 h-full overflow-y-auto overflow-x-hidden">
+            <div id="favorites-wrapper" class="mx-auto space-y-4">
+                <div class="game-grid">
+                </div>
+            </div>
+        </div>
+
+        <div id="recent-view" class="view hidden-view pt-6 h-full overflow-y-auto overflow-x-hidden">
+            <div id="recent-wrapper" class="mx-auto space-y-4">
+                <div class="game-grid">
+                </div>
+            </div>
+        </div>
+
+        <div id="extras-view" class="view hidden-view">
+            <div class="extras-container">
+                <div class="extra-card" data-url="iframe.html?url=https://studythemes.com/policies/privacy-policy.html" data-title="Privacy Policy">
+                    <div class="extra-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                    </div>
+                    <h3>Privacy Policy / DMCA</h3>
+                    <p>View our privacy policy / DMCA</p>
+                    </div>
+
+                <div class="extra-card" data-url="iframe.html?url=https://docs.google.com/forms/d/e/1FAIpQLSdO5jGj9Tf7sZSCTLkDKx7MmUvIvH_Ic2LTBbVC4YiMp6Qs5Q/viewform" data-title="suggest a game">
+                    <div class="extra-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                    </div>
+                    <h3>Suggest a Gxme</h3>
+                    <p>Request new gxmes!</p>
+                    </div>
+
+                <div class="extra-card" data-url="iframe.html?url=https://studythemes.com/credits/credits.html" data-title="Credits">
+                    <div class="extra-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>Credits</h3>
+                    <p>View the credits for this site.</p>
+                    </div>
+
+                <div class="extra-card" data-url="iframe.html?url=https://sentinel-v1-release.vercel.app/" data-title="Movies">
+                    <div class="extra-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clapperboard-icon lucide-clapperboard"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9"/><path d="m12.4 3.4 3.1 4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+                    </div>
+                    <h3>Movies</h3>
+                    <p>Watch movies!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="proxy" class="view hidden-view h-full w-full">
+            <iframe src="https://studythemes.com/p.html" class="w-full h-full border-none" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+
+        <div id="settings-view" class="view hidden-view p-6 md:p-10 max-w-5xl mx-auto overflow-y-auto">
+            <div class="side-ad-container side-ad-left">
+                <div>
+                    <script>
+                        atOptions = {
+                            'key' : 'ed30e10cd11d1bad3eaab3e1701615b8',
+                            'format' : 'iframe',
+                            'height' : 60,
+                            'width' : 460,
+                            'params' : {}
+                        };
+                        document.write('<scr' + 'ipt src="//www.highcpmcreativeformat.com/ed30e10cd11d1bad3eaab3e1701615b8/invoke.js"></scr' + 'ipt>');
+                    </script>
+                </div>
+            </div>
+        <div class="mb-10 flex justify-center">
+                <div class="w-full max-w-4xl">
+                    <script>
+                        atOptions = {
+                            'key' : 'ed30e10cd11d1bad3eaab3e1701615b8',
+                            'format' : 'iframe',
+                            'height' : 60,
+                            'width' : 460,
+                            'params' : {}
+                        };
+                        document.write('<scr' + 'ipt src="//www.highcpmcreativeformat.com/ed30e10cd11d1bad3eaab3e1701615b8/invoke.js"></scr' + 'ipt>');
+                    </script>
+                </div>
+            </div>
+            
+            <div class="settings-tabs-container">
+                <button class="tab-button active" data-tab="appearance">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    <span>Appearance</span>
+                </button>
+                <button class="tab-button" data-tab="performance">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                    <span>Performance</span>
+                </button>
+                <button class="tab-button" data-tab="audio">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <span>Audio</span>
+                </button>
+                <button class="tab-button" data-tab="panic">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                    <span>Panic</span>
+                </button>
+                <button class="tab-button" data-tab="cloaking">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+                    <span>Cloaking</span>
+                </button>
+                <button class="tab-button" data-tab="general">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>General</span>
+                </button>
+            </div>
+
+        <div id="appearance-tab" class="tab-panel active">
+            <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    <label>Theme</label>
+                </div>
+                <select id="theme-select">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                        <option value="amoled">Amoled</option>
+                        <option value="matrix">Matrix</option>
+                        <option value="blood">Blood</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="forest">Forest</option>
+                        <option value="cyberpunk">Cyberpunk</option>
+                        <option value="midnight">Midnight</option>
+                        <option value="purplehaze">Purplehaze</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="ocean">Ocean</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                    <label>Particles</label>
+                </div>
+                <div class="setting-control">
+                    <span>Enable particles</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="particles-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    </div>
+
+            <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+                    <label>Particle Density</label>
+                </div>
+                <input type="range" id="particle-density" min="10" max="200" value="50">
+                <div class="setting-value"><span id="particle-density-value">50</span></div>
+            </div>
+        </div>
+
+            <div id="performance-tab" class="tab-panel">
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <label>Performance Mode</label>
+                    </div>
+                    <div class="setting-control">
+                        <span>Disables particles, glow, and animations</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="performance-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>
+                        <label>Showcase Speed</label>
+                    </div>
+                    <select id="showcase-speed">
+                            <option value="1000">1 second</option>
+                            <option value="2000" selected>2 seconds</option>
+                            <option value="3000">3 seconds</option>
+                            <option value="5000">5 seconds</option>
+                        </select>
+                    </div>
+
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                        <label>FPS Counter</label>
+                    </div>
+                    <div class="setting-control">
+                        <span>Show in top right when playing</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="fps-counter-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="audio-tab" class="tab-panel">
+                <div class="setting-item">
+                    <div class="setting-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-x"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>
+                        <label>G*me Audio</label>
+                    </div>
+                    <div class="setting-control">
+                        <span>Mute g*me audio</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="game-volume-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panic-tab" class="tab-panel">
+                    <div class="setting-item">
+                    <div class="setting-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                        <label>Panic Key</label>
+                    </div>
+                    <div class="setting-control">
+                        <span>Enable panic key</span>
+                            <label class="toggle">
+                                <input type="checkbox" id="panic-toggle">
+                                <span class="slider"></span>
+                            </label>
+                    </div>
+                    <div id="panic-options" class="setting-options hidden">
+                        <div class="setting-item">
+                            <label>Panic Key (A-Z only)</label>
+                            <input type="text" id="panic-key-input" class="panic-input" placeholder="Press a key...">
+                    </div>
+                        <div class="setting-item">
+                            <label>Redirect URL</label>
+                            <input type="text" id="panic-url" class="panic-input" value="https://whatever-you-put-here/">
+                        </div>
+                        <button id="save-panic-btn" class="save-btn">Save Panic Settings</button>
+                        <p id="panic-status" class="setting-status hidden">Saved successfully!</p>
+                    </div>
+                </div>
+            </div>
+
+        <div id="cloaking-tab" class="tab-panel">
+            <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    <label>Tab Title</label>
+                </div>
+                <input type="text" id="site-title-input" placeholder="e.g., Google Docs">
+            </div>
+
+                <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    <label>Custom Favicon</label>
+                </div>
+                <input type="file" id="site-logo-input" accept="image/*">
+                <p class="setting-hint">Current: <span id="current-logo">Default</span></p>
+            </div>
+        </div>
+
+        <div id="general-tab" class="tab-panel">
+                    <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    <label>Export Settings</label>
+                </div>
+                <p class="setting-hint">Download all your settings, favorites, and themes as a backup file.</p>
+                <button id="export-settings-btn" class="save-btn">Download Backup File</button>
+                    </div>
+
+                    <div class="setting-item">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    <label>Import Settings</label>
+                </div>
+                <p class="setting-hint">Upload a previously saved backup file to restore everything.</p>
+                <input type="file" id="import-settings-input" accept=".json">
+                <p id="import-status" class="setting-status hidden"></p>
+                    </div>
+
+            <div class="setting-item setting-danger">
+                <div class="setting-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    <label>Reset All Data</label>
+                    </div>
+                <p class="setting-hint">Permanently delete all settings, favorites, and saved data.</p>
+                <button id="reset-all-data-btn" class="save-btn save-btn-danger">Reset All Data</button>
+            </div>
+        </div>
+        <div class="mt-12 flex justify-center">
+        <div class="w-full max-w-4xl">
+            <script>
+                atOptions = {
+                    'key' : 'ed30e10cd11d1bad3eaab3e1701615b8',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+                document.write('<scr' + 'ipt src="//www.highcpmcreativeformat.com/ed30e10cd11d1bad3eaab3e1701615b8/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+    </div>
+    </div>
+
+        <script src="js/script.js"></script>
+    </div>
+</body>
+</html>

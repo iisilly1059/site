@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iiSilly bio</title>
+    <meta property="og:title" content="iiSilly - Discord Profile">
+    <meta property="og:description" content="Owner of Imp Games. Come check out my sites!">
+    <link rel="icon" type="image/png" href="games/img/imp-games.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .discord-card {
+            width: 620px;
+            max-width: 95%;
+            background: #111214;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        .banner {
+            height: 120px;
+            background: linear-gradient(135deg, #000, #222, #000);
+        }
+
+        .avatar-wrapper {
+            position: absolute;
+            top: 60px;
+            left: 40px;
+            width: 140px;
+            height: 140px;
+        }
+
+        .avatar-decoration {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 160px;
+            height: 160px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .avatar-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 132px;
+            height: 132px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #000000;
+            z-index: 2;
+        }
+
+        .status-indicator {
+            position: absolute;
+            right: 6px;
+            bottom: 6px;
+            width: 40px;
+            height: 40px;
+            border: 6px solid #000000;
+            border-radius: 50%;
+            background: transparent;
+            overflow: hidden;
+            z-index: 4;
+        }
+
+        .status-icon {
+            width: 120%;
+            height: 120%;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+            position: absolute;
+        }
+
+        .card-body {
+            padding: 100px 50px 40px;
+            color: #ffffff;
+        }
+
+        .username-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: #fff;
+        }
+
+        .discriminator {
+            font-size: 1.2rem;
+            color: #d400ff;
+        }
+
+        .activity-widget {
+            display: none;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 24px 0;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .activity-widget.active { display: flex; }
+        .activity-widget.no-icon { gap: 0; padding: 0 32px; }
+
+        .activity-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        .no-icon .activity-icon { display: none; }
+
+        .activity-info h4 {
+            font-size: 1.1rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .activity-info p {
+            margin: 6px 0 0;
+            font-size: 0.95rem;
+            color: #ff00ff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgb(0, 0, 0);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #ff00ff;
+            width: 0;
+            border-radius: 2px;
+        }
+
+        .spotify-link {
+            color: #ff00ff;
+            text-decoration: none;
+        }
+
+        .spotify-link:hover { text-decoration: underline; }
+
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 28px 0 40px;
+            color: #dcddde;
+        }
+
+        .bio a {
+            color: #ff00ff;
+            text-decoration: none;
+        }
+
+        .bio a:hover { text-decoration: underline; }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-primary { background: rgba(255,255,255,0.1); }
+
+        .btn-glass {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-glass:hover { background: rgba(255,255,255,0.1); }
+
+        @media (max-width: 480px) {
+            .discord-card { width: 95%; }
+            .banner { height: 120px; }
+            .avatar-wrapper { top: 55px; width: 120px; height: 120px; left: 24px; }
+            .avatar-decoration { width: 140px; height: 140px; }
+            .avatar-frame { width: 112px; height: 112px; }
+            .status-indicator { width: 34px; height: 34px; bottom: 6px; right: 6px; border-width: 5px; }
+            .card-body { padding: 90px 24px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+        <div class="discord-card">
+            <div class="banner"></div>
+
+            <div class="avatar-wrapper">
+                <img src="https://marki.my/uploads/a_75348082d14b5097708444fca20a09e0.png" class="avatar-decoration" alt="Avatar decoration">
+                <img id="discord-avatar" src="https://i.imgur.com/8Xu9p8Z.png" class="avatar-frame" alt="Profile picture">
+                <div id="status-dot" class="status-indicator"></div>
+            </div>
+
+            <div class="card-body">
+                <div class="username-section">
+                    <h1 class="username">iiSilly</h1>
+                    <span class="discriminator">iisilly_</span>
+                </div>
+
+                <div id="activity-widget" class="activity-widget">
+                    <img id="act-icon" class="activity-icon" src="" alt="">
+                    <div class="activity-info">
+                        <h4 id="act-name">Activity</h4>
+                        <p id="act-detail"></p>
+                        <p id="act-state"></p>
+                        <div id="spotify-progress" class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <p id="act-timer-container"><span id="act-timer">00:00:00</span> elapsed</p>
+                    </div>
+                </div>
+
+                <div class="bio">
+                    Owner of <a href="https://studythemes.com" target="_blank">Inner Games</a> and 
+                    <a href="https://discord.gg/GFhfzefBaN" target="_blank">Inner Games Discord Server</a>.<br>
+                    I like to code my site idfk what to call it, I make links for Petezah server.
+                </div>
+
+                <div class="btn-container">
+                    <a href="https://studythemes.com" class="btn btn-primary" target="_blank">Inner Games</a>
+                    <a href="https://discord.gg/GFhfzefBaN" class="btn btn-glass" target="_blank">Join Discord</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const numParticles = 300;
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.4 + 0.4;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Discord status & activity
+        const USER_ID = "1282468817640882227";
+        let startTime = null, timerInterval = null;
+        let spotifyStart = null, spotifyEnd = null, progressInterval = null;
+
+        const STATUS_SVGS = {
+            online: `<svg viewBox="0 0 24 24" class="status-icon"><circle cx="12" cy="12" r="10" fill="#23a55a"/></svg>`,
+            idle: `<svg viewBox="0 0 24 24" class="status-icon">
+                <circle cx="12" cy="12" r="10" fill="#f0b232"/>
+                <circle cx="6" cy="6" r="6" fill="#111214"/>
+            </svg>`,
+            dnd: `<svg viewBox="0 0 24 24" class="status-icon">
+                <circle cx="12" cy="12" r="10" fill="#ed4245"/>
+                <rect x="6" y="11" width="12" height="2" rx="1" fill="#ffffff"/>
+            </svg>`,
+            offline: `<svg viewBox="0 0 24 24" class="status-icon">
+                <circle cx="12" cy="12" r="10" fill="#80848e"/>
+                <circle cx="12" cy="12" r="7" fill="#111214"/>
+            </svg>`
+        };
+
+        function getAssetUrl(appId, assetId) {
+            if (!assetId) return null;
+            if (assetId.includes('external/')) return `https://${assetId.split('https/')[1]}`;
+            return `https://cdn.discordapp.com/app-assets/${appId}/${assetId}.png`;
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            const diff = Math.abs(Date.now() - startTime);
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('act-timer').textContent = [h, m, s]
+                .map(v => v < 10 ? '0' + v : v)
+                .join(':');
+        }
+
+        function updateSpotifyProgress() {
+            if (!spotifyStart || !spotifyEnd) return;
+            const now = Date.now();
+            const elapsed = now - spotifyStart;
+            const duration = spotifyEnd - spotifyStart;
+            const progress = Math.max(0, Math.min((elapsed / duration) * 100, 100));
+            document.querySelector('.progress-bar').style.width = progress + '%';
+        }
+
+        async function updateStatus() {
+            try {
+                const res = await fetch(`https://api.marki.my/v1/users/${USER_ID}`);
+                const json = await res.json();
+                if (!json.success) return;
+                const data = json.data;
+
+                document.getElementById('discord-avatar').src = data.discord_user.avatar || 'https://i.imgur.com/8Xu9p8Z.png';
+
+                const status = data.discord_status || 'offline';
+                document.getElementById('status-dot').innerHTML = STATUS_SVGS[status] || STATUS_SVGS.offline;
+
+                const widget = document.getElementById('activity-widget');
+                const timerEl = document.getElementById('act-timer-container');
+                const progressContainer = document.getElementById('spotify-progress');
+                widget.classList.remove('no-icon', 'active');
+                timerEl.style.display = 'none';
+                progressContainer.style.display = 'none';
+                if (progressInterval) clearInterval(progressInterval);
+                document.querySelector('.progress-bar').style.width = '0%';
+
+                let active = false;
+                let currentStart = null;
+
+                if (data.listening_to_spotify && data.spotify) {
+                    active = true;
+                    widget.classList.add('active');
+                    document.getElementById('act-icon').src = data.spotify.album_art_url;
+                    document.getElementById('act-name').innerHTML = 
+                        `<a href="https://open.spotify.com/track/${data.spotify.track_id}" target="_blank" class="spotify-link">${data.spotify.song}</a>`;
+                    document.getElementById('act-detail').textContent = `by ${data.spotify.artist}`;
+                    document.getElementById('act-state').textContent = `on ${data.spotify.album}`;
+                    progressContainer.style.display = 'block';
+
+                    if (data.spotify.timestamps) {
+                        spotifyStart = data.spotify.timestamps.start;
+                        spotifyEnd = data.spotify.timestamps.end;
+                        progressInterval = setInterval(updateSpotifyProgress, 1000);
+                        updateSpotifyProgress();
+                    }
+                } else if (data.activities?.some(a => a.type === 4)) {
+                    const custom = data.activities.find(a => a.type === 4);
+                    active = true;
+                    widget.classList.add('active', 'no-icon');
+                    document.getElementById('act-name').textContent = custom.state || 'Custom Status';
+                    document.getElementById('act-detail').textContent = custom.details || '';
+                    document.getElementById('act-state').textContent = custom.emoji ? custom.emoji.name : '';
+                } else if (data.activities?.length > 0) {
+                    const act = data.activities.find(a => a.type !== 4) || data.activities[0];
+                    active = true;
+                    widget.classList.add('active');
+                    document.getElementById('act-icon').src = getAssetUrl(act.application_id, act.assets?.large_image) || 'https://i.imgur.com/W29F6B7.png';
+                    document.getElementById('act-name').textContent = act.name;
+                    document.getElementById('act-detail').textContent = act.details || '';
+                    document.getElementById('act-state').textContent = act.state || '';
+                    if (act.timestamps?.start) {
+                        currentStart = act.timestamps.start;
+                        timerEl.style.display = 'block';
+                    }
+                }
+
+                if (active) widget.classList.add('active');
+
+                if (currentStart) {
+                    startTime = currentStart;
+                    if (!timerInterval) timerInterval = setInterval(updateTimer, 1000);
+                    updateTimer();
+                } else {
+                    startTime = null;
+                    if (timerInterval) clearInterval(timerInterval);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        setInterval(updateStatus, 10000);
+        updateStatus();
+    </script>
+</body>
+</html>
