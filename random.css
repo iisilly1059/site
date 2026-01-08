@@ -1,0 +1,137 @@
+#sidebar {
+    top: 0;
+    left: 0;
+    height: 100vh !important;
+    width: 70px !important;
+    z-index: 1000 !important;
+    background: rgb(0, 0, 0) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar nav {
+    padding: 2rem 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#sidebar nav li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    text-decoration: none;
+}
+
+.sidebar-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-btn.active {
+    color: var(--color-accent-main);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+}
+
+.sidebar-logo {
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 1rem;
+}
+
+.sidebar-logo svg {
+    width: 32px;
+    height: 32px;
+    color: var(--color-accent-main);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
+#home-page-view,
+#games-view,
+#game-view,
+#settings-view,
+#favorites-view,
+#recent-view,
+#extras-view {
+    margin-left: 1px !important;
+    width: calc(100% - 1px) !important;
+}
+
+#settings-view {
+    margin-left: 70px !important;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        width: 100% !important;
+        height: auto !important;
+        top: auto !important;
+        bottom: 0 !important;
+        flex-direction: row !important;
+        border-right: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 0.5rem !important;
+    }
+    
+    #sidebar nav {
+        padding: 0 !important;
+    }
+    
+    #sidebar nav ul {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        gap: 0 !important;
+    }
+
+    .sidebar-logo {
+        display: none !important;
+    }
+
+    #home-page-view,
+    #games-view,
+    #game-view,
+    #settings-view,
+    #favorites-view,
+    #recent-view,
+    #extras-view {
+        margin-left: 0 !important;
+        width: 100% !important;
+        height: calc(100vh - 60px) !important;
+        padding-bottom: 20px !important;
+    }
+}
