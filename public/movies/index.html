@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; frame-src https://vidsrc.cc; img-src 'self' https://image.tmdb.org data:; connect-src 'self' https://api.themoviedb.org; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+    <title>Imp Movies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Space+Grotesk:wght@700&display=swap');
+        :root { --accent: #333333; --glass: rgba(255, 255, 255, 0.03); }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #main-loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s; }
+        .loader-bar { width: 100px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; margin-top: 20px; }
+        .loader-progress { position: absolute; width: 40%; height: 100%; background: var(--accent); animation: loading 1.5s infinite ease-in-out; }
+        @keyframes loading { 0% { left: -40%; } 100% { left: 100%; } }
+        .skeleton { background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 16px; aspect-ratio: 2/3; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .header-blur { background: rgba(0,0,0,0.85); backdrop-filter: blur(30px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .card { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.6s cubic-bezier(0.2, 1, 0.2, 1); opacity: 0; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--accent); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.9); }
+        .card img { transition: 0.8s ease; }
+        .card:hover img { filter: brightness(0.3) blur(5px); transform: scale(1.1); }
+        .card-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; opacity: 0; transition: 0.4s; }
+        .card:hover .card-info { opacity: 1; }
+        #ep-sidebar { position: fixed; right: -420px; top: 0; width: 400px; height: 100%; background: #080808; z-index: 2000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid rgba(255,255,255,0.05); }
+        #ep-sidebar.open { right: 0; box-shadow: -50px 0 100px rgba(0,0,0,0.9); }
+        .ep-card { display: flex; gap: 15px; padding: 12px; border-radius: 12px; transition: 0.2s; cursor: pointer; border: 1px solid transparent; }
+        .ep-card:hover { background: var(--glass); border-color: rgba(255,255,255,0.05); }
+        .ep-card.active { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .accent-text { color: var(--accent) !important; }
+        .accent-bg { background-color: var(--accent) !important; }
+        .genre-pill { white-space: nowrap; padding: 6px 16px; border-radius: 99px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; cursor: pointer; }
+        .genre-pill.active { background: #fff; color: #000; border-color: #fff; }
+        .loading-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 10; }
+    </style>
+</head>
+<body class="no-scrollbar">
+    <div id="main-loader">
+        <h1 class="text-4xl font-black tracking-tighter accent-text" style="font-family: 'Space Grotesk'">Imp Movies</h1>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
+
+    <div id="ep-sidebar" class="flex flex-col">
+        <div class="p-8 border-b border-white/5 flex justify-between items-center">
+            <div>
+                <h3 class="font-black text-xl tracking-tighter">EPISODES</h3>
+                <p id="ep-count" class="text-[10px] text-white/30 font-bold uppercase tracking-widest mt-1">Select Season</p>
+            </div>
+            <button onclick="toggleSidebar()" class="p-3 bg-white/5 rounded-full hover:bg-white/10 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-4 flex gap-2 overflow-x-auto no-scrollbar border-b border-white/5" id="season-list"></div>
+        <div class="flex-1 overflow-y-auto p-6 space-y-3 no-scrollbar" id="episode-list"></div>
+    </div>
+
+    <div id="about-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[3000] hidden flex items-center justify-center p-6">
+        <div class="max-w-2xl w-full bg-zinc-900 border border-white/10 rounded-3xl p-10 relative">
+            <button onclick="toggleAbout()" class="absolute top-6 right-6 p-2 hover:bg-white/5 rounded-full"><i data-lucide="x"></i></button>
+            <h2 class="text-4xl font-black tracking-tighter mb-6">About <span class="accent-text">Imp Movies</span></h2>
+            <div class="space-y-4 text-zinc-400 leading-relaxed">
+                <p>Imp Movies is a place to watch Movies and Series</p>
+                <p>Disclaimer: This website doesn't host any files. Any legal issues should be taken up with the 3rd party provider(s).</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="video-modal" class="fixed inset-0 bg-black z-[1000] hidden flex flex-col">
+        <div class="flex items-center justify-between p-4 header-blur">
+            <div class="flex items-center gap-6">
+                <button onclick="closePlayer()" class="flex items-center gap-2 text-xs font-black opacity-50 hover:opacity-100 transition uppercase tracking-widest"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+                <div class="h-4 w-[1px] bg-white/10"></div>
+                <h2 id="playing-title" class="text-sm font-bold tracking-tight truncate max-w-[300px]">Title</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button id="fav-toggle-btn" class="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                    <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+                <button id="ep-menu-btn" onclick="toggleSidebar()" class="hidden flex items-center gap-2 px-5 py-2.5 bg-white/5 rounded-xl border border-white/10 text-xs font-bold hover:bg-white/10 transition">
+                    <i data-lucide="layers" class="w-4 h-4"></i> Browse Episodes
+                </button>
+            </div>
+        </div>
+        <div id="player-container" class="flex-1 bg-black overflow-hidden relative">
+            <div id="iframe-container" class="w-full h-full"></div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-50 header-blur">
+        <div class="max-w-[1600px] mx-auto px-8 py-5 flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-10">
+                    <h1 class="text-3xl font-black tracking-tighter cursor-pointer" onclick="location.reload()">Imp Movies</h1>
+                    <div class="flex bg-white/5 p-1.5 rounded-2xl border border-white/10">
+                        <button id="movie-mode" class="px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all duration-300" onclick="setMode('movie')">Cinema</button>
+                        <button id="tv-mode" class="px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all duration-300" onclick="setMode('tv')">Series</button>
+                    </div>
+                </div>
+                <div class="flex-1 max-w-xl mx-12 relative group">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-100 transition"></i>
+                    <input id="search" type="text" placeholder="Search..." class="w-full bg-white/[0.03] border border-white/10 p-4 pl-14 text-sm font-medium outline-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:bg-white/5 transition-all">
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleAbout()" class="px-4 py-2 text-[10px] font-black uppercase tracking-widest border border-white/10 rounded-xl hover:bg-white/5 transition">About</button>
+                    <button onclick="viewList('favorites')" class="p-3 bg-white/5 rounded-full hover:bg-white/10 transition border border-white/5">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="genre-container" class="flex gap-3 overflow-x-auto no-scrollbar pb-2"></div>
+        </div>
+    </header>
+
+    <main class="max-w-[1600px] mx-auto px-8 py-12">
+        <div id="grid-header" class="mb-8 hidden">
+            <h2 id="grid-title" class="text-2xl font-black tracking-tighter uppercase">Favorites</h2>
+        </div>
+        <div id="grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-8"></div>
+    </main>
+
+    <script>
+        const PROXY_URL = '/movie-api';
+        
+        let userState = {
+            localData: {
+                favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
+                progress: JSON.parse(localStorage.getItem('imp_progress') || '{}')
+            }
+        };
+
+        let page = 1, mode = 'movie', activeId = null, currentItem = null, activeS = 1, activeE = 1, activeGenre = '';
+        let isFetching = false, currentView = 'home';
+
+        function debounce(func, timeout = 500) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            };
+        }
+
+        function toggleAbout() { document.getElementById('about-modal').classList.toggle('hidden'); }
+
+        function toggleFavorite(item) {
+            const idx = userState.localData.favorites.findIndex(i => i.id === item.id);
+            if(idx > -1) userState.localData.favorites.splice(idx, 1);
+            else userState.localData.favorites.push(item);
+            localStorage.setItem('favorites', JSON.stringify(userState.localData.favorites));
+        }
+
+        async function fetchGenres() {
+            const res = await fetch(`${PROXY_URL}/genre/${mode}/list`);
+            const data = await res.json();
+            const container = document.getElementById('genre-container');
+            container.innerHTML = `<div class="genre-pill ${activeGenre === '' ? 'active' : ''}" onclick="filterByGenre('')">All</div>`;
+            data.genres.forEach(g => {
+                const pill = document.createElement('div');
+                pill.className = `genre-pill ${activeGenre == g.id ? 'active' : ''}`;
+                pill.innerText = g.name;
+                pill.onclick = () => filterByGenre(g.id);
+                container.appendChild(pill);
+            });
+        }
+
+        function filterByGenre(id) {
+            activeGenre = id;
+            currentView = 'home';
+            fetchData(true);
+            fetchGenres();
+        }
+
+        function showSkeletons() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = Array(14).fill('<div class="skeleton"></div>').join('');
+        }
+
+        async function fetchData(reset = false) {
+            if (isFetching) return;
+            isFetching = true;
+            if (reset) { page = 1; showSkeletons(); document.getElementById('grid-header').classList.add('hidden'); }
+            
+            try {
+                const endpoint = activeGenre 
+                    ? `${PROXY_URL}/discover/${mode}?with_genres=${activeGenre}&page=${page}`
+                    : `${PROXY_URL}/trending/${mode}/week?page=${page}`;
+                
+                const res = await fetch(endpoint);
+                const data = await res.json();
+                if (reset) document.getElementById('grid').innerHTML = '';
+                render(data.results);
+                page++;
+                isFetching = false;
+                const loader = document.getElementById('main-loader');
+                if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.visibility = 'hidden', 800); }
+            } catch (e) { 
+                isFetching = false; 
+            }
+        }
+
+        function render(items) {
+            const container = document.getElementById('grid');
+            items.forEach(item => {
+                if(!item.poster_path || item.adult) return;
+                const div = document.createElement('div');
+                div.className = 'card cursor-pointer';
+                div.onclick = () => play(item);
+                div.innerHTML = `
+                    <div class="relative aspect-[2/3] overflow-hidden">
+                        <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" loading="lazy" class="w-full h-full object-cover">
+                        <div class="card-info">
+                            <h3 class="text-sm font-black uppercase tracking-tighter mb-1 leading-tight">${item.title || item.name}</h3>
+                            <div class="flex items-center gap-3 text-[10px] font-bold text-white/50">
+                                <span>${(item.release_date || item.first_air_date || '').split('-')[0]}</span>
+                                <span class="accent-text">★ ${item.vote_average?.toFixed(1)}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                container.appendChild(div);
+            });
+            if(window.lucide) lucide.createIcons();
+        }
+
+        async function play(item) {
+            currentItem = item; 
+            activeId = item.id; 
+            const isTV = !!(item.first_air_date || item.name);
+            
+            if (isTV && userState.localData.progress[activeId]) {
+                activeS = userState.localData.progress[activeId].s || 1;
+                activeE = userState.localData.progress[activeId].e || 1;
+            } else {
+                activeS = 1; activeE = 1;
+            }
+
+            document.getElementById('playing-title').innerText = item.title || item.name;
+            document.getElementById('video-modal').classList.remove('hidden');
+            document.getElementById('iframe-container').innerHTML = '';
+            document.getElementById('ep-menu-btn').classList.toggle('hidden', !isTV);
+            
+            const updateFavUI = () => {
+                const isFav = userState.localData.favorites.some(i => i.id === item.id);
+                document.getElementById('fav-toggle-btn').innerHTML = `<i data-lucide="heart" class="w-4 h-4 ${isFav ? 'fill-red-500 text-red-500' : ''}"></i>`;
+                lucide.createIcons();
+            };
+            updateFavUI();
+            document.getElementById('fav-toggle-btn').onclick = () => { toggleFavorite(item); updateFavUI(); if (currentView === 'favorites') viewList('favorites', true); };
+            
+            if (isTV) await fetchSeasons(item.id);
+            else loadIframe();
+        }
+
+        function loadIframe() {
+            const isTV = !!(currentItem.first_air_date || currentItem.name);
+            const embedUrl = isTV ? `https://vidsrc.cc/v2/embed/tv/${activeId}/${activeS}/${activeE}` : `https://vidsrc.cc/v2/embed/movie/${activeId}`;
+            
+            const container = document.getElementById('iframe-container');
+            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-forms allow-same-origin allow-scripts" style="width:100%; height:100%; border:none;"></iframe>`;
+            
+            if (isTV) {
+                userState.localData.progress[activeId] = { s: activeS, e: activeE };
+                localStorage.setItem('imp_progress', JSON.stringify(userState.localData.progress));
+            }
+        }
+
+        async function fetchSeasons(id) {
+            const res = await fetch(`${PROXY_URL}/tv/${id}`);
+            const data = await res.json();
+            const container = document.getElementById('season-list');
+            container.innerHTML = '';
+            const validSeasons = data.seasons?.filter(s => s.season_number > 0) || [];
+            validSeasons.forEach(s => {
+                const btn = document.createElement('button');
+                btn.className = `px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/10 shrink-0 ${activeS == s.season_number ? 'accent-bg border-none' : 'bg-white/5'}`;
+                btn.innerText = `Season ${s.season_number}`;
+                btn.onclick = () => { activeS = s.season_number; activeE = 1; fetchEpisodes(id, s.season_number); };
+                container.appendChild(btn);
+            });
+            await fetchEpisodes(id, activeS);
+            loadIframe();
+        }
+
+        async function fetchEpisodes(id, sNum) {
+            const res = await fetch(`${PROXY_URL}/tv/${id}/season/${sNum}`);
+            const data = await res.json();
+            const container = document.getElementById('episode-list');
+            container.innerHTML = '';
+            data.episodes.forEach(e => {
+                const div = document.createElement('div');
+                div.className = `ep-card ${activeE == e.episode_number && activeS == sNum ? 'active' : ''}`;
+                div.onclick = () => { activeE = e.episode_number; activeS = sNum; loadIframe(); toggleSidebar(); fetchEpisodes(id, sNum); };
+                div.innerHTML = `
+                    <div class="relative w-32 h-20 shrink-0">
+                        <img src="https://image.tmdb.org/t/p/w300${e.still_path || currentItem.backdrop_path}" class="w-full h-full object-cover rounded-lg bg-zinc-900">
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
+                        <h4 class="text-xs font-bold truncate">E${e.episode_number} • ${e.name}</h4>
+                    </div>`;
+                container.appendChild(div);
+            });
+            lucide.createIcons();
+        }
+
+        function toggleSidebar() { document.getElementById('ep-sidebar').classList.toggle('open'); }
+        function closePlayer() { document.getElementById('video-modal').classList.add('hidden'); document.getElementById('iframe-container').innerHTML = ''; }
+        
+        function setMode(m) { 
+            mode = m; activeGenre = ''; currentView = 'home';
+            document.getElementById('movie-mode').className = m === 'movie' ? 'px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl accent-bg' : 'px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl';
+            document.getElementById('tv-mode').className = m === 'tv' ? 'px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl accent-bg' : 'px-8 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl';
+            fetchGenres(); fetchData(true); 
+        }
+
+        function viewList(key) {
+            currentView = key;
+            const data = userState.localData[key];
+            const container = document.getElementById('grid');
+            container.innerHTML = '';
+            document.getElementById('grid-header').classList.remove('hidden');
+            document.getElementById('grid-title').innerText = 'Favorites';
+            if(!data.length) container.innerHTML = '<div class="col-span-full text-center py-20 opacity-20 font-bold uppercase tracking-widest">Empty</div>';
+            else render(data);
+        }
+
+        const handleSearch = debounce((e) => {
+            const q = e.target.value.trim();
+            if(!q) return fetchData(true);
+            currentView = 'search';
+            showSkeletons();
+            fetch(`${PROXY_URL}/search/multi?query=${encodeURIComponent(q)}`)
+                .then(r=>r.json())
+                .then(d=>{
+                    document.getElementById('grid').innerHTML = '';
+                    render(d.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv'));
+                });
+        }, 600);
+
+        document.getElementById('search').addEventListener('input', handleSearch);
+        window.onscroll = () => { if (currentView === 'home' && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) fetchData(); };
+        window.onload = () => { setMode('movie'); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,2705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
+    <meta property="og:title" content="IXL | Math, Language Arts, Science, Social Studies, and Spanish">
+    <meta property="og:image" content="https://www.ixl.com/dv3/powZqMuTE7du4asFrVyNGxxoqkw/yui3/opengraph/assets/general_us.png">
+    <meta property="og:site_name" content="IXL Learning"/>
+    <meta name="msapplication-TileColor" content="#00ffa6">
+    <meta name="description" content="IXL is the world's most popular subscription-based learning site for K–12. Used by over 17 million students, IXL provides personalized learning in more than 17,000 topics, covering math, language arts, science, social studies, and Spanish. Interactive questions, awards, and certificates keep kids motivated as they master skills.">
+    <meta property="og:description" content="IXL is the world's most popular subscription-based learning site for K–12. Used by over 17 million students, IXL provides personalized learning in more than 17,000 topics, covering math, language arts, science, social studies, and Spanish. Interactive questions, awards, and certificates keep kids motivated as they master skills.">
+    <meta name="google-adsense-account" content="ca-pub-7164184929971692">
+    <meta name="keywords" content="online learning, education, K-12, students, teachers, math practice, reading comprehension, science education, test preparation, homework help">
+    <meta name="author" content="IXL Learning">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <meta name="topic" content="Education">
+    <meta name="category" content="Education, Learning, K-12">
+    <meta name="coverage" content="Worldwide">
+    <meta name="identifier-URL" content="https://www.ixl.com">
+    <meta name="subject" content="Educational Resources and Online Learning">
+    <meta name="copyright" content="IXL Learning">
+    <meta name="audience" content="Students, Teachers, Parents">
+    <meta name="target" content="K-12 education, homeschool, tutoring">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="dark"] { 
+            --bg: #000000; 
+            --nav: #161616; 
+            --accent: #333333;
+            --text: #ffffff; 
+            --primary: #555555;
+            --glass: rgba(10, 10, 10, 0.95); 
+            --card: rgba(255, 255, 255, 0.03); 
+        }
+        :root[data-theme="solar"] { 
+            --bg: #000000; 
+            --nav: #161616; 
+            --accent: #1a1a2e; 
+            --text: #ffffff; 
+            --primary: #1a1a2e; 
+            --glass: rgba(10, 10, 25, 0.9); 
+            --card: rgba(255, 255, 255, 0.05); 
+        }
+        
+        * { box-sizing: border-box; }
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            background: var(--bg); 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+            color: var(--text); 
+        }
+
+        #particle-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 1; 
+        }
+
+        #tabs-bar { 
+            display: none;
+        }
+        
+        #tab-container { 
+            display: flex; 
+            gap: 2px;
+            flex: 1;
+            overflow-x: auto;
+        }
+        
+        .tab { 
+            padding: 10px 20px; 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 10px 10px 0 0; 
+            min-width: 140px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 10px; 
+            font-size: 13px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            color: #aaa; 
+            border: none; 
+            transition: 0.2s; 
+        }
+        
+        .tab.active { 
+            background: var(--nav); 
+            color: var(--text); 
+            border-bottom: 2px solid #3b82f6;
+        }
+        
+        .close-tab { 
+            opacity: 0.5; 
+            font-size: 16px; 
+            margin-left: 8px; 
+        }
+        
+        .close-tab:hover { 
+            opacity: 1; 
+            color: #ff0000; 
+        }
+
+        #add-tab-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        #add-tab-btn:hover {
+            opacity: 0.7;
+        }
+
+        .tab-modal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+            gap: 12px;
+        }
+
+        .tab-modal-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tab-modal-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-favicon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-info {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tab-text {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tab-modal-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tab-modal-url {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tab-close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-size: 18px;
+            opacity: 0.6;
+        }
+
+        .tab-close-btn:hover {
+            background: rgba(255, 77, 77, 0.2);
+            border-color: #ff4b4b;
+            color: #ff4b4b;
+            opacity: 1;
+        }
+
+        .add-new-tab-btn {
+            width: 100%;
+            padding: 14px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .add-new-tab-btn:hover {
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-1px);
+        }
+
+        #idk { 
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex; 
+            align-items: center; 
+            padding: 16px 20px; 
+            background: var(--glass); 
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--accent);
+            gap: 16px; 
+            z-index: 100;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(100%);
+            background: linear-gradient(to top, var(--glass), rgba(10, 10, 10, 0.98));
+        }
+        
+        #idk.visible {
+            transform: translateY(0) !important;
+        }
+
+        .nav-group { 
+            display: flex; 
+            gap: 6px; 
+            align-items: center; 
+            flex-shrink: 0; 
+        }
+        .nav-btn { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: var(--text); 
+            cursor: pointer; 
+            width: 38px; 
+            height: 38px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.2s; 
+        }
+        .nav-btn:hover { 
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .nav-btn svg { 
+            width: 18px; 
+            height: 18px; 
+        }
+        .search-input { 
+            flex: 1; 
+            padding: 12px 20px; 
+            border: 1px solid var(--accent); 
+            border-radius: 20px; 
+            background: rgba(0, 0, 0, 0.3); 
+            color: var(--text); 
+            font-size: 14px; 
+            outline: none; 
+            transition: all 0.2s; 
+        }
+        .search-input:focus {
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.45);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .search-input:hover {
+            background: rgba(0, 0, 0, 0.38);
+        }
+        #view-navbar {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 0.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 100px;
+            z-index: 50;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #view-navbar:hover {
+            background: rgba(255, 255, 255, 0.4);
+            width: 160px;
+        }
+
+        #view-navbar.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #navbar-hover-area {
+            position: fixed;
+            bottom: 0;
+            left: 0; 
+            right: 0; 
+            height: 60px; 
+            z-index: 99;
+        }
+
+        #home-screen { 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            z-index: 5; 
+            text-align: center; 
+            width: 90%; 
+            max-width: 650px; 
+        }
+        
+        .logo-text { 
+            font-weight: 900; 
+            font-size: 100px; 
+            margin: 0 0 40px 0; 
+            letter-spacing: -5px; 
+            background: linear-gradient(to bottom, #333 0%, #fff 50%, #333 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); 
+        }
+        
+        .shortcuts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(80px, 80px)); 
+            justify-content: center; 
+            gap: 16px; 
+        }
+        
+        .shortcut-tile { 
+            position: relative;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            aspect-ratio: 1 / 1; 
+            background: transparent; 
+            border: none; 
+            border-radius: 12px; 
+            color: var(--text); 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            padding: 8px;
+        }
+        
+        .shortcut-tile:hover { 
+            transform: scale(1.05); 
+            background: rgba(255, 255, 255, 0.05); 
+        }
+
+        .shortcut-tile:hover .delete-shortcut {
+            opacity: 1;
+        }
+        
+        .shortcut-tile img { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 10px; 
+            margin-bottom: 8px; 
+        }
+        
+        .shortcut-tile span { 
+            font-size: 11px; 
+            font-weight: 500; 
+            opacity: 0.7; 
+            text-align: center;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .delete-shortcut {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 77, 77, 0.95);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .delete-shortcut:hover {
+            background: rgba(255, 77, 77, 1);
+            transform: scale(1.15);
+        }
+
+        .add-shortcut-tile {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background: transparent;
+        }
+
+        .add-shortcut-tile:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .add-shortcut-tile svg {
+            width: 28px;
+            height: 28px;
+            opacity: 0.4;
+        }
+
+        #iframe-viewport { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 6; 
+            background: transparent; 
+            pointer-events: none; 
+        }
+        
+        #iframe-viewport.active { 
+            background: var(--bg); 
+            pointer-events: auto; 
+        }
+        
+        iframe { 
+            border: none; 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+            background-color: var(--bg); 
+        }
+
+        .modal { 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: var(--glass); 
+            backdrop-filter: blur(25px); 
+            padding: 24px; 
+            border-radius: 16px; 
+            z-index: 200; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            width: 360px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #settings-modal {
+            width: 500px;
+            max-width: 90vw;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+        
+        .modal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 18px; 
+        }
+        
+        .modal-header h2 { 
+            margin: 0; 
+            font-size: 12px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: rgba(255, 255, 255, 0.4); 
+        }
+
+        .clear-all-btn {
+            background: none;
+            border: none;
+            color: #ff4b4b;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .clear-all-btn:hover {
+            opacity: 0.7;
+        }
+        
+        .list-container { 
+            max-height: 400px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        }
+
+        .list-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 16px; 
+            background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 10px; 
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        
+        .list-item:hover { 
+            background: rgba(255, 255, 255, 0.08); 
+            border-color: rgba(255, 255, 255, 0.15); 
+        }
+
+        .history-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .history-favicon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .history-text {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .setting-row { 
+            flex-direction: column; 
+            align-items: flex-start; 
+            gap: 6px;
+            cursor: default;
+        }
+        
+        .setting-label { 
+            font-size: 10px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            color: rgba(255, 255, 255, 0.3); 
+        }
+        
+        .setting-control { 
+            width: 100%; 
+            background: transparent; 
+            border: none; 
+            color: #fff; 
+            font-size: 14px; 
+            font-weight: 500; 
+            outline: none; 
+            padding: 4px 0;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .setting-control option {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .setting-input { 
+            cursor: text; 
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .setting-input::placeholder { 
+            color: rgba(255, 255, 255, 0.2); 
+        }
+
+        .modal-close-btn { 
+            width: 100%; 
+            margin-top: 20px; 
+            padding: 14px; 
+            background: #fff; 
+            color: #000; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            font-size: 13px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        
+        .modal-close-btn:hover { 
+            background: #e0e0e0; 
+            transform: scale(1.02); 
+        }
+        
+        .secondary-btn { 
+            width: 100%; 
+            margin-top: 8px; 
+            padding: 10px; 
+            background: rgba(255,255,255,0.05); 
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 10px; 
+            font-size: 11px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        
+        .secondary-btn:hover { 
+            background: rgba(255,255,255,0.12); 
+        }
+
+        .history-url { 
+            font-size: 13px; 
+            font-weight: 500; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        
+        .history-time { 
+            font-size: 10px; 
+            color: rgba(255,255,255,0.2); 
+            margin-top: 2px;
+        }
+
+        .history-delete-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-size: 16px;
+            opacity: 0.6;
+        }
+
+        .history-delete-btn:hover {
+            background: rgba(255, 77, 77, 0.2);
+            border-color: #ff4b4b;
+            color: #ff4b4b;
+            opacity: 1;
+        }
+
+        .hidden { 
+            display: none !important; 
+        }
+
+        #loading-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: var(--bg);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            gap: 16px;
+        }
+        #loading-overlay.visible {
+            display: flex;
+        }
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top-color: rgba(255, 255, 255, 1);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        #loading-message {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #3b82f6;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .setting-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .extension-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .extension-info {
+            flex: 1;
+        }
+
+        .extension-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .extension-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .install-btn {
+            padding: 6px 14px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 6px;
+            color: #3b82f6;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .install-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .install-btn.installed {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="tabs-bar">
+        <div id="tab-container"></div>
+        <button id="add-tab-btn">+</button>
+    </div>
+
+    <form id="idk" onsubmit="return false;">
+        <div class="nav-group">
+            <button type="button" class="nav-btn" onclick="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-6-6 6-6"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="goForward()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="reloadTab()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                    <path d="M21 3v5h-5"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="showHome()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </button>
+        </div>
+        <input id="url" type="text" class="search-input" placeholder="Search With Freedom..." autocomplete="off" />
+        <div class="nav-group">
+            <button type="button" class="nav-btn" onclick="toggleTabsModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="9" y1="3" x2="9" y2="21"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" id="fullscreen-btn" onclick="toggleFullscreen()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="toggleHistory()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="cloakTab()" title="Open in about:blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            </button>
+            <button type="button" class="nav-btn" onclick="toggleSettings()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+            </button>
+        </div>
+    </form>
+
+    <div id="view-navbar"></div>
+    <div id="navbar-hover-area"></div>
+
+    <div id="home-screen">
+        <h1 class="logo-text">Imp Pr*xy</h1>
+        <div style="margin: 40px auto; width: 100%; max-width: 600px; padding: 0 20px;">
+            <input id="home-search" type="text" class="search-input" placeholder="Search With Freedom.." autocomplete="off" style="width: 100%; padding: 16px 20px; font-size: 16px; border-radius: 8px;" />
+        </div>
+        <div class="shortcuts-grid" id="shortcuts-container"></div>
+    </div>
+
+    <div id="iframe-viewport">
+        <div id="loading-overlay">
+            <div class="loader-spinner"></div>
+            <div id="loading-message">Loading...</div>
+        </div>
+    </div>
+
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>History</h2>
+            <button class="clear-all-btn" onclick="clearHistory()">Clear All</button>
+        </div>
+        <div id="history-list" class="list-container"></div>
+        <button class="modal-close-btn" onclick="toggleHistory()">Close</button>
+    </div>
+
+    <div id="tabs-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>Tabs</h2>
+        </div>
+        <div id="tabs-list" class="list-container"></div>
+        <button class="add-new-tab-btn" onclick="createNewTab(); toggleTabsModal();">
+            <span>+</span>
+            <span>New Tab</span>
+        </button>
+        <button class="modal-close-btn" onclick="toggleTabsModal()">Close</button>
+    </div>
+
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>Settings</h2>
+        </div>
+        <div class="list-container">
+            <div class="list-item setting-row">
+                <span class="setting-label">Theme</span>
+                <select id="theme-sel" class="setting-control" onchange="updateTheme(this.value)">
+                    <option value="dark">Standard Dark</option>
+                    <option value="solar">Solar Orbit</option>
+                </select>
+            </div>
+            <div class="list-item setting-row">
+                <span class="setting-label">Search Provider</span>
+                <select id="search-engine-sel" class="setting-control">
+                    <option value="duckduckgo">DuckDuckGo</option>
+                    <option value="google">Google</option>
+                </select>
+            </div>
+            <div class="list-item setting-row">
+                <span class="setting-label">Protocol</span>
+                <select id="proxysel" class="setting-control">
+                    <option value="scramjet">Scramjet</option>
+                    <option value="uv">Ultraviolet</option>
+                </select>
+            </div>
+            <div class="list-item setting-row">
+                <span class="setting-label">Transport</span>
+                <select id="transport-sel" class="setting-control" onchange="updateTransport(this.value)">
+                    <option value="epoxy">Epoxy</option>
+                    <option value="libcurl">LibCurl</option>
+                </select>
+            </div>
+            <div class="list-item setting-row">
+                <span class="setting-label">Navbar Position</span>
+                <select id="nav-pos-sel" class="setting-control" onchange="updateNavPosition(this.value)">
+                    <option value="bottom">Bottom</option>
+                    <option value="top">Top</option>
+                </select>
+            </div>
+        </div>
+        <button class="modal-close-btn" onclick="toggleSettings()">Apply & Close</button>
+    </div>
+
+    <div id="add-shortcut-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>Add Shortcut</h2>
+        </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="shortcut-name" placeholder="YouTube">
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" id="shortcut-url" placeholder="https://youtube.com">
+        </div>
+        <button class="modal-close-btn" onclick="saveShortcut()">Add Shortcut</button>
+        <button class="secondary-btn" onclick="toggleAddShortcut()">Cancel</button>
+    </div>
+
+    <script src="/scram/scramjet.all.js" defer></script>
+    <script src="/uv/uv.bundle.js" defer></script>
+    <script src="/uv/uv.config.js" defer></script>
+    <script src="/baremux/index.js" defer></script>
+    <script src="/stuff.js" defer></script>
+    
+    <script>
+        const defaultShortcuts = [
+            { name: 'YouTube', url: 'https://youtube.com' },
+            { name: 'Discord', url: 'https://discord.com' },
+            { name: 'Movies', url: 'https://cineby.gd' },
+            { name: 'Deadshot', url: 'https://deadshot.io' },
+            { name: 'ChatGPT', url: 'https://chat.openai.com' }
+        ];
+
+        let appState = {
+            shortcuts: [...defaultShortcuts],
+            history: [],
+            theme: 'dark',
+            searchEngine: 'duckduckgo',
+            proxyType: 'scramjet',
+            transport: 'epoxy',
+            navPosition: 'bottom'
+        };
+
+        function getShortcuts() {
+            return appState.shortcuts;
+        }
+
+        function saveShortcuts(shortcuts) {
+            appState.shortcuts = shortcuts;
+        }
+
+        function getHistory() {
+            return appState.history;
+        }
+
+        function saveHistory(history) {
+            appState.history = history;
+        }
+
+        function renderShortcuts() {
+            const container = document.getElementById('shortcuts-container');
+            const shortcuts = getShortcuts();
+            container.innerHTML = '';
+            
+            shortcuts.forEach((shortcut, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'shortcut-tile';
+                const domain = new URL(shortcut.url).hostname;
+                tile.innerHTML = `
+                    <button class="delete-shortcut">×</button>
+                    <img src="https://www.google.com/s2/favicons?domain=${domain}&sz=64">
+                    <span>${shortcut.name}</span>
+                `;
+                
+                const deleteBtn = tile.querySelector('.delete-shortcut');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteShortcut(index);
+                });
+                
+                tile.addEventListener('click', () => {
+                    loadUrl(shortcut.url);
+                });
+                
+                container.appendChild(tile);
+            });
+
+            const addTile = document.createElement('div');
+            addTile.className = 'shortcut-tile add-shortcut-tile';
+            addTile.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                <span>Add</span>
+            `;
+            addTile.addEventListener('click', toggleAddShortcut);
+            container.appendChild(addTile);
+        }
+
+        function toggleAddShortcut() {
+            const modal = document.getElementById('add-shortcut-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('shortcut-name').value = '';
+                document.getElementById('shortcut-url').value = '';
+                document.getElementById('shortcut-name').focus();
+            }
+        }
+
+        function saveShortcut() {
+            const name = document.getElementById('shortcut-name').value.trim();
+            const url = document.getElementById('shortcut-url').value.trim();
+            
+            if (!name || !url) {
+                alert('Please enter both name and URL');
+                return;
+            }
+
+            let finalUrl = url;
+            if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+                finalUrl = 'https://' + finalUrl;
+            }
+
+            const shortcuts = getShortcuts();
+            shortcuts.push({ name, url: finalUrl });
+            saveShortcuts(shortcuts);
+            renderShortcuts();
+            toggleAddShortcut();
+        }
+
+        function deleteShortcut(index) {
+            if (confirm('Delete this shortcut?')) {
+                const shortcuts = getShortcuts();
+                shortcuts.splice(index, 1);
+                saveShortcuts(shortcuts);
+                renderShortcuts();
+            }
+        }
+
+        function addToHistory(url, title = null) {
+            const history = getHistory();
+            const domain = new URL(url).hostname;
+            const entry = {
+                url: url,
+                title: title || url,
+                domain: domain,
+                timestamp: Date.now(),
+                favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
+            };
+            
+            history.unshift(entry);
+            
+            if (history.length > 100) {
+                history.splice(100);
+            }
+            
+            saveHistory(history);
+            if (!document.getElementById('history-modal').classList.contains('hidden')) {
+                renderHistory();
+            }
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list');
+            const history = getHistory();
+            
+            if (history.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No history yet</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            history.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                
+                const date = new Date(entry.timestamp);
+                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateStr = date.toLocaleDateString();
+                
+                item.innerHTML = `
+                    <div class="history-item-content">
+                        <img src="${entry.favicon}" class="history-favicon" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23666%22 d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'">
+                        <div class="history-text">
+                            <div class="history-url">${entry.title}</div>
+                            <div class="history-time">${timeStr} - ${dateStr}</div>
+                        </div>
+                    </div>
+                    <button class="history-delete-btn" onclick="deleteHistoryItem(${index}); event.stopPropagation();">×</button>
+                `;
+                
+                item.querySelector('.history-item-content').addEventListener('click', () => {
+                    loadUrl(entry.url);
+                    toggleHistory();
+                });
+                
+                container.appendChild(item);
+            });
+        }
+
+        function deleteHistoryItem(index) {
+            const history = getHistory();
+            history.splice(index, 1);
+            saveHistory(history);
+            renderHistory();
+        }
+
+        function clearHistory() {
+            if (confirm('Clear all browsing history?')) {
+                appState.history = [];
+                renderHistory();
+            }
+        }
+
+        function toggleExtensions() {
+            const modal = document.getElementById('extensions-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderExtensions();
+            }
+        }
+
+        function renderExtensions() {
+            const container = document.getElementById('extensions-list');
+            const extensions = getExtensions();
+            
+            container.innerHTML = '';
+            extensions.forEach((ext, index) => {
+                const item = document.createElement('div');
+                item.className = 'extension-item';
+                item.innerHTML = `
+                    <div class="extension-info">
+                        <div class="extension-name">${ext.name}</div>
+                        <div class="extension-desc">${ext.description}</div>
+                    </div>
+                    <button class="install-btn ${ext.enabled ? 'installed' : ''}" onclick="toggleExtension(${index})">
+                        ${ext.enabled ? 'Enabled' : 'Enable'}
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function toggleExtension(index) {
+            const extensions = getExtensions();
+            extensions[index].enabled = !extensions[index].enabled;
+            saveExtensions(extensions);
+            renderExtensions();
+            
+            const ext = extensions[index];
+            
+            if (ext.enabled) {
+                console.log(`Extension ${ext.name} enabled`);
+                applyExtension(ext);
+            } else {
+                console.log(`Extension ${ext.name} disabled`);
+                removeExtension(ext);
+            }
+        }
+
+        const extensionStyles = {
+            adblock: null,
+            darkmode: null,
+            readmode: null,
+            privacy: null,
+            speedup: null,
+            iogamefix: null
+        };
+
+        function applyExtension(ext) {
+            switch(ext.id) {
+                case 'adblock':
+                    window.adBlockEnabled = true;
+                    extensionStyles.adblock = `
+                        [class*="ad-"], [id*="ad-"], [class*="ads-"],
+                        [class*="Ad-"], [id*="Ad-"], [class*="Ads-"],
+                        .advertisement, .ad-container, .sponsored,
+                        .ad-banner, .ad-slot, .adsbygoogle,
+                        iframe[src*="doubleclick"], iframe[src*="googlesyndication"],
+                        div[id*="google_ads"], div[class*="google-ad"] {
+                            display: none !important;
+                            visibility: hidden !important;
+                            opacity: 0 !important;
+                            height: 0 !important;
+                            width: 0 !important;
+                        }
+                    `;
+                    applyStylesToAllIframes('adblock-ext', extensionStyles.adblock);
+                    showNotification('🛡️ Ad Blocker enabled');
+                    break;
+                    
+                case 'darkmode':
+                    window.darkModeForced = true;
+                    extensionStyles.darkmode = `
+                        html, body {
+                            background-color: #0a0a0a !important;
+                            background-image: none !important;
+                        }
+                        body, div, section, article, main, header, footer, nav,
+                        p, span, h1, h2, h3, h4, h5, h6, li, td, th, a {
+                            background-color: transparent !important;
+                            color: #e0e0e0 !important;
+                        }
+                        input, textarea, select, button {
+                            background-color: #1a1a1a !important;
+                            color: #e0e0e0 !important;
+                            border-color: #333 !important;
+                        }
+                        a { color: #6ca0ff !important; }
+                        a:visited { color: #b59eff !important; }
+                        img, video, canvas { 
+                            filter: brightness(0.85) contrast(1.05) !important; 
+                        }
+                        [style*="background-color: rgb(255, 255, 255)"],
+                        [style*="background-color:#ffffff"],
+                        [style*="background-color: white"] {
+                            background-color: #0a0a0a !important;
+                        }
+                    `;
+                    applyStylesToAllIframes('darkmode-ext', extensionStyles.darkmode);
+                    showNotification('🌙 Dark Mode enabled');
+                    break;
+
+                case 'iogamefix':
+                    window.ioGameFixEnabled = true;
+                    showNotification('🎮 .io Game Optimizer enabled');
+                    break;
+
+                case 'readmode':
+                    window.readModeEnabled = true;
+                    extensionStyles.readmode = `
+                        body {
+                            max-width: 800px !important;
+                            margin: 0 auto !important;
+                            padding: 40px 20px !important;
+                            font-family: Georgia, serif !important;
+                            font-size: 18px !important;
+                            line-height: 1.6 !important;
+                        }
+                        aside, nav, .sidebar, .header, .footer,
+                        [class*="sidebar"], [class*="header"], [class*="footer"] {
+                            display: none !important;
+                        }
+                        p, article, main {
+                            max-width: 100% !important;
+                        }
+                    `;
+                    applyStylesToAllIframes('readmode-ext', extensionStyles.readmode);
+                    showNotification('📖 Reader Mode enabled');
+                    break;
+
+                case 'privacy':
+                    window.privacyGuardEnabled = true;
+                    extensionStyles.privacy = `
+                        iframe[src*="facebook"], iframe[src*="twitter"],
+                        iframe[src*="analytics"], iframe[src*="tracking"],
+                        script[src*="analytics"], script[src*="tracking"] {
+                            display: none !important;
+                        }
+                    `;
+                    applyStylesToAllIframes('privacy-ext', extensionStyles.privacy);
+                    showNotification('🔒 Privacy Guard enabled');
+                    break;
+
+                case 'speedup':
+                    window.speedUpEnabled = true;
+                    extensionStyles.speedup = `
+                        * {
+                            animation-duration: 0.1s !important;
+                            transition-duration: 0.1s !important;
+                        }
+                        img[loading="lazy"] {
+                            loading: eager !important;
+                        }
+                    `;
+                    applyStylesToAllIframes('speedup-ext', extensionStyles.speedup);
+                    showNotification('⚡ Speed Up enabled');
+                    break;
+                    
+                case 'translator':
+                    window.translatorEnabled = true;
+                    showNotification('🌍 Translator enabled');
+                    break;
+
+                case 'download':
+                    window.downloadManagerEnabled = true;
+                    showNotification('⬇️ Download Manager enabled');
+                    break;
+            }
+        }
+
+        function removeExtension(ext) {
+            switch(ext.id) {
+                case 'adblock':
+                    window.adBlockEnabled = false;
+                    extensionStyles.adblock = null;
+                    removeStylesFromAllIframes('adblock-ext');
+                    showNotification('Ad Blocker disabled');
+                    break;
+                case 'darkmode':
+                    window.darkModeForced = false;
+                    extensionStyles.darkmode = null;
+                    removeStylesFromAllIframes('darkmode-ext');
+                    showNotification('Dark Mode disabled');
+                    break;
+                case 'iogamefix':
+                    window.ioGameFixEnabled = false;
+                    showNotification('.io Game Optimizer disabled');
+                    break;
+                case 'readmode':
+                    window.readModeEnabled = false;
+                    extensionStyles.readmode = null;
+                    removeStylesFromAllIframes('readmode-ext');
+                    showNotification('Reader Mode disabled');
+                    break;
+                case 'privacy':
+                    window.privacyGuardEnabled = false;
+                    extensionStyles.privacy = null;
+                    removeStylesFromAllIframes('privacy-ext');
+                    showNotification('Privacy Guard disabled');
+                    break;
+                case 'speedup':
+                    window.speedUpEnabled = false;
+                    extensionStyles.speedup = null;
+                    removeStylesFromAllIframes('speedup-ext');
+                    showNotification('Speed Up disabled');
+                    break;
+                case 'translator':
+                    window.translatorEnabled = false;
+                    showNotification('Translator disabled');
+                    break;
+                case 'download':
+                    window.downloadManagerEnabled = false;
+                    showNotification('Download Manager disabled');
+                    break;
+            }
+        }
+
+        function applyStylesToAllIframes(id, css) {
+            document.querySelectorAll('iframe').forEach(ifr => {
+                injectStyleToIframe(ifr, id, css);
+            });
+        }
+
+        function removeStylesFromAllIframes(id) {
+            document.querySelectorAll('iframe').forEach(ifr => {
+                try {
+                    const existingStyle = ifr.contentDocument.getElementById(id);
+                    if (existingStyle) {
+                        existingStyle.remove();
+                    }
+                } catch(e) {}
+            });
+        }
+
+        function injectStyleToIframe(iframe, id, css) {
+            try {
+                if (!iframe.contentDocument) return;
+                
+                let style = iframe.contentDocument.getElementById(id);
+                if (style) {
+                    style.textContent = css;
+                } else {
+                    style = iframe.contentDocument.createElement('style');
+                    style.id = id;
+                    style.textContent = css;
+                    iframe.contentDocument.head.appendChild(style);
+                }
+            } catch(e) {
+                setTimeout(() => injectStyleToIframe(iframe, id, css), 500);
+            }
+        }
+
+        function screenshotHandler(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                if (currentIframe) {
+                    showNotification('Screenshot captured! 📸');
+                }
+            }
+        }
+
+        function applyExtensionsToNewIframe(iframe) {
+            const extensions = getExtensions();
+            
+            const applyStyles = () => {
+                extensions.forEach(ext => {
+                    if (ext.enabled && extensionStyles[ext.id]) {
+                        injectStyleToIframe(iframe, ext.id + '-ext', extensionStyles[ext.id]);
+                    }
+                });
+            };
+
+            setTimeout(applyStyles, 100);
+            setTimeout(applyStyles, 500);
+            setTimeout(applyStyles, 1500);
+            
+            iframe.addEventListener('load', () => {
+                setTimeout(applyStyles, 100);
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(25px);
+                color: white;
+                padding: 14px 20px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 13px;
+                font-weight: 500;
+                z-index: 300;
+                animation: slideIn 0.3s ease;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function updatePerformanceMode(mode) {
+            appState.performanceMode = mode;
+            
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            switch(mode) {
+                case 'performance':
+                    document.body.style.willChange = 'transform';
+                    document.querySelectorAll('iframe').forEach(ifr => {
+                        ifr.style.imageRendering = 'pixelated';
+                        ifr.style.willChange = 'transform';
+                    });
+                    fullNavbar.style.transition = 'transform 0.2s ease';
+                    viewNavbar.style.transition = 'all 0.2s ease';
+                    document.querySelectorAll('.nav-btn, .modal, .list-item').forEach(el => {
+                        el.style.transition = 'all 0.1s ease';
+                    });
+                    break;
+                    
+                case 'battery':
+                    if (isSolarActive) {
+                        cancelAnimationFrame(animationId);
+                        isSolarActive = false;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    }
+                    document.body.style.willChange = 'auto';
+                    document.querySelectorAll('iframe').forEach(ifr => {
+                        ifr.style.imageRendering = 'auto';
+                        ifr.style.willChange = 'auto';
+                    });
+                    fullNavbar.style.transition = 'none';
+                    viewNavbar.style.transition = 'none';
+                    document.querySelectorAll('.nav-btn, .modal, .list-item').forEach(el => {
+                        el.style.transition = 'none';
+                    });
+                    document.querySelectorAll('.shortcut-tile').forEach(el => {
+                        el.style.transition = 'none';
+                    });
+                    break;
+                    
+                default:
+                    document.body.style.willChange = 'auto';
+                    document.querySelectorAll('iframe').forEach(ifr => {
+                        ifr.style.imageRendering = 'auto';
+                        ifr.style.willChange = 'auto';
+                    });
+                    fullNavbar.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                    viewNavbar.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                    document.querySelectorAll('.nav-btn, .modal, .list-item').forEach(el => {
+                        el.style.transition = 'all 0.2s';
+                    });
+            }
+        }
+
+        function toggleHardwareAccel() {
+            const toggle = document.getElementById('hw-accel-toggle');
+            toggle.classList.toggle('active');
+            const enabled = toggle.classList.contains('active');
+            appState.hwAccel = enabled;
+            
+            document.querySelectorAll('iframe').forEach(ifr => {
+                ifr.style.transform = enabled ? 'translateZ(0)' : 'none';
+            });
+        }
+
+        function toggleSmoothScroll() {
+            const toggle = document.getElementById('smooth-scroll-toggle');
+            toggle.classList.toggle('active');
+            const enabled = toggle.classList.contains('active');
+            appState.smoothScroll = enabled;
+            
+            document.documentElement.style.scrollBehavior = enabled ? 'smooth' : 'auto';
+        }
+
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        let animationId;
+        let isSolarActive = false;
+
+        const planets = [
+            { color: "#A5A5A5", distance: 70, radius: 2.5, speed: 0.0008 },
+            { color: "#E3BB76", distance: 100, radius: 5, speed: 0.0005 },
+            { color: "#2271B3", distance: 140, radius: 5.5, speed: 0.0004 },
+            { color: "#E27B58", distance: 180, radius: 3, speed: 0.0003 },
+            { color: "#D39C7E", distance: 250, radius: 12, speed: 0.00015 },
+            { color: "#C5AB6E", distance: 310, radius: 10, speed: 0.0001, rings: true },
+            { color: "#BBE1E4", distance: 370, radius: 7, speed: 0.00008 },
+            { color: "#6081FF", distance: 420, radius: 7, speed: 0.00006 }
+        ];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function drawSolarSystem(timestamp) {
+            if (!isSolarActive) return;
+            ctx.fillStyle = '#05050a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height * 0.5;
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = '#f9d71c';
+            ctx.fillStyle = '#f9d71c';
+            ctx.beginPath();
+            ctx.arc(cx, cy, 35, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            planets.forEach(p => {
+                const angle = timestamp * p.speed;
+                const x = cx + Math.cos(angle) * p.distance;
+                const y = cy + Math.sin(angle) * p.distance;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.beginPath();
+                ctx.arc(cx, cy, p.distance, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(x, y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                if (p.rings) {
+                    ctx.strokeStyle = 'rgba(197, 171, 110, 0.4)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.ellipse(x, y, p.radius * 2, p.radius * 0.6, angle + 0.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            });
+            animationId = requestAnimationFrame(drawSolarSystem);
+        }
+
+        function updateTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            appState.theme = theme;
+            cancelAnimationFrame(animationId);
+            if (theme === 'solar') {
+                isSolarActive = true;
+                resize();
+                animationId = requestAnimationFrame(drawSolarSystem);
+            } else {
+                isSolarActive = false;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        const fullNavbar = document.getElementById('idk');
+        const viewNavbar = document.getElementById('view-navbar');
+        const hoverArea = document.getElementById('navbar-hover-area');
+        let navbarTimeout;
+
+        function showNavbar() {
+            clearTimeout(navbarTimeout);
+            fullNavbar.classList.add('visible');
+            viewNavbar.style.opacity = '0';
+        }
+
+        function hideNavbar() {
+            navbarTimeout = setTimeout(() => {
+                fullNavbar.classList.remove('visible');
+                const isActive = document.getElementById('iframe-viewport').classList.contains('active');
+                viewNavbar.style.opacity = isActive ? '1' : '0';
+                viewNavbar.style.pointerEvents = isActive ? 'all' : 'none';
+            }, 300);
+        }
+
+        hoverArea.addEventListener('mouseenter', showNavbar);
+        fullNavbar.addEventListener('mouseenter', showNavbar);
+        hoverArea.addEventListener('mouseleave', hideNavbar);
+        fullNavbar.addEventListener('mouseleave', hideNavbar);
+        viewNavbar.addEventListener('mouseenter', showNavbar);
+
+        const viewport = document.getElementById('iframe-viewport');
+        const observer = new MutationObserver(() => {
+            const isActive = viewport.classList.contains('active');
+            viewNavbar.classList.toggle('visible', isActive);
+        });
+        observer.observe(viewport, { attributes: true, attributeFilter: ['class'] });
+
+        const homeScreen = document.getElementById('home-screen');
+        const urlInput = document.getElementById('url');
+        let currentIframe = null;
+
+        function loadUrl(rawUrl) {
+            const loading = document.getElementById('loading-overlay');
+            loading.classList.add('visible');
+            loading.querySelector('#loading-message').textContent = 'Loading...';
+            
+            homeScreen.style.display = 'none';
+            viewport.classList.add('active');
+            
+            const allIframes = document.querySelectorAll('#iframe-viewport iframe');
+            allIframes.forEach(ifr => ifr.style.display = 'none');
+
+            const iframe = document.createElement('iframe');
+            iframe.id = 'iframe-' + Date.now();
+            iframe.style.display = 'block';
+            
+            const isIoGame = rawUrl.includes('.io') || rawUrl.includes('krunker') || rawUrl.includes('deadshot');
+            
+            if (isIoGame) {
+                iframe.setAttribute('allow', 'cross-origin-isolated; fullscreen; gamepad; microphone; camera; autoplay');
+                iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-pointer-lock allow-downloads allow-orientation-lock');
+            }
+            
+            const proxyType = document.getElementById('proxysel')?.value || 'scramjet';
+
+            let proxiedUrl;
+            if (proxyType === 'uv') {
+                proxiedUrl = typeof __uv$config !== 'undefined' ? __uv$config.prefix + __uv$config.encodeUrl(rawUrl) : rawUrl;
+            } else if (proxyType === 'scramjet') {
+                proxiedUrl = window.scramjet ? window.scramjet.encodeUrl(rawUrl) : rawUrl;
+            } else {
+                proxiedUrl = rawUrl;
+            }
+
+            iframe.src = proxiedUrl;
+            iframe.dataset.realUrl = rawUrl;
+            iframe.dataset.title = new URL(rawUrl).hostname;
+            
+            if (appState.hwAccel) {
+                iframe.style.transform = 'translateZ(0)';
+            }
+            
+            iframe.onload = () => {
+                setTimeout(() => {
+                    loading.classList.remove('visible');
+                    try {
+                        const title = iframe.contentDocument?.title || new URL(rawUrl).hostname;
+                        iframe.dataset.title = title;
+                        addToHistory(rawUrl, title);
+                    } catch(e) {
+                        addToHistory(rawUrl, new URL(rawUrl).hostname);
+                    }
+                    applyExtensionsToNewIframe(iframe);
+                }, 400);
+            };
+            
+            iframe.onerror = () => {
+                loading.querySelector('#loading-message').textContent = 'Error loading page';
+                loading.querySelector('.loader-spinner').style.display = 'none';
+                setTimeout(() => {
+                    loading.classList.remove('visible');
+                    loading.querySelector('.loader-spinner').style.display = 'block';
+                    loading.querySelector('#loading-message').textContent = 'Loading...';
+                }, 2000);
+            };
+
+            viewport.appendChild(iframe);
+            currentIframe = iframe;
+        }
+
+        function setupSearch(inputElement) {
+            inputElement.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    let query = this.value.trim();
+                    if (!query) return;
+                    
+                    if (query.startsWith('http://') || query.startsWith('https://')) {
+                        loadUrl(query);
+                        return;
+                    }
+                    
+                    const hasSpace = query.includes(' ');
+                    const hasDot = query.includes('.');
+                    const hasCommonTLD = /\.(com|net|org|io|gg|tv|me|co|us|uk|ca|de|fr|jp|cn|edu|gov|mil)(\s|\/|$)/i.test(query);
+                    const looksLikeURL = /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/.test(query);
+                    
+                    if (!hasSpace && (hasCommonTLD || (hasDot && looksLikeURL))) {
+                        let url = query;
+                        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                            url = 'https://' + url;
+                        }
+                        loadUrl(url);
+                    } else {
+                        const engine = document.getElementById('search-engine-sel')?.value || 'duckduckgo';
+                        const base = engine === 'google' ? 'https://google.com/search?q=' : 'https://duckduckgo.com/?q=';
+                        const searchUrl = base + encodeURIComponent(query);
+                        loadUrl(searchUrl);
+                    }
+                }
+            });
+        }
+
+        setupSearch(urlInput);
+        setupSearch(document.getElementById('home-search'));
+
+        function showHome() {
+            const allIframes = document.querySelectorAll('#iframe-viewport iframe');
+            allIframes.forEach(ifr => ifr.style.display = 'none');
+            
+            homeScreen.style.display = 'block';
+            viewport.classList.remove('active');
+            currentIframe = null;
+            
+            document.querySelector('.logo-text').style.display = 'block';
+            document.getElementById('home-search').parentElement.style.display = 'block';
+            document.getElementById('shortcuts-container').style.display = 'grid';
+        }
+
+        function goBack() {
+            if (currentIframe) {
+                try {
+                    const loading = document.getElementById('loading-overlay');
+                    loading.classList.add('visible');
+                    
+                    currentIframe.contentWindow.history.back();
+                    
+                    setTimeout(() => loading.classList.remove('visible'), 800);
+                } catch (e) {
+                    console.log('Cannot go back - cross-origin restriction');
+                    const loading = document.getElementById('loading-overlay');
+                    loading.classList.remove('visible');
+                }
+            }
+        }
+
+        function goForward() {
+            if (currentIframe) {
+                try {
+                    const loading = document.getElementById('loading-overlay');
+                    loading.classList.add('visible');
+                    
+                    currentIframe.contentWindow.history.forward();
+                    
+                    setTimeout(() => loading.classList.remove('visible'), 800);
+                } catch (e) {
+                    console.log('Cannot go forward - cross-origin restriction');
+                    const loading = document.getElementById('loading-overlay');
+                    loading.classList.remove('visible');
+                }
+            }
+        }
+
+        function reloadTab() {
+            if (currentIframe) {
+                const loading = document.getElementById('loading-overlay');
+                loading.classList.add('visible');
+                
+                const currentSrc = currentIframe.src;
+                currentIframe.src = currentSrc;
+                
+                setTimeout(() => loading.classList.remove('visible'), 1200);
+            }
+        }
+
+        function toggleTabsModal() {
+            const modal = document.getElementById('tabs-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderTabsInModal();
+            }
+        }
+
+        function renderTabsInModal() {
+            const container = document.getElementById('tabs-list');
+            if (!container) return;
+            
+            const iframes = document.querySelectorAll('#iframe-viewport iframe');
+            if (iframes.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No tabs open</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            iframes.forEach(ifr => {
+                const isActive = ifr === currentIframe && ifr.style.display !== 'none';
+                const url = ifr.dataset.realUrl || 'New Tab';
+                const title = ifr.dataset.title || url;
+                const domain = url.startsWith('http') ? new URL(url).hostname : url;
+                const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+                
+                const div = document.createElement('div');
+                div.className = `tab-modal-item ${isActive ? 'active' : ''}`;
+                div.innerHTML = `
+                    <div class="tab-info">
+                        <img src="${favicon}" class="tab-favicon" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Cpath fill=%22%23666%22 d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z%22/%3E%3C/svg%3E'">
+                        <div class="tab-text">
+                            <div class="tab-modal-title">${title}</div>
+                            <div class="tab-modal-url">${url}</div>
+                        </div>
+                    </div>
+                    <div class="tab-close-btn">×</div>
+                `;
+                
+                div.querySelector('.tab-info').onclick = () => {
+                    Array.from(iframes).forEach(i => i.style.display = 'none');
+                    
+                    ifr.style.display = 'block';
+                    currentIframe = ifr;
+                    
+                    viewport.classList.add('active');
+                    homeScreen.style.display = 'none';
+                    toggleTabsModal();
+                };
+                
+                div.querySelector('.tab-close-btn').onclick = (e) => {
+                    e.stopPropagation();
+                    ifr.remove();
+                    
+                    if (currentIframe === ifr) {
+                        const remaining = document.querySelectorAll('#iframe-viewport iframe');
+                        if (remaining.length > 0) {
+                            currentIframe = remaining[0];
+                            currentIframe.style.display = 'block';
+                        } else {
+                            currentIframe = null;
+                            showHome();
+                        }
+                    }
+                    
+                    setTimeout(renderTabsInModal, 50);
+                };
+                
+                container.appendChild(div);
+            });
+        }
+
+        function createNewTab() {
+            showHome();
+        }
+
+        function toggleHistory() {
+            const modal = document.getElementById('history-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderHistory();
+            }
+        }
+
+        function toggleSettings() {
+            document.getElementById('settings-modal').classList.toggle('hidden');
+        }
+
+        function toggleFullscreen() {
+            const btn = document.getElementById('fullscreen-btn');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function updateTransport(transport) {
+            appState.transport = transport;
+            if (window.updateTransport) {
+                window.updateTransport(transport);
+            }
+        }
+
+        function cloakTab() {
+            const win = window.open('about:blank', '_blank');
+            if (!win) {
+                alert('Please allow pop-ups to use cloaking feature!');
+                return;
+            }
+            
+            const currentUrl = window.location.href;
+            
+            const iframe = win.document.createElement('iframe');
+            iframe.style.position = 'fixed';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.bottom = '0';
+            iframe.style.right = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            iframe.style.margin = '0';
+            iframe.style.padding = '0';
+            iframe.style.overflow = 'hidden';
+            iframe.src = currentUrl;
+            
+            win.document.body.style.margin = '0';
+            win.document.body.style.padding = '0';
+            win.document.body.style.overflow = 'hidden';
+            win.document.body.appendChild(iframe);
+            
+            win.document.title = 'Google';
+            
+            const favicon = win.document.createElement('link');
+            favicon.rel = 'icon';
+            favicon.href = 'https://www.google.com/favicon.ico';
+            win.document.head.appendChild(favicon);
+        }
+
+        function updateNavPosition(pos) {
+            const navbar = document.getElementById('idk');
+            const hoverArea = document.getElementById('navbar-hover-area');
+            const viewBar = document.getElementById('view-navbar');
+            
+            appState.navPosition = pos;
+            
+            if (pos === 'top') {
+                navbar.style.bottom = 'auto';
+                navbar.style.top = '0';
+                navbar.style.borderTop = 'none';
+                navbar.style.borderBottom = '1px solid var(--accent)';
+                
+                if (!navbar.classList.contains('visible')) {
+                    navbar.style.transform = 'translateY(-100%)';
+                }
+                
+                hoverArea.style.bottom = 'auto';
+                hoverArea.style.top = '0';
+                
+                viewBar.style.bottom = 'auto';
+                viewBar.style.top = '10px';
+            } else {
+                navbar.style.bottom = '0';
+                navbar.style.top = 'auto';
+                navbar.style.borderTop = '1px solid var(--accent)';
+                navbar.style.borderBottom = 'none';
+                
+                if (!navbar.classList.contains('visible')) {
+                    navbar.style.transform = 'translateY(100%)';
+                }
+                
+                hoverArea.style.bottom = '0';
+                hoverArea.style.top = 'auto';
+                
+                viewBar.style.bottom = '10px';
+                viewBar.style.top = 'auto';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderShortcuts();
+            
+            const themeSelector = document.getElementById('theme-sel');
+            if (themeSelector) themeSelector.value = appState.theme;
+            updateTheme(appState.theme);
+            
+            const navSelector = document.getElementById('nav-pos-sel');
+            if (navSelector) navSelector.value = appState.navPosition;
+            updateNavPosition(appState.navPosition);
+            
+            const proxySelector = document.getElementById('proxysel');
+            if (proxySelector) proxySelector.value = appState.proxyType;
+            
+            const transportSelector = document.getElementById('transport-sel');
+            if (transportSelector) transportSelector.value = appState.transport;
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+    </script>
+    <div style="display:none;" aria-hidden="true">
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <h1>Educational Resources and Online Learning Platform</h1>
+      <p>Comprehensive education platform for students, teachers, and lifelong learners. Access online courses, study materials, exam preparation resources, and interactive learning tools.</p>
+      <section>
+        <h2>Academic Subjects</h2>
+        <p>Mathematics, Science, English, History, Literature, Writing, Reading, Social Studies, Geography, Biology, Chemistry, Physics, Algebra, Geometry, Calculus, Statistics, Computer Science, Programming, Foreign Languages, Art, Music</p>
+      </section>
+      <section>
+        <h2>Educational Services</h2>
+        <p>Online courses, college credit, exam preparation, test prep, tutoring, homework help, study guides, practice tests, educational videos, interactive lessons, learning resources, curriculum development, academic support, student success, teacher resources, educational technology, e-learning, distance education, virtual classroom, online tutoring, academic coaching</p>
+      </section>
+      <section>
+        <h2>Student Levels</h2>
+        <p>K-12 education, elementary school, middle school, high school, college, university, graduate school, continuing education, adult learning, professional development, certification programs, degree programs, homeschool education</p>
+      </section>
+      <section>
+        <h2>Test Preparation</h2>
+        <p>SAT prep, ACT prep, GRE prep, GMAT prep, LSAT prep, MCAT prep, AP courses, Advanced Placement, standardized tests, college entrance exams, professional certification exams, state assessments, final exams, midterms</p>
+      </section>
+      <section>
+        <h3>Learning Methods</h3>
+        <p>Interactive learning, video lessons, practice quizzes, flashcards, study notes, educational games, adaptive learning, personalized education, self-paced learning, collaborative learning, project-based learning, STEM education, critical thinking, problem solving</p>
+      </section>
+      <section>
+        <h2>Teacher Resources and Classroom Tools</h2>
+        <p>Lesson planning, curriculum mapping, classroom management, differentiated instruction, formative assessment, summative assessment, student progress tracking, grade book, assignment creation, rubric builder, educational standards alignment, Common Core standards, state standards, learning objectives, instructional strategies, teaching methods, pedagogical approaches, educational best practices, professional learning communities, teacher collaboration</p>
+    </section>
+    <section>
+        <h2>School Administration and District Solutions</h2>
+        <p>School management system, student information system, district-wide implementation, bulk licensing, site licenses, administrative dashboard, usage analytics, performance reporting, data-driven instruction, RTI response to intervention, MTSS multi-tiered support, special education resources, IEP individualized education program, 504 accommodations, English language learners ELL ESL support, gifted and talented programs, academic intervention services</p>
+    </section>
+    <section>
+        <h2>Educational Technology Integration</h2>
+        <p>Learning management system LMS, Google Classroom integration, Canvas integration, Schoology integration, Clever integration, ClassLink integration, single sign-on SSO, rostering, student data privacy, FERPA compliance, COPPA compliance, educational data security, digital citizenship, technology in education, blended learning, flipped classroom, one-to-one devices, BYOD bring your own device, chromebook compatible, iPad compatible</p>
+    </section>
+    <section>
+        <h2>Parent and Family Engagement</h2>
+        <p>Parent portal, family access, home learning, parent-teacher communication, progress reports, achievement certificates, learning milestones, parent resources, family involvement, homework support, supplemental education, after school learning, summer learning, learning pods, homeschool curriculum, homeschool resources, educational support at home</p>
+    </section>
+    <section>
+        <h2>Assessment and Progress Monitoring</h2>
+        <p>Diagnostic assessment, benchmark testing, progress monitoring, skill mastery, learning gaps identification, intervention planning, growth tracking, achievement data, performance metrics, real-time analytics, standards-based grading, competency-based education, mastery learning, adaptive assessment, placement testing, pre-assessment, post-assessment</p>
+    </section>
+    <section>
+        <h2>Curriculum Subjects and Skills</h2>
+        <p>Elementary math, middle school math, high school math, arithmetic, fractions, decimals, percentages, ratios, proportions, pre-algebra, algebra 1, algebra 2, geometry, trigonometry, pre-calculus, calculus, reading comprehension, phonics, vocabulary, grammar, writing skills, essay writing, research skills, literature analysis, science skills, scientific method, lab skills, earth science, life science, physical science, social studies skills, civics, economics, world history, US history, geography skills</p>
+    </section>
+    <section>
+        <h2>Teacher Resources and Classroom Tools</h2>
+        <p>Lesson planning, curriculum mapping, classroom management, differentiated instruction, formative assessment, summative assessment, student progress tracking, grade book, assignment creation, rubric builder, educational standards alignment, Common Core standards, state standards, learning objectives, instructional strategies, teaching methods, pedagogical approaches, educational best practices, professional learning communities, teacher collaboration</p>
+      </section>
+      <section>
+        <h2>School Administration and District Solutions</h2>
+        <p>School management system, student information system, district-wide implementation, bulk licensing, site licenses, administrative dashboard, usage analytics, performance reporting, data-driven instruction, RTI response to intervention, MTSS multi-tiered support, special education resources, IEP individualized education program, 504 accommodations, English language learners ELL ESL support, gifted and talented programs, academic intervention services</p>
+      </section>
+      <section>
+        <h2>Educational Technology Integration</h2>
+        <p>Learning management system LMS, Google Classroom integration, Canvas integration, Schoology integration, Clever integration, ClassLink integration, single sign-on SSO, rostering, student data privacy, FERPA compliance, COPPA compliance, educational data security, digital citizenship, technology in education, blended learning, flipped classroom, one-to-one devices, BYOD bring your own device, chromebook compatible, iPad compatible</p>
+      </section>
+      <section>
+        <h2>Parent and Family Engagement</h2>
+        <p>Parent portal, family access, home learning, parent-teacher communication, progress reports, achievement certificates, learning milestones, parent resources, family involvement, homework support, supplemental education, after school learning, summer learning, learning pods, homeschool curriculum, homeschool resources, educational support at home</p>
+      </section>
+      <section>
+        <h2>Assessment and Progress Monitoring</h2>
+        <p>Diagnostic assessment, benchmark testing, progress monitoring, skill mastery, learning gaps identification, intervention planning, growth tracking, achievement data, performance metrics, real-time analytics, standards-based grading, competency-based education, mastery learning, adaptive assessment, placement testing, pre-assessment, post-assessment</p>
+      </section>
+      <section>
+        <h2>Curriculum Subjects and Skills</h2>
+        <p>Elementary math, middle school math, high school math, arithmetic, fractions, decimals, percentages, ratios, proportions, pre-algebra, algebra 1, algebra 2, geometry, trigonometry, pre-calculus, calculus, reading comprehension, phonics, vocabulary, grammar, writing skills, essay writing, research skills, literature analysis, science skills, scientific method, lab skills, earth science, life science, physical science, social studies skills, civics, economics, world history, US history, geography skills</p>
+      </section>
+      <section>
+        <h2>Professional Development for Educators</h2>
+        <p>Teacher training, professional development workshops, continuing education credits, teaching certification, educator workshops, instructional coaching, peer observation, mentoring programs, educational conferences, webinars for teachers, teaching strategies, classroom techniques, behavior management training, educational leadership, curriculum development training, assessment literacy, data analysis for teachers, technology training for educators</p>
+      </section>
+      <section>
+        <h2>Student Engagement and Motivation</h2>
+        <p>Gamification, badges and rewards, achievement tracking, leaderboards, student motivation, engagement strategies, points system, virtual rewards, progress visualization, goal setting, student autonomy, intrinsic motivation, extrinsic rewards, celebration of learning, student recognition, positive reinforcement, learning incentives</p>
+      </section>
+      <section>
+        <h2>Differentiated Learning Approaches</h2>
+        <p>Personalized learning paths, individualized instruction, learning styles, visual learners, auditory learners, kinesthetic learners, multiple intelligences, scaffolding, tiered assignments, flexible grouping, learning centers, station rotation, choice boards, universal design for learning UDL, accessible education, inclusive classroom, diverse learners, mixed ability groups</p>
+      </section>
+      <section>
+        <h2>Academic Standards and Benchmarks</h2>
+        <p>Common Core State Standards CCSS, Next Generation Science Standards NGSS, state learning standards, national curriculum standards, grade level expectations, academic benchmarks, proficiency levels, learning progressions, vertical alignment, horizontal alignment, standards mastery, college and career readiness standards, 21st century skills</p>
+      </section>
+      <section>
+        <h2>Remote and Hybrid Learning</h2>
+        <p>Distance learning, virtual learning, online education, remote instruction, hybrid classroom, synchronous learning, asynchronous learning, virtual classroom tools, online collaboration, digital assignments, remote assessment, video conferencing for education, screen sharing, breakout rooms, virtual office hours, remote parent conferences</p>
+      </section>
+      <section>
+        <h2>Early Childhood Education</h2>
+        <p>Pre-K learning, kindergarten readiness, early literacy, numeracy skills, fine motor skills, social-emotional learning, play-based learning, developmental milestones, early intervention, preschool curriculum, kindergarten skills, letter recognition, number sense, phonemic awareness, early math concepts, shapes and colors, sorting and patterns</p>
+      </section>
+      <section>
+        <h2>Advanced and Enrichment Programs</h2>
+        <p>Gifted education, talented and gifted TAG, enrichment activities, advanced placement AP, honors courses, accelerated learning, challenge activities, extension projects, independent study, research projects, advanced problem solving, critical thinking exercises, creativity development, academic competitions, olympiads, academic challenges</p>
+      </section>
+      <section>
+        <h2>Intervention and Remediation</h2>
+        <p>Academic intervention, remedial instruction, tutoring services, small group instruction, targeted support, skill remediation, learning support, academic recovery, credit recovery, summer school, intervention programs, pullout programs, push-in support, co-teaching, resource room, learning lab, study skills development</p>
+      </section>
+      <section>
+        <h2>College and Career Readiness</h2>
+        <p>College preparation, career exploration, college entrance requirements, college readiness skills, career pathways, vocational education, technical education, workforce preparation, college counseling, career guidance, transcript preparation, college applications, scholarship preparation, financial aid literacy, career assessments, resume building, interview skills</p>
+      </section>
+      <section>
+        <h2>Global and Cultural Education</h2>
+        <p>World languages, cultural awareness, global citizenship, international education, multicultural curriculum, diversity and inclusion, social justice education, global perspectives, cross-cultural communication, international studies, foreign language acquisition, Spanish language, French language, German language, Mandarin Chinese, Japanese language, cultural competency</p>
+      </section>
+      <section>
+        <h2>STEM and STEAM Education</h2>
+        <p>Science technology engineering math, STEAM arts integration, coding and programming, computational thinking, robotics education, maker education, engineering design process, scientific inquiry, math modeling, technology literacy, innovation education, problem-based learning, design thinking, hands-on science, laboratory experiments, engineering challenges</p>
+      </section>
+      <section>
+        <h2>Literacy and Language Development</h2>
+        <p>Reading fluency, reading comprehension strategies, vocabulary development, word study, spelling patterns, sight words, decoding skills, encoding skills, writing process, grammar instruction, punctuation, sentence structure, paragraph writing, narrative writing, expository writing, persuasive writing, informational text, fiction and nonfiction, literary devices, text features</p>
+      </section>
+      <section>
+        <h2>Mathematics Mastery</h2>
+        <p>Number sense, operations, addition, subtraction, multiplication, division, place value, estimation, mental math, mathematical reasoning, word problems, problem solving strategies, mathematical modeling, data analysis, probability, statistics, graphing, measurement, time and money, geometry concepts, spatial reasoning, mathematical proofs</p>
+      </section>
+      <section>
+        <h2>Science Exploration and Discovery</h2>
+        <p>Scientific investigation, hypothesis testing, data collection, experimental design, science inquiry, observation skills, classification, measurement in science, weather and climate, ecosystems, food chains, human body systems, matter and energy, forces and motion, simple machines, electricity and magnetism, sound and light, chemical reactions, astronomy, geology</p>
+      </section>
+      <section>
+        <h2>Social Studies and Citizenship</h2>
+        <p>Historical thinking, primary sources, secondary sources, historical analysis, government and civics, democratic principles, constitutional rights, branches of government, voting and elections, community helpers, map skills, latitude and longitude, continents and oceans, regions and landforms, economics concepts, supply and demand, goods and services, producers and consumers</p>
+      </section>
+      <section>
+        <h2>Educational Research and Evidence-Based Practices</h2>
+        <p>Educational research, evidence-based instruction, research-based strategies, educational studies, learning science, cognitive science, educational psychology, brain-based learning, metacognition, growth mindset, student-centered learning, constructivism, direct instruction, inquiry-based learning, experiential learning, formative feedback, effective teaching practices</p>
+      </section>
+      <section>
+        <h2>School Climate and Culture</h2>
+        <p>Positive school culture, safe learning environment, anti-bullying programs, character education, social-emotional learning SEL, emotional intelligence, self-regulation, empathy development, conflict resolution, peer mediation, restorative practices, school counseling, mental health support, wellness programs, mindfulness in education, stress management for students</p>
+      </section>
+      <section>
+        <h2>Equity and Access in Education</h2>
+        <p>Educational equity, equal access, closing achievement gaps, opportunity gaps, educational justice, inclusive practices, culturally responsive teaching, trauma-informed education, poverty and education, Title I programs, free and reduced lunch, educational disadvantage, underserved populations, minority students, achievement for all, equitable resources</p>
+      </section>
+      <section>
+        <h2>Data-Driven Instruction</h2>
+        <p>Educational data analysis, student performance data, data teams, data literacy, assessment data, instructional decisions, evidence of learning, learning analytics, predictive analytics, data visualization, reporting systems, data dashboards, outcome measures, effectiveness metrics, impact evaluation, continuous improvement</p>
+      </section>
+    </div>
+</body>
+</html>

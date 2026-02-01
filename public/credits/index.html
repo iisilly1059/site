@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credits | Imp Games</title>
+    <link rel="icon" type="image/png" href="games/img/imp-games.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="credits-assets/credits.css">
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+        <h1 class="title glow">Credits</h1>
+        <p class="subtitle">Thank you to everyone who made Imp Games possible.<br>Built with passion and creativity.</p>
+
+        <div class="credits-grid">
+            <div class="credit-card">
+                <i class="fas fa-code"></i>
+                <h3>Owner of Imp Games</h3>
+                <p class="name">iiSilly</p>
+                <p>Made most of the site :/.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Designers</h3>
+                <p class="name">Slayer</p>
+                <p>Enchancing the sites apperience.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>Site Helpers</h3>
+                <p class="name">Swapnspit, Marki, Petezah, and Slayer</p>
+                <p>Helping with the site's development of Imp Games.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>DevvyE_yo</h3>
+                <p class="name">Imp Chat</p>
+                <p>Making Imp Chat possible.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-star"></i>
+                <h3>Marki</h3>
+                <p class="name">Traffic racer</p>
+                <p>Giving me traffic racer games.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>Games</h3>
+                <p class="name">Thank you Gn-math, and 3kh0 assets</p>
+                <p>thanks for all of the games.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-users"></i>
+                <h3>Testers & Feedback</h3>
+                <p class="name">All the early users who reported bugs and suggested features</p>
+                <p>Your feedback helped shape this into something truly fun and reliable.</p>
+            </div>
+
+            <div class="credit-card">
+                <i class="fas fa-star"></i>
+                <h3>You!</h3>
+                <p class="name">Yes, you reading this right now</p>
+                <p>Thank you for using the site and making this project possible.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        let particles = [];
+        const numParticles = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.4 + 0.4;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>

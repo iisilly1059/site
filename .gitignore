@@ -1,0 +1,4 @@
+.env
+node_modules/
+public/study-resources/assets/
+public/study-resources/img/
